@@ -14,11 +14,13 @@ pipelines:
               caches:
                 - node
               script:
+                - cd CE-UI
                 - npm install
                 - npm test
           - step:
               name: Code linting
               script:
+                - cd CE-UI
                 - npm install eslint
                 - npx eslint .
               caches:
