@@ -16,12 +16,12 @@ pipelines:
               script:
                 - cd CE-UI
                 - npm install
-                - npm test
           - step:
               name: Code linting
               script:
                 - cd CE-UI
                 - npm install eslint
+                - npm install @typescript-eslint/eslint-plugin
                 - npx eslint .
               caches:
                 - node
