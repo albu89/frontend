@@ -1,0 +1,6 @@
+<h1>Patient data (Units lab values: Conventional)</h1>
+<button (click)="submit()" [disabled]="submitButtonDisabled()">Submit</button>
+<app-score *ngIf="scoreResponseReceived" [score]="scoreResponse"></app-score>
+<app-patient-data-form [biomarkers]="biomarkerTemplate" [uniqueCategories]="uniqueCategories"></app-patient-data-form>
+<app-score *ngIf="scoreResponseReceived" [score]="scoreResponse"></app-score>
+<button (click)="submit()" [disabled]="submitButtonDisabled()">Submit</button>

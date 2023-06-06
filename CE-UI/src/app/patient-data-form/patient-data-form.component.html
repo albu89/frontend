@@ -1,0 +1,4 @@
+<div *ngFor="let category of uniqueCategories">
+  <h1>Category: {{ category }}</h1>
+  <app-category [categoryName]="category" [biomarkers]="biomarkers" />
+</div>
