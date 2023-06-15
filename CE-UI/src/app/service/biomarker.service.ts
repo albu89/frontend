@@ -14,11 +14,11 @@ export class BiomarkerService {
   }
 
   getBiomarkers() {
-     return this.http.get<Biomarker[]>(environment.backendUrl + '/api/Biomarkers/schema', {withCredentials: true, responseType: 'json'});
+     return this.http.get<Biomarker[]>(environment.backendUrl + '/api/Biomarkers/schema');
   }
 
   sendRequest(request: ScoringRequest) {
     const url = environment.backendUrl + '/api/Score'; // Replace with your actual API endpoint
-    return this.http.post<ScoringResponse>(url, request, { withCredentials: true });
+    return this.http.post<ScoringResponse>(url, request);
   }
 }

@@ -1,0 +1,5 @@
+{
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/3113a745-9d38-4873-9fbe-2a30f92c86b8/resourceGroups/CE-v2/providers/Microsoft.Web/sites/ch-ce2-ui",
+    "appService.deploySubpath": "CE-UI\\dist\\ce-ui"
+}
