@@ -10,5 +10,4 @@ export class PatientDataFormComponent {
 
   @Input() uniqueCategories: string[] = [];
   @Input() biomarkers: Biomarker[] = [];
-
 }

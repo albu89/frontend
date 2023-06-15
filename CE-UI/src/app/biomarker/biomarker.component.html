@@ -1,5 +1,5 @@
 <div class="biomarker-container">
-  <p>{{ biomarker.fieldname }}</p>
+  <p [style.background]="biomarker.color">{{ biomarker.fieldname }}</p>
   <button *ngIf="biomarker.infoText" (click)="showInfoText()">i
   </button>
   <div class="tooltipce" *ngIf="infotextVisible">
@@ -20,7 +20,10 @@
     </span>
   </div>
   <div *ngIf="requiredType === inputTypeEnum.Number">
-    <input type="number" [(ngModel)]="biomarker.value" [min]="biomarker.selectedUnit.minimum" class="disable-arrows" />
+    <input type="number" [(ngModel)]="biomarker.value" class="disable-arrows" />
+  </div>
+  <div *ngIf="biomarker.errorMessage">
+    <p style="color: red;">{{biomarker.errorMessage}}</p>
   </div>
   <div *ngIf="requiredType === inputTypeEnum.String">
     <input type="text" [(ngModel)]="biomarker.value" />

@@ -8,6 +8,9 @@ export interface Biomarker {
     orderNumber: string;
     value: number | string | boolean;
     selectedUnit: BiomarkerUnit;
+    color: string;
+    errorMessage : string;
+    isValid: boolean | undefined;
 }
 
 export interface BiomarkerUnit {

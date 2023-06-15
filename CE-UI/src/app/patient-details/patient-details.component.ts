@@ -34,7 +34,30 @@ export class PatientDetailsComponent {
     return categories;
   }
 
+  validateBiomarkers() {
+    this.biomarkerTemplate.forEach(biomarker => {
+      
+      //biomarker is each instance of a filled marker
+      if((typeof biomarker.value === 'number' && biomarker.selectedUnit.minimum && biomarker.selectedUnit.maximum) && (biomarker.value < biomarker.selectedUnit.minimum || biomarker.value > biomarker.selectedUnit.maximum)) {
+        //negative conseqeunces
+        biomarker.color = 'red';
+        biomarker.errorMessage = `The value must be between ${biomarker.selectedUnit.minimum} and ${biomarker.selectedUnit.maximum}`;
+        biomarker.isValid = false;
+      } else {
+        //positive consequences
+        biomarker.color = '';
+        biomarker.errorMessage = '';
+        biomarker.isValid = true;
+      }
+    });
+
+  }
+
   submit() {
+    this.validateBiomarkers();
+    if(!this.biomarkerTemplate.every(x => x.isValid)){
+      return;
+    }
     this.scoreResponseReceived = false;
     const request: ScoringRequest = {} as ScoringRequest;
     this.biomarkerTemplate.forEach(marker => {
