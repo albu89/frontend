@@ -55,7 +55,6 @@ export class PatientDetailsComponent {
   }
 
   submit() {
-    console.log("DOB: ", this.patient.dateOfBirth);
     this.validateBiomarkers();
     if(!this.biomarkerTemplate.every(x => x.isValid)){
       return;
@@ -71,9 +70,9 @@ export class PatientDetailsComponent {
 
       return;
     }
-    request.Firstname = this.patient.firstname!;
-    request.Lastname = this.patient.lastname!;
-    request.DateOfBirth = this.patient.dateOfBirth!;
+    request.Firstname = this.patient.firstname;
+    request.Lastname = this.patient.lastname;
+    request.DateOfBirth = this.patient.dateOfBirth;
     request.clinical_setting = {value: 0, unitType: ""};
 
     this.biomarkerService.sendRequest(request).subscribe(resp => {

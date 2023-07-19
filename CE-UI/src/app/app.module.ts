@@ -7,7 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PatientDataFormComponent } from './patient-data-form/patient-data-form.component';
@@ -17,6 +17,7 @@ import { ScoreComponent } from './score/score.component';
 import { PatientRecordComponent } from './patient-record/patient-record.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { environment } from 'src/environments/environment';
 
 const isIE =
   window.navigator.userAgent.indexOf("MSIE ") > -1 ||
@@ -37,6 +38,7 @@ const isIE =
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     NgbModule,
     MatToolbarModule,
     MsalModule.forRoot(
@@ -55,14 +57,14 @@ const isIE =
       {
         interactionType: InteractionType.Popup, // MSAL Guard Configuration
         authRequest: {
-          scopes: ["user.read"],
+          scopes: ["user.read", "Default"],
         },
       },
       {
         interactionType: InteractionType.Popup, // MSAL Interceptor Configuration
         protectedResourceMap: new Map([
           ["https://graph.microsoft.com/v1.0/me", ["user.read"]],
-          ["https://localhost:7102/", ["api://7e8be7c1-728f-4dce-af96-c3105974e2ee/Files.Read"]],
+          [environment.backendUrl, ["api://7e8be7c1-728f-4dce-af96-c3105974e2ee/Default"]],
         ]),
       }
     ),

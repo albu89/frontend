@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component,  Input } from '@angular/core';
 import { Biomarker } from '../shared/biomarker';
 import { Patient } from '../shared/patient';
 
@@ -13,8 +13,7 @@ export class PatientDataFormComponent {
   @Input() biomarkers: Biomarker[] = [];
   @Input() patient: Patient = {} as Patient;
 
-  setDateOfBirth(input: any){
+  setDateOfBirth(input: Date){
     this.patient.dateOfBirth = input;
-    console.log(this.patient.firstname, this.patient.lastname);
   }
 }
