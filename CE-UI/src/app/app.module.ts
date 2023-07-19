@@ -14,6 +14,7 @@ import { PatientDataFormComponent } from './patient-data-form/patient-data-form.
 import { BiomarkerComponent } from './biomarker/biomarker.component';
 import { CategoryComponent } from './category/category.component';
 import { ScoreComponent } from './score/score.component';
+import { PatientRecordComponent } from './patient-record/patient-record.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -28,6 +29,7 @@ const isIE =
     BiomarkerComponent,
     CategoryComponent,
     ScoreComponent,
+    PatientRecordComponent,
     ProfileComponent
   ],
   imports: [

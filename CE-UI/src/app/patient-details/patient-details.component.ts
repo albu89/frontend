@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Biomarker} from '../shared/biomarker';
 import { BiomarkerService } from '../service/biomarker.service';
-import { ScoringRequest, ScoringRequestValue } from '../shared/ScoringRequest';
+import { ScoringRequest, ScoringRequestValue, ScoringRequestWithPatientData } from '../shared/ScoringRequest';
 import { ScoringResponse } from '../shared/ScoringResponse';
+import { Patient } from '../shared/patient';
 
 @Component({
   selector: 'app-patient-details',
@@ -23,7 +24,7 @@ export class PatientDetailsComponent {
   uniqueCategories : string[] = [];
   scoreResponse: ScoringResponse = {} as ScoringResponse;
   scoreResponseReceived = false;
-  
+  patient: Patient = {} as Patient;
   getUniqueCategories() : string[] {
     const categories : string[] = [];
     this.biomarkerTemplate.forEach(dataset => {
@@ -54,17 +55,27 @@ export class PatientDetailsComponent {
   }
 
   submit() {
+    console.log("DOB: ", this.patient.dateOfBirth);
     this.validateBiomarkers();
     if(!this.biomarkerTemplate.every(x => x.isValid)){
       return;
     }
     this.scoreResponseReceived = false;
-    const request: ScoringRequest = {} as ScoringRequest;
+    const request: ScoringRequestWithPatientData = {} as ScoringRequestWithPatientData;
     this.biomarkerTemplate.forEach(marker => {
       const prop = request[marker.id as keyof ScoringRequest] = {} as ScoringRequestValue;
       prop.value = marker.value;
       prop.unitType = marker.selectedUnit.unitType + '';
     });
+    if(!this.patient.dateOfBirth ||!this.patient.lastname ||!this.patient.firstname){
+
+      return;
+    }
+    request.Firstname = this.patient.firstname!;
+    request.Lastname = this.patient.lastname!;
+    request.DateOfBirth = this.patient.dateOfBirth!;
+    request.clinical_setting = {value: 0, unitType: ""};
+
     this.biomarkerService.sendRequest(request).subscribe(resp => {
       this.scoreResponse = resp;
       this.scoreResponseReceived = true;

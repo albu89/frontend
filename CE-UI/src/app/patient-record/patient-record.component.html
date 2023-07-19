@@ -1,0 +1,29 @@
+<div>
+    <label for="patient-name">Patient Name</label>
+    <input type="text" id="patient-name" #patientName>
+    <label for="patient-last-name">Patient last name</label>
+    <input type="text" id="patient-last-name" #patientLastName>
+    <label for="patient-birthday">Patient birthday</label>
+    <input type="date" id="patient-birthday" #patientBirthday>
+    <button (click)="getSpecificRecords(patientName.value, patientLastName.value, patientBirthday.value)">Show</button>
+</div>
+<table *ngIf="patientRecords">
+    <thead>
+        <tr>
+            <th style="width: 20%">ID</th>
+            <th style="width: 50%">Timestamp</th>
+            <th style="width: 20%">Risk</th>
+            <th style="width: 10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let record of patientRecords">
+            <td>{{record.requestId.split('-').slice(-1)}}</td>
+            <td>{{record.requestTimeStamp}}</td>
+            <td>{{record.score}}</td>
+            <td>
+                <button>Details</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

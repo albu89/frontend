@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Biomarker } from '../shared/biomarker';
-import { ScoringRequest } from '../shared/ScoringRequest';
+import { ScoringRequestWithPatientData } from '../shared/ScoringRequest';
 import { ScoringResponse } from '../shared/ScoringResponse';
 import { environment } from '../../environments/environment';
 
@@ -17,7 +17,7 @@ export class BiomarkerService {
      return this.http.get<Biomarker[]>(environment.backendUrl + '/api/Biomarkers/schema');
   }
 
-  sendRequest(request: ScoringRequest) {
+  sendRequest(request: ScoringRequestWithPatientData) {
     const url = environment.backendUrl + '/api/Score'; // Replace with your actual API endpoint
     return this.http.post<ScoringResponse>(url, request);
   }

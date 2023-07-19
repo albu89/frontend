@@ -1,6 +1,12 @@
 export interface ScoringRequestValue {
-    value: string | number | boolean,
+    value: string | number | boolean | Date,
     unitType: string
+}
+
+export interface ScoringRequestWithPatientData extends ScoringRequest {
+    Firstname: string
+    Lastname: string
+    DateOfBirth: Date
 }
 
 export interface ScoringRequest {

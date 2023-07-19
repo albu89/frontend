@@ -9,7 +9,7 @@ export interface ScoringResponse {
   classifier_class: number,
   classifier_score: number,
   classifier_sign: number,
-  timestamp: number,
+  createdOn: number,
   classifier_type: string,
   username: string,
   hidden: boolean,

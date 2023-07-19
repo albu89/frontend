@@ -1,3 +1,12 @@
+<div>
+  <label for="patient-name">Patient Name</label>
+  <input type="text" id="patient-name" [(ngModel)]="patient.firstname">
+  <label for="patient-last-name">Patient last name</label>
+  <input type="text" id="patient-last-name" [(ngModel)]="patient.lastname">
+  <label for="patient-birthday">Patient birthday</label>
+  <input type="date" id="patient-birthday" [ngModel]="patient.dateOfBirth | date:'yyyy-MM-dd'" (ngModelChange)="setDateOfBirth($event)">
+  <!-- <button (click)="getSpecificRecords(patientName.value, patientLastName.value, patientBirthday.value)">Show</button> -->
+</div>
 <div *ngFor="let category of uniqueCategories">
   <h1>Category: {{ category }}</h1>
   <app-category [categoryName]="category" [biomarkers]="biomarkers" />
