@@ -1,0 +1,10 @@
+<svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Calendar today" clip-path="url(#clip0_741_2657)">
+<path id="Vector" d="M14 2H13.3333V0.666666H12V2H5.33333V0.666666H4V2H3.33333C2.6 2 2 2.6 2 3.33333V14C2 14.7333 2.6 15.3333 3.33333 15.3333H14C14.7333 15.3333 15.3333 14.7333 15.3333 14V3.33333C15.3333 2.6 14.7333 2 14 2ZM14 14H3.33333V5.33333H14V14Z" fill="#2115A8"/>
+</g>
+<defs>
+<clipPath id="clip0_741_2657">
+<rect width="16" height="16" fill="white" transform="translate(0.666748)"/>
+</clipPath>
+</defs>
+</svg>

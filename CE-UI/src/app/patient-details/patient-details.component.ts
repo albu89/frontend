@@ -8,7 +8,7 @@ import { Patient } from '../shared/patient';
 @Component({
   selector: 'app-patient-details',
   templateUrl: './patient-details.component.html',
-  styleUrls: ['./patient-details.component.scss']
+  styleUrls: ['./patient-details.component.css']
 })
 export class PatientDetailsComponent {
 
@@ -26,12 +26,7 @@ export class PatientDetailsComponent {
   scoreResponseReceived = false;
   patient: Patient = {} as Patient;
   getUniqueCategories() : string[] {
-    const categories : string[] = [];
-    this.biomarkerTemplate.forEach(dataset => {
-      if(!categories.includes(dataset.category)) {
-        categories.push(dataset.category);
-      }
-    });
+    const categories : string[] = ['fixed', 'flexible'];
     return categories;
   }
 

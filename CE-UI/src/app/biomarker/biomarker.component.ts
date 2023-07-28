@@ -8,7 +8,7 @@ import {
 @Component({
   selector: 'app-biomarker',
   templateUrl: './biomarker.component.html',
-  styleUrls: ['./biomarker.component.scss'],
+  styleUrls: ['./biomarker.component.css'],
 })
 export class BiomarkerComponent {
   @Input() biomarker: Biomarker = {} as Biomarker;

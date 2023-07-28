@@ -1,5 +1,8 @@
-<div>
+<div class="px-8 py-6 mb-4 bg-background border-tone-2 rounded-lg border-solid border grid grid-cols-5 gap-4">
     <span *ngFor="let biomarker of filteredBiomarkers">
-        <app-biomarker [biomarker]="biomarker" />
+        <app-biomarker [class.col-span-2]="biomarker.id === 'nicotine'" [biomarker]="biomarker" />
     </span>
+    <div *ngIf="categoryName !== 'fixed'"class="flex flex-row-reverse col-start-1 col-end-6">
+        <button class="px-4 py-1 flex rounded justify-center items-center gap-2 h-11 underline text-secondary font-[500]">Edit</button>
+    </div>
 </div>

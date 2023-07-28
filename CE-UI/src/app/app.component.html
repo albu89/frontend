@@ -1,18 +1,22 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="bg-background">
+  <img src="./assets/CardioLogo.png" class="h-11 px-10">
   <a class="title" href="/">Show History</a>
   <div class="toolbar-spacer"></div>
-    <a class="title" href="/patient/new">Create new Patient</a>
-  
-    <div class="toolbar-spacer"></div>
-  
-    <a *ngIf="loginDisplay" mat-button [routerLink]="['profile']">Profile</a>
-  
-    <button mat-raised-button *ngIf="!loginDisplay" (click)="login()">Login</button>
-    <button mat-raised-button *ngIf="loginDisplay" (click)="logout()">Logout</button>
-  
-  </mat-toolbar>
-  <div class="container">
-    <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
-    <router-outlet *ngIf="!isIframe"></router-outlet>
-  </div>
+  <a class="title" href="/patient/new">Create new Patient</a>
+
+  <div class="toolbar-spacer"></div>
+
+  <a *ngIf="loginDisplay" mat-button [routerLink]="['profile']">Profile</a>
+
+  <button mat-raised-button *ngIf="!loginDisplay" (click)="login()">
+    Login
+  </button>
+  <button mat-raised-button *ngIf="loginDisplay" (click)="logout()">
+    Logout
+  </button>
+</mat-toolbar>
+<div>
+  <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
+  <router-outlet *ngIf="!isIframe"></router-outlet>
+</div>
 <!-- <app-patient-details></app-patient-details> -->

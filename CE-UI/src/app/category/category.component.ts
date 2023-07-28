@@ -10,8 +10,17 @@ export class CategoryComponent {
   @Input() categoryName = "";
   @Input() biomarkers: Biomarker[] = [];
 
+  fixedCategories = ['Anamnesis', 'Medication', 'Clinical findings'];
+
   ngOnInit() {
-    this.filteredBiomarkers = this.biomarkers.filter(x => x.category === this.categoryName);
+    this.filteredBiomarkers = this.biomarkers.filter(x => {
+      const contains = this.fixedCategories.includes(x.category);
+      if(this.categoryName === 'fixed')
+       return contains;
+      else
+        return !contains;
+    }
+    );
   }
   filteredBiomarkers: Biomarker[] = [];
 }

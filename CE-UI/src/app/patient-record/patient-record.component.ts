@@ -5,7 +5,7 @@ import { PatientRecord } from '../shared/PatientRecord';
 @Component({
   selector: 'app-patient-record',
   templateUrl: './patient-record.component.html',
-  styleUrls: ['./patient-record.component.scss']
+  styleUrls: ['./patient-record.component.css']
 })
 export class PatientRecordComponent {
 

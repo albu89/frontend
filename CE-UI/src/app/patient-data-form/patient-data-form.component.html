@@ -1,13 +1,60 @@
-<div>
-  <label for="patient-name">Patient Name</label>
-  <input type="text" id="patient-name" [(ngModel)]="patient.firstname">
-  <label for="patient-last-name">Patient last name</label>
-  <input type="text" id="patient-last-name" [(ngModel)]="patient.lastname">
-  <label for="patient-birthday">Patient birthday</label>
-  <input type="date" id="patient-birthday" [ngModel]="patient.dateOfBirth | date:'yyyy-MM-dd'" (ngModelChange)="setDateOfBirth($event)">
-  <!-- <button (click)="getSpecificRecords(patientName.value, patientLastName.value, patientBirthday.value)">Show</button> -->
+<div
+  class="px-8 py-6 bg-background border-tone-2 rounded-lg border-solid border grid grid-cols-3 gap-4 mb-4"
+>
+  <div>
+    <div class="flex flex-row">
+      <label for="patient-name">Patient Name</label>
+      <img
+        class="pl-1 transititext-primary text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
+        src="./assets/Info.svg"
+        data-te-toggle="tooltip"
+        title=""
+      />
+    </div>
+    <input
+      type="text"
+      id="patient-name"
+      [(ngModel)]="patient.firstname"
+      class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+    />
+  </div>
+  <div>
+    <div class="flex flex-row">
+      <label for="patient-last-name">Patient last name</label>
+      <img
+        class="pl-1 transititext-primary text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
+        src="./assets/Info.svg"
+        data-te-toggle="tooltip"
+        title=""
+      />
+    </div>
+    <input
+      type="text"
+      id="patient-last-name"
+      [(ngModel)]="patient.lastname"
+      class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+    />
+  </div>
+  <div>
+    <div class="flex flex-row">
+      <label for="patient-birthday">Patient birthday</label>
+      <img
+        class="pl-1 transititext-primary text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
+        src="./assets/Info.svg"
+        data-te-toggle="tooltip"
+        title=""
+      />
+    </div>
+    <input
+      type="date"
+      id="patient-birthday"
+      [ngModel]="patient.dateOfBirth | date : 'yyyy-MM-dd'"
+      (ngModelChange)="setDateOfBirth($event)"
+      class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+    />
+  </div>
 </div>
-<div *ngFor="let category of uniqueCategories">
-  <h1>Category: {{ category }}</h1>
+<!-- <button (click)="getSpecificRecords(patientName.value, patientLastName.value, patientBirthday.value)">Show</button> -->
+<div *ngFor="let category of uniqueCategories" class="flex flex-col">
   <app-category [categoryName]="category" [biomarkers]="biomarkers" />
 </div>
