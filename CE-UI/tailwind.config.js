@@ -24,6 +24,7 @@ export const theme = {
     'light-red': '#fbd5d5',
     'text-red': '#e20909',
     'text-green': '#3b9438',
+    'light-green': '#D3EED2',
     'yellow': '#ffc327',
     'light-yellow': '#fff5da',
     'white': '#ffffff',

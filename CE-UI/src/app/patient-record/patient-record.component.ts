@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { PatientRecordService } from '../service/patient-record.service';
 import { PatientRecord } from '../shared/PatientRecord';
 
@@ -9,17 +10,20 @@ import { PatientRecord } from '../shared/PatientRecord';
 })
 export class PatientRecordComponent {
 
-  patientRecords ?: PatientRecord[];
+  patientRecords?: PatientRecord[];
+  showDetailsButton = false;
 
-  constructor(private patientRecordService : PatientRecordService) {}
+  constructor(private patientRecordService: PatientRecordService, public datepipe: DatePipe) { }
 
   ngOnInit() {
     this.patientRecordService.getRecords().subscribe((records) => this.patientRecords = records);
   }
 
-  getSpecificRecords(patientName : string, patientLastName : string, patientBirthdate : string) {
+  getSpecificRecords(patientName: string, patientLastName: string, patientBirthdate: string) {
     this.patientRecordService
-    .getSpecificRecords(patientName, patientLastName, patientBirthdate)
-    .subscribe((records: PatientRecord[]) => this.patientRecords = records)
+      .getSpecificRecords(patientName, patientLastName, patientBirthdate)
+      .subscribe((records: PatientRecord[]) => { 
+        this.showDetailsButton = patientName && patientLastName && patientBirthdate ? true : false;
+        this.patientRecords = records })
   }
 }

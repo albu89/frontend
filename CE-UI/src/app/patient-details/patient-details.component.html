@@ -1,27 +1,18 @@
-<div class="w-full flex flex-col place-content-center">
-  <div class="mt-8 flex flex-col self-center w-2/3">
-    <p class="text-primary text-2xl font-semibold mb-8">Create New Score</p>
-    <app-score
-      *ngIf="scoreResponseReceived"
-      [score]="scoreResponse"
-    ></app-score>
-    <app-patient-data-form
-      [biomarkers]="biomarkerTemplate"
-      [patient]="patient"
-      [uniqueCategories]="uniqueCategories"
-    ></app-patient-data-form>
-    <app-score
-      *ngIf="scoreResponseReceived"
-      [score]="scoreResponse"
-    ></app-score>
-    <div class="flex flex-row-reverse mt-6">
-      <button
-        class="pl-6 pr-6 pt-2 pb-2 enabled:bg-secondary  enabled:text-white disabled:bg-label-2 disabled:text-white rounded-md border gap-2"
-        (click)="submit()"
-        [disabled]="submitButtonDisabled()"
-      >
-        Calculate Risk Score
-      </button>
-    </div>
+<div class="mt-8 flex flex-col self-center px-[var(--main-margin)]">
+  <p class="text-primary text-2xl font-semibold mb-8">Create New Score</p>
+  <app-risk-label *ngIf="scoreResponseReceived" [risk]="scoreResponse.riskValue" [riskClass]="scoreResponse.riskClass"/>
+  <app-patient-data-form
+    [biomarkers]="biomarkerTemplate"
+    [patient]="patient"
+    [uniqueCategories]="uniqueCategories"
+  ></app-patient-data-form>
+  <div class="flex flex-row-reverse mt-6">
+    <button
+      class="px-6 py-2 enabled:bg-secondary enabled:text-white disabled:bg-label-2 disabled:text-white rounded-md border gap-2 font-bold"
+      (click)="submit()"
+      [disabled]="submitButtonDisabled()"
+    >
+      Calculate Risk Score
+    </button>
   </div>
 </div>

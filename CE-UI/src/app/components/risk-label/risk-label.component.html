@@ -1,0 +1,10 @@
+<div
+  class="{{ riskClass == '0' ? grey : '' }} {{
+    riskClass == '1' ? green : ''
+  }} {{ riskClass == '2' ? yellow : '' }} {{
+    riskClass == '3' ? orange : ''
+  }} {{ riskClass == '4' ? red : '' }} 
+  rounded-md px-2 py-1 uppercase flex-shrink w-min font-[400]"
+>
+  {{ risk }}
+</div>

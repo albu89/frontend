@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Profile } from '../shared/profile';
 import countryData from './countries.json'
 import { UserService } from '../service/user.service';
@@ -20,51 +20,73 @@ type ProfileType = {
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
   profile!: ProfileType | undefined;
-  userProfile ?: Profile;
+  userProfile?: Profile;
   updatedUserProfile = new Profile();
-  countryCodes : Country[] = countryData;
-  selectedCountry ?: string;
+  countryCodes: Country[] = countryData;
+  selectedCountry?: string;
   updatedUser = this.formBuilder.group<Profile>(this.updatedUserProfile)
+  userExistedPreviously = false;
 
   constructor(
     private http: HttpClient,
-    private userService : UserService,
-    private formBuilder : FormBuilder
+    private userService: UserService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
     this.getProfile();
-    this.userService.getUser().subscribe((data) => {
-      this.userProfile = data;
-      this.updatedUserProfile = data;
+    this.userService.getUser()
+    .subscribe({
+      next: value => this.handleExistingUser(value),
+      error: error => this.handleError(error)
     });
-    
+
+  }
+  handleError(error: HttpErrorResponse): void {
+    if (error.status === 404) {
+      this.userExistedPreviously = false;
+    }
+  }
+  handleExistingUser(value: Profile): void {
+    this.userExistedPreviously = true;
+    this.userProfile = value;
+    this.updatedUserProfile = value;
   }
 
   getProfile() {
     this.http.get(GRAPH_ENDPOINT)
       .subscribe(profile => {
         this.profile = profile as ProfileType;
-        this.updatedUserProfile.username = this.profile.userPrincipalName?? "";
-        this.updatedUserProfile.emailAdress = this.profile.mail;
+        this.updatedUserProfile.username = this.profile.userPrincipalName ?? "";
+        this.updatedUserProfile.emailAddress = this.profile.mail;
       });
   }
 
-  getSelectedCountry(country : string) {
+  getSelectedCountry(country: string) {
     this.selectedCountry = country;
     this.updatedUser.value.country = country;
   }
 
   onSubmit() {
-    this.userService.updateUser(this.updatedUser.value as Profile)
-    .subscribe(data => {
-        this.userProfile = data;
-        this.updatedUser = this.formBuilder.group(data);
-        this.selectedCountry = this.userProfile?.country;
-    });
+    this.updatedUser.value.emailAddress = this.profile?.mail;
+    if (this.userExistedPreviously) {
+      this.userService.updateUser(this.updatedUser.value as Profile)
+        .subscribe(data => {
+          this.userProfile = data;
+          this.updatedUser = this.formBuilder.group(data);
+          this.selectedCountry = this.userProfile?.country;
+        });
+    } else {
+      this.userService.createUser(this.updatedUser.value as Profile)
+        .subscribe(data => {
+          this.userProfile = data;
+          this.updatedUser = this.formBuilder.group(data);
+          this.selectedCountry = this.userProfile?.country;
+        });
+    }
   }
 }

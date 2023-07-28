@@ -18,6 +18,8 @@ import { PatientRecordComponent } from './patient-record/patient-record.componen
 import { ProfileComponent } from './profile/profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'src/environments/environment';
+import { DatePipe } from '@angular/common';
+import { RiskLabelComponent } from './components/risk-label/risk-label.component';
 
 const isIE =
   window.navigator.userAgent.indexOf("MSIE ") > -1 ||
@@ -31,7 +33,8 @@ const isIE =
     CategoryComponent,
     ScoreComponent,
     PatientRecordComponent,
-    ProfileComponent
+    ProfileComponent,
+    RiskLabelComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +78,7 @@ const isIE =
     useClass: MsalInterceptor,
     multi: true,
   },
+  DatePipe,
   MsalGuard,],
   bootstrap: [AppComponent]
 })

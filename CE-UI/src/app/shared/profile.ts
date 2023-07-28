@@ -1,7 +1,7 @@
 export class Profile {
 
     username = "";
-    emailAdress = "";
+    emailAddress = "";
     salutation = "";
     title = "";
     firstName = "";
@@ -17,8 +17,6 @@ export class Profile {
     telephoneNumber = "";
     language = "";
     unitLabValues = "";
-    clinicalSetting = 0;
+    clinicalSetting = "";
     medicalSpecialist = "";
-    seperateBilling = false;
-
 }

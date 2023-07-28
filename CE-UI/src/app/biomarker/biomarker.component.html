@@ -42,13 +42,13 @@
 
   <div
     *ngIf="requiredType === inputTypeEnum.Number"
-    [class]="biomarker.isValid ? 'relative mt-2 rounded-md shadow-sm' : 'relative mt-2 rounded-md shadow-sm border border-text-red'"
+    [class]="biomarker.isValid ? 'relative mt-2 w-2/3 rounded-md shadow-sm' : 'relative mt-2 w-2/3 rounded-md shadow-sm border border-text-red'"
   >
     <input
       type="number"
       [(ngModel)]="biomarker.value"
       class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-      placeholder="0.00"
+      [placeholder]="biomarker.selectedUnit.type === 'integer' ? 0 : '0.00'"
     />
     <div class="absolute inset-y-0 right-0 flex items-center">
       <select

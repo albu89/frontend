@@ -13,5 +13,7 @@ export interface ScoringResponse {
   classifier_type: string,
   username: string,
   hidden: boolean,
-  orgclient: string
+  orgclient: string,
+  riskValue: string,
+  riskClass: string | number
 }

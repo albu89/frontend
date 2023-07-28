@@ -16,6 +16,9 @@ export class PatientDetailsComponent {
 
   ngOnInit() {
     this.biomarkerService.getBiomarkers().subscribe(template => {
+      template.forEach(biomarker => {
+        biomarker.isValid = true;
+      }); 
       this.biomarkerTemplate = template;
       this.uniqueCategories = this.getUniqueCategories()
     });
@@ -34,7 +37,9 @@ export class PatientDetailsComponent {
     this.biomarkerTemplate.forEach(biomarker => {
       
       //biomarker is each instance of a filled marker
-      if((typeof biomarker.value === 'number' && biomarker.selectedUnit.minimum && biomarker.selectedUnit.maximum) && (biomarker.value < biomarker.selectedUnit.minimum || biomarker.value > biomarker.selectedUnit.maximum)) {
+      if(
+        (typeof biomarker.value === 'number' && biomarker.selectedUnit.minimum && biomarker.selectedUnit.maximum) && 
+        (biomarker.value < biomarker.selectedUnit.minimum || biomarker.value > biomarker.selectedUnit.maximum)) {
         //negative conseqeunces
         biomarker.color = 'red';
         biomarker.errorMessage = `The value must be between ${biomarker.selectedUnit.minimum} and ${biomarker.selectedUnit.maximum}`;

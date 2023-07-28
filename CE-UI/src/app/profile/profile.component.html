@@ -1,81 +1,163 @@
-<!-- <div>
-    <p><strong>First Name: </strong> {{profile?.givenName}}</p>
-    <p><strong>Last Name: </strong> {{profile?.surname}}</p>
-    <p><strong>Email: </strong> {{profile?.userPrincipalName}}</p>
-    <p><strong>Id: </strong> {{profile?.id}}</p>
-</div> -->
-<form [formGroup]="updatedUser" (ngSubmit)="onSubmit()">
-    <div>
-        <h2>Identity Settings</h2>
-        <hr>
-        <label for="username">Username</label>
-        <input readonly id="username" type="text" formControlName="username" [(ngModel)]="updatedUserProfile.username">
-        <label for="emailAdress">E-mail</label>
-        <input readonly id="emailAdress" type="email" formControlName="emailAdress" [(ngModel)]="updatedUserProfile.emailAdress">
+
+<form class="px-[var(--main-margin)]" [formGroup]="updatedUser" (ngSubmit)="onSubmit()">
+    <h1 class="pt-[2.5%] text-primary text-2xl font-semibold mb-8">Profile</h1>
+    <div class="block place-content-center rounded-xl bg-background border border-tone-2 px-[10%] py-[2.5%]">
+        <div class="flex flex-col place-content-center">
+            <h2 class="text-primary">Identity Settings</h2>
+            <hr class="text-primary pb-6">
+            <div name="mail" class="flex flex-row items-center h-full py-2.5">
+                <label for="emailAdress" class="basis-1/2 py-1.5 sm:text-sm">E-mail</label>
+                <input
+                    class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 disabled: bg-disabled"
+                    readonly id="emailAdress" type="email" formControlName="emailAddress"
+                    [(ngModel)]="updatedUserProfile.emailAddress">
+            </div>
+        </div>
+        <div class="flex flex-col place-content-center">
+            <h2 class="text-primary">General Settings</h2>
+            <hr class="text-primary pb-6">
+            <div name="salutation" class="flex flex-row items-center h-full py-2.5">
+                <label for="salutation" class="basis-1/2 py-1.5 sm:text-sm">Salutation</label>
+                <select
+                    class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                    name="salutation" id="salutation" formControlName="salutation"
+                    [(ngModel)]="updatedUserProfile.salutation">
+                    <option value="mr">Mr.</option>
+                    <option value="ms">Ms.</option>
+                    <option value="msr">Msr.</option>
+                </select>
+            </div>
+            <div name="title" class="flex flex-row items-center h-full py-2.5">
+                <label for="title" class="basis-1/2 py-1.5 sm:text-sm">Title</label>
+                <input
+                    class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                    id="Title" type="text" formControlName="title" [(ngModel)]="updatedUserProfile.title">
+            </div>
+        </div>
+        <div name="firstName" class="flex flex-row items-center h-full py-2.5">
+            <label for="firstname" class="basis-1/2 py-1.5 sm:text-sm">First Name</label>
+            <input
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                id="firstname" type="text" value="user" formControlName="firstName"
+                [(ngModel)]="updatedUserProfile.firstName">
+        </div>
+        <div name="lastName" class="flex flex-row items-center h-full py-2.5">
+            <label for="surname" class="basis-1/2 py-1.5 sm:text-sm">Last Name</label>
+            <input
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                id="surname" type="text" formControlName="surname" [(ngModel)]="updatedUserProfile.surname">
+        </div>
+        <div name="professionalSpecialisation" class="flex flex-row items-center h-full py-2.5">
+            <label for="professionalspecialisation" class="basis-1/2 py-1.5 sm:text-sm">Professional
+                Specialisation</label>
+            <input
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                id="professionalspecialisation" type="text" formControlName="professionalSpecialisation"
+                [(ngModel)]="updatedUserProfile.professionalSpecialisation">
+        </div>
+        <div name="department" class="flex flex-row items-center h-full py-2.5">
+            <label for="department" class="basis-1/2 py-1.5 sm:text-sm">Department</label>
+            <input
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                id="department" type="text" formControlName="department" [(ngModel)]="updatedUserProfile.department">
+        </div>
+        <div name="preferredLab" class="flex flex-row items-center h-full py-2.5">
+            <label for="preferredlab" class="basis-1/2 py-1.5 sm:text-sm">Preferred Lab for Cardio Explorer test
+                analysis</label>
+            <input
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                id="preferredlab" type="text" formControlName="preferredLab"
+                [(ngModel)]="updatedUserProfile.preferredLab">
+        </div>
+        <div name="address" class="flex flex-row items-center h-full py-2.5">
+            <label for="address" class="basis-1/2 py-1.5 sm:text-sm">Address</label>
+            <input
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                id="address" type="text" formControlName="address" [(ngModel)]="updatedUserProfile.address">
+        </div>
+        <div name="zip" class="flex flex-row items-center h-full py-2.5">
+            <label for="zip" class="basis-1/2 py-1.5 sm:text-sm">ZIP</label>
+            <input
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                id="zip" type="text" formControlName="zipCode" [(ngModel)]="updatedUserProfile.zipCode">
+        </div>
+        <div name="city" class="flex flex-row items-center h-full py-2.5">
+            <label for="city" class="basis-1/2 py-1.5 sm:text-sm">City</label>
+            <input
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                id="city" type="text" formControlName="city" [(ngModel)]="updatedUserProfile.city">
+        </div>
+        <div name="countryCode" class="flex flex-row items-center h-full py-2.5">
+            <label for="countrycode" class="basis-1/2 py-1.5 sm:text-sm">Country Code</label>
+            <select
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 overflow-x-clip min-w-0"
+                #countryCode name="countrycode" id="countrycode" (change)="getSelectedCountry(countryCode.value)"
+                formControlName="countryCode" [(ngModel)]="updatedUserProfile.countryCode">
+                <option *ngFor="let code of countryCodes" [value]="code.name">{{code.name}}</option>
+            </select>
+        </div>
+        <div name="telephoneNumber" class="flex flex-row items-center h-full py-2.5">
+            <label for="telephoneNumber" class="basis-1/2 py-1.5 sm:text-sm">Telephone Number</label>
+            <input
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                id="telephoneNumber" type="text" [value]="userProfile?.telephoneNumber"
+                formControlName="telephoneNumber" [(ngModel)]="updatedUserProfile.telephoneNumber">
+        </div>
+        <div name="language" class="flex flex-row items-center h-full py-2.5">
+            <label for="language" class="basis-1/2 py-1.5 sm:text-sm">Language</label>
+            <select
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                name="language" id="language" [value]="userProfile?.language" formControlName="language"
+                [(ngModel)]="updatedUserProfile.language">
+                <option value="english">English</option>
+                <option value="deutsch">Deutsch</option>
+                <option value="français">Français</option>
+            </select>
+        </div>
+        <div name=" unitLabValues" class="flex flex-row items-center h-full py-2.5">
+            <label for="unitLabValues" class="basis-1/2 py-1.5 sm:text-sm">Units lab values</label>
+            <select
+                class="basis-1/2 rounded-md border border-tone-2 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+                name="unitLabValues" id="unitLabValues" [value]="userProfile?.unitLabValues"
+                formControlName="unitLabValues" [(ngModel)]="updatedUserProfile.unitLabValues">
+                <option value="si">SI</option>
+                <option value="conventional">Conventional</option>
+            </select>
+        </div>
+        <div name="first" class="flex flex-row items-center h-full py-2.5">
+            <label for="first" class="basis-1/2 py-1.5 sm:text-sm">I perform a first clinical evaluation of patients
+                with suspected Coronary Artery
+                Disease</label>
+            <input
+                class="basis-10 checked:border-primary checked:bg-primary sm:text-sm sm:leading-6"
+                id="first" type="radio" name="clinicalSetting" value="PrimaryCare" [checked]="userProfile?.clinicalSetting === 'PrimaryCare'"
+                formControlName="clinicalSetting" [(ngModel)]="updatedUserProfile.clinicalSetting">
+        </div>
+        <div name="second" class="flex flex-row items-center h-full py-2.5">
+            <label for="second" class="basis-1/2 py-1.5 sm:text-sm">I perform a secondary clinical evaluation of
+                patients with suspected Coronary Artery
+                Disease, to
+                decide on further diagnostic procedure (e.g., cardiac imaging tests, invasive coronary
+                angiography)</label>
+            <input 
+                class="basis-10 checked:fill-primary justify-self-start" id="second" type="radio"
+                name="clinicalSetting" value="SecondaryCare" [checked]="userProfile?.clinicalSetting === 'SecondaryCare'"
+                formControlName="clinicalSetting" [(ngModel)]="updatedUserProfile.clinicalSetting">
+        </div>
+        <div name="medicalSpecialist" class="flex flex-row items-center h-full py-2.5">
+            <p class="basis-1/2 py-1.5 sm:text-sm">Medical specialist</p>
+            <ul class="basis-1/2 list-disc rounded-md border-0 py-1.5 pl-2  sm:text-sm sm:leading-6">
+                <li>General practitioner</li>
+                <li>Endocrinologists</li>
+                <li>Diabetologists</li>
+                <li>Other non-cardiology resident medical specialist</li>
+            </ul>
+        </div>
+        <div class="flex flex-row-reverse py-6">
+            <button
+                class="pl-9 pr-9 pt-2 pb-2 enabled:bg-secondary  enabled:text-white disabled:bg-label-2 disabled:text-white rounded-md border gap-2"
+                type="submit">Update</button>
+        </div>
     </div>
-    <div>
-        <h2>General Settings</h2>
-        <hr>
-        <label for="salutation">Salutation</label>
-        <select name="salutation" id="salutation" formControlName="salutation" [(ngModel)]="updatedUserProfile.salutation">
-            <option value="mr">Mr.</option>
-            <option value="ms">Ms.</option>
-            <option value="msr">Msr.</option>
-        </select>
-        <label for="title">Title</label>
-        <input id="Title" type="text" formControlName="title" [(ngModel)]="updatedUserProfile.title">
-        <label for="firstname">First Name</label>
-        <input id="firstname" type="text" value="user" formControlName="firstName" [(ngModel)]="updatedUserProfile.firstName">
-        <label for="surname">Last Name</label>
-        <input id="surname" type="text" formControlName="surname" [(ngModel)]="updatedUserProfile.surname">
-        <label for="professionalspecialisation">Professional Specialisation</label>
-        <input id="professionalspecialisation" type="text" formControlName="professionalSpecialisation" [(ngModel)]="updatedUserProfile.professionalSpecialisation">
-        <label for="department">Department</label>
-        <input id="department" type="text" formControlName="department" [(ngModel)]="updatedUserProfile.department">
-        <label for="preferredlab">Preferred Lab for Cardio Explorer test analysis</label>
-        <input id="preferredlab" type="text" formControlName="preferredLab" [(ngModel)]="updatedUserProfile.preferredLab">
-        <label for="adress">Adress</label>
-        <input id="adress" type="text" formControlName="address" [(ngModel)]="updatedUserProfile.address">
-        <label for="zip">ZIP</label>
-        <input id="zip" type="text" formControlName="zipCode" [(ngModel)]="updatedUserProfile.zipCode">
-        <label for="city">City</label>
-        <input id="city" type="text" formControlName="city" [(ngModel)]="updatedUserProfile.city">
-        <label for="countrycode">Country Code</label>
-        <select #countryCode name="countrycode" id="countrycode" (change)="getSelectedCountry(countryCode.value)" formControlName="countryCode" [(ngModel)]="updatedUserProfile.countryCode">
-            <option *ngFor="let code of countryCodes" [value]="code.name">{{code.name}}</option>
-        </select>
-        <label for="telephoneNumber">telephoneNumber</label>
-        <input id="telephoneNumber" type="text" [value]="userProfile?.telephoneNumber" formControlName="telephoneNumber" [(ngModel)]="updatedUserProfile.telephoneNumber">
-        <label for="language">Language</label>
-        <select name="language" id="language" [value]="userProfile?.language" formControlName="language" [(ngModel)]="updatedUserProfile.language">
-            <option value="english">English</option>
-            <option value="deutsch">Deutsch</option>
-            <option value="français">Français</option>
-        </select>
-        <label for="unitLabValues">Units lab values</label>
-        <select name="unitLabValues" id="unitLabValues" [value]="userProfile?.unitLabValues" formControlName="unitLabValues" [(ngModel)]="updatedUserProfile.unitLabValues">
-            <option value="si">SI</option>
-            <option value="conventional">Conventional</option>
-        </select>
-        <label for="first">I perform a first clinical evaluation of patients with suspected Coronary Artery
-            Disease</label>
-        <input id="first" type="radio" name="clinicalSetting" value="0" [checked]="userProfile?.clinicalSetting === 0" formControlName="clinicalSetting" [(ngModel)]="updatedUserProfile.clinicalSetting">
-        <label for="second">I perform a secondary clinical evaluation of patients with suspected Coronary Artery
-            Disease, to
-            decide on further diagnostic procedure (e.g., cardiac imaging tests, invasive coronary angiography)</label>
-        <input id="second" type="radio" name="clinicalSetting" value="1" [checked]="userProfile?.clinicalSetting === 1" formControlName="clinicalSetting" [(ngModel)]="updatedUserProfile.clinicalSetting">
-        <p>Medical specialist</p>
-        <ul>
-            <li>General practitioner</li>
-            <li>Endocrinologists</li>
-            <li>Diabetologists</li>
-            <li>Other non-cardiology resident medical specialist</li>
-        </ul>
-        <label for="seperatebilling">Seperate Billing</label>
-        <select name="seperatebilling" id="seperatebilling" [value]="userProfile?.seperateBilling" formControlName="seperateBilling" [(ngModel)]="updatedUserProfile.seperateBilling">
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-        </select>
-        <button type="submit">Update</button>
-    </div>
+
 </form>
