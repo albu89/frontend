@@ -1,4 +1,4 @@
-<mat-toolbar class="bg-background">
+<mat-toolbar class="bg-background" *ngIf="isLoggedIn">
   <div name="main-nav-bar" class="grid grid-cols-5 w-full place-content-center ">
     <div routerLink="/" class="hover:cursor-pointer">
       <img alt="logo" src="./assets/CardioLogo.png" class="h-11 px-10">
@@ -14,16 +14,16 @@
       </a>
     </div>
     <div>
-      <a class="hover:text-secondary align-middle group  text-primary transition duration-300 inline-block" *ngIf="loginDisplay" mat-button [routerLink]="['profile']" routerLinkActive="text-secondary">Profile
+      <a class="hover:text-secondary align-middle group  text-primary transition duration-300 inline-block" *ngIf="isLoggedIn" mat-button [routerLink]="['profile']" routerLinkActive="text-secondary">Profile
         <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary" routerLinkActive="max-w-full w-1/6"></span>
       </a>
     </div>
     <div>
-      <button class="hover:text-secondary align-middle group  text-primary transition duration-300" mat-raised-button *ngIf="!loginDisplay" (click)="login()">
+      <button class="hover:text-secondary align-middle group  text-primary transition duration-300" mat-raised-button *ngIf="!isLoggedIn" (click)="login()">
         Login
         <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary"></span>
       </button>
-      <button class="hover:text-secondary align-middle group  text-primary transition duration-300" mat-raised-button *ngIf="loginDisplay" (click)="logout()">
+      <button class="hover:text-secondary align-middle group  text-primary transition duration-300" mat-raised-button *ngIf="isLoggedIn" (click)="logout()">
         Logout
         <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary"></span>
       </button>
@@ -34,4 +34,3 @@
   <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
   <router-outlet *ngIf="!isIframe"></router-outlet>
 </div>
-<!-- <app-patient-details></app-patient-details> -->

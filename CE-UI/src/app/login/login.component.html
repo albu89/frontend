@@ -1,0 +1,48 @@
+<div class="w-screen h-screen bg-login bg-center bg-cover p-[3%]">
+    <div class="flex flex-col w-[15%] p-4 bg-[#f5f8fc] h-full rounded-xl justify-between">
+        <img src="assets/CardioLogo.png" class="w-auto h-auto">
+        <div class="p-4 flex flex-col gap-2">
+            <p class="text-primary font-medium text-2xl" [ngClass]="{'!visible hidden': requestingAccess}">Login</p>
+            <button *ngIf="!requestingAccess" class="px-6 py-2 bg-secondary text-white rounded-md border gap-2 font-bold" (click)="login()">Login</button>
+            <form name="accessrequest" class="flex flex-col" [ngClass]="{'!visible hidden': !requestingAccess || accessRequested}">
+                <label required for="name">Name</label>
+                <input required id="name" #name type="text" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"/>
+                <label>Lastname</label>
+                <input required id="lastname" #lastname type="text" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"/>
+                <label>Email</label>
+                <input required id="email" #email type="email" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"/> 
+                <label>Telephone Nr.</label>
+                <input required id="telephone" #telephone type="tel" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"/> 
+                <label>Country</label>
+                <select id="country" #country class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2">
+                    <option>Germany</option>
+                    <option>United Arab Emirates</option>
+                    <option>Switzerland</option>
+                </select>
+                <label>Organization</label>
+                <select id="organization" #organization class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2">
+                    <option>No organization</option>
+                    <option>Exxeta AG</option>
+                    <option>Preventon</option>
+                </select>
+                <button class="mt-2 px-6 py-2 bg-secondary text-white rounded-md border gap-2 font-bold" (click)="sendRequest(name.value, lastname.value, email.value, telephone.value, country.value, organization.value)">Request Access</button>
+                <button class="mt-2 px-6 py-2 text-primary gap-2" (click)="this.requestingAccess = false">Back</button>
+            </form>
+            <div class="flex flex-col" [ngClass]="{'!visible hidden': !accessRequested}">
+                <p class="text-primary font-medium text-2xl">
+                    Access Requested!
+                </p>
+                <p>
+                    One of our employees will get into contact with you.
+                </p>
+                <button class="mt-2 px-6 py-2 text-primary gap-2" (click)="this.requestingAccess = false; this.accessRequested = false; ">Back</button>
+            </div>
+            <button class="px-6 py-2 bg-primary text-white rounded-md border gap-2 font-bold" [ngClass]="{'!visible hidden': requestingAccess}" (click)="this.requestingAccess = true">Request Access</button>
+        </div>
+        <div class="p-4">
+            <p>
+                Version v0.8b
+            </p>
+        </div>
+    </div>
+</div>

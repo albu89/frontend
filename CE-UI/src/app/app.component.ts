@@ -1,5 +1,6 @@
-import { MsalService } from '@azure/msal-angular';
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { Component, OnInit } from '@angular/core';
+import { EventType } from '@azure/msal-browser';
 
 @Component({
   selector: 'app-root',
@@ -9,20 +10,26 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'CE-UI';
   isIframe = false;
-  loginDisplay = false;
+  isLoggedIn = false;
 
-  constructor(private authService: MsalService) { }
+  constructor(private authService: MsalService, private broadCastService: MsalBroadcastService) { }
 
   ngOnInit() {
     this.isIframe = window !== window.parent && !window.opener;
-    this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
+    this.isLoggedIn = this.authService.instance.getAllAccounts().length > 0;
+
+    // Subscription notifies us of changes to the users authentication
+    this.broadCastService.msalSubject$.subscribe((value) => {
+      if(value.eventType === EventType.LOGIN_SUCCESS || value.eventType === EventType.ACQUIRE_TOKEN_SUCCESS){
+          this.isLoggedIn = true;
+      }
+    });
   }
 
   login() {
     this.authService.loginPopup()
       .subscribe({
-        next: (result) => {
-          console.log(result);
+        next: () => {
           this.setLoginDisplay();
         },
         error: (error) => console.log(error)
@@ -36,6 +43,6 @@ export class AppComponent implements OnInit {
   }
 
   setLoginDisplay() {
-    this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
+    this.isLoggedIn = this.authService.instance.getAllAccounts().length > 0;
   }
 }

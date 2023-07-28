@@ -1,7 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export const content = ["./src/**/*.{html,ts}"];
 export const theme = {
-  extend: {},
+  extend: {
+    'backgroundImage': {
+      'login': "url('assets/cardio-bg.jpg')",
+    },
+  },
   colors: {
     'primary': '#2115A8',
     'secondary': '#9B0D62',

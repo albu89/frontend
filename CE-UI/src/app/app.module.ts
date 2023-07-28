@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'src/environments/environment';
 import { DatePipe } from '@angular/common';
 import { RiskLabelComponent } from './components/risk-label/risk-label.component';
+import { LoginComponent } from './login/login.component';
 
 const isIE =
   window.navigator.userAgent.indexOf("MSIE ") > -1 ||
@@ -35,6 +36,7 @@ const isIE =
     PatientRecordComponent,
     ProfileComponent,
     RiskLabelComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +69,7 @@ const isIE =
         interactionType: InteractionType.Popup, // MSAL Interceptor Configuration
         protectedResourceMap: new Map([
           ["https://graph.microsoft.com/v1.0/me", ["user.read"]],
+          [environment.backendUrl + "/api/user/request", null],
           [environment.backendUrl, ["api://7e8be7c1-728f-4dce-af96-c3105974e2ee/Default"]],
         ]),
       }
