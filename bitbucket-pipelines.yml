@@ -14,12 +14,10 @@ pipelines:
               caches:
                 - node
               script:
-                - cd CE-UI
                 - npm install
           - step:
               name: Code linting
               script:
-                - cd CE-UI
                 - npm install eslint
                 - npm install @typescript-eslint/eslint-plugin
                 - npx eslint .

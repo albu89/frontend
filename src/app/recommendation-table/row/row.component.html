@@ -1,0 +1,42 @@
+<div
+    name="row"
+    class="flex flex-row gap-4"
+  >
+    <div
+      class="px-8 py-2 basis-[80%] flex flex-row p-2 bg-white border-tone-2 rounded-lg border-solid border gap-1"
+    >
+      <div class="flex flex-col">
+        <p class="self-center font-medium">{{ category?.shortText }}</p>
+        <p
+          class="{{
+            longTextVisible ? 'visible' : '!visible hidden'
+          }}"
+        >
+          {{ category?.longText }}
+        </p>
+      </div>
+      <a
+        class="text-secondary underline font-medium hover:cursor-pointer"
+        (click)="toggleLongText()"
+        >more</a
+      >
+    </div>
+    <div
+      class="basis-[6%] md:basis-[10%] sm:basis-[15%] p-2 bg-white border-tone-2 rounded-lg border-solid border flex justify-center"
+    >
+      <p class="font-medium">
+        {{ (category?.lowerLimit ?? 0) * 100 }}-{{ (category?.upperLimit ?? 0) * 100 }}
+      </p>
+    </div>
+    <div
+      class="basis-[14%] p-2 text-white rounded-lg border-solid border flex justify-center"
+      [ngClass]="{
+        'bg-text-green border-group-green-1': category?.id === 1,
+        'bg-yellow border-group-orange-1': category?.id === 2,
+        'bg-text-orange-1 border-group-orange-2': category?.id === 3,
+        'bg-text-red': category?.id === 4
+      }"
+    >
+      <p class="text-xl font-bold">{{ category?.riskValue }}</p>
+    </div>
+  </div>

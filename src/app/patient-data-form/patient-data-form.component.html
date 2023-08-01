@@ -1,0 +1,59 @@
+<div
+  class="px-8 py-6 bg-background border-tone-2 rounded-lg border-solid border grid grid-cols-3 gap-4 mb-4"
+>
+  <div>
+    <div class="flex flex-row">
+      <label for="patient-name">Patient Name</label>
+      <img
+        class="pl-1 transititext-primary text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
+        src="./assets/Info.svg"
+        data-te-toggle="tooltip"
+        title=""
+      />
+    </div>
+    <input
+      type="text"
+      id="patient-name"
+      [(ngModel)]="patient.firstname"
+      class="basis-1/2 rounded-md border-0 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+    />
+  </div>
+  <div>
+    <div class="flex flex-row">
+      <label for="patient-last-name">Patient Lastname</label>
+      <img
+        class="pl-1 transititext-primary text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
+        src="./assets/Info.svg"
+        data-te-toggle="tooltip"
+        title=""
+      />
+    </div>
+    <input
+      type="text"
+      id="patient-last-name"
+      [(ngModel)]="patient.lastname"
+      class="basis-1/2 rounded-md border-0 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+    />
+  </div>
+  <div>
+    <div class="flex flex-row">
+      <label for="patient-birthdate">Patient Birthdate</label>
+      <img
+        class="pl-1 transititext-primary text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
+        src="./assets/Info.svg"
+        data-te-toggle="tooltip"
+        title=""
+      />
+    </div>
+    <input
+      type="date"
+      id="patient-birthdate"
+      [ngModel]="patient.dateOfBirth | date : 'yyyy-MM-dd'"
+      (ngModelChange)="setDateOfBirth($event)"
+      class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"
+    />
+  </div>
+</div>
+<div *ngFor="let category of uniqueCategories" class="flex flex-col">
+  <app-category [categoryName]="category" [biomarkers]="biomarkers" />
+</div>

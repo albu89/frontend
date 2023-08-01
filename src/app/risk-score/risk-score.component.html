@@ -1,0 +1,38 @@
+<div class="flex flex-row gap-4 max-h-200">
+  <div
+    class="{{ RiskClass == '0' ? grey : '' }} {{
+      RiskClass == '1' ? green : ''
+    }} {{ RiskClass == '2' ? yellow : '' }} {{
+      RiskClass == '3' ? orange : ''
+    }} {{ RiskClass == '4' ? red : '' }} 
+  p-6 flex flex-col justify-between
+  rounded-md
+  "
+  >
+    <p class="uppercase">{{ ScoreHeader }}</p>
+    <p class="font-bold text-4xl mr-4">{{ ScoreValue * 100 | number: '1.0-0' }}</p>
+  </div>
+  <div
+    class="{{ RiskClass == '0' ? grey : '' }} {{
+      RiskClass == '1' ? green : ''
+    }} {{ RiskClass == '2' ? yellow : '' }} {{
+      RiskClass == '3' ? orange : ''
+    }} {{ RiskClass == '4' ? red : '' }}
+  p-6 flex flex-col justify-between
+  rounded-md
+   "
+  >
+    <p class="uppercase">{{ RiskHeader }}</p>
+    <p class="font-bold text-4xl mr-4">{{ RiskValue }}</p>
+  </div>
+  <div class="bg-white border-tone-1 shadow rounded-lg border-solid border flex flex-col p-6 gap-2 w-full">
+    <p class="text-label font-medium uppercase">{{ RecommendationHeader }}</p>
+    <p class="text-text text-xl font-medium">{{ Recommendation }}</p>
+    <div class="{{ isLongTextVisible ? '' : 'hidden'}} pt-2">
+      <p class="text-text font-medium">{{ RecommendationLong }}</p>
+    </div>
+    <div class="flex flex-row p-4 justify-end items-center">
+        <button class="underline text-secondary font-medium" (click)="showLongText()">More</button>
+    </div>
+  </div>
+</div>

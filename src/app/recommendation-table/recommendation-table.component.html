@@ -1,0 +1,9 @@
+<div class="grid grid-flow-row gap-4">
+  <div class="flex flex-row gap-4 font-medium">
+    <p class="pl-8 text-label-2 basis-[80%]">{{ recommendationHeader }}</p>
+    <p class="text-label-2 basis-[6%]">{{ scoreRangeHeader }}</p>
+    <p class="text-label-2 basis-[14%]">{{ probabilityHeader }}</p>
+  </div>
+  <app-row *ngFor="let category of categories" class="" [category]="category">
+  </app-row>
+</div>
