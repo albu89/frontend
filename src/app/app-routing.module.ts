@@ -25,7 +25,7 @@ const routes: Routes = [
     canActivate: [MsalGuard, CanActivateGuard]
   },
   {
-    path: "patient/new",
+    path: "score/new",
     component: PatientDetailsComponent,
     canActivate: [MsalGuard, CanActivateGuard]
   },

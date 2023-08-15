@@ -1,4 +1,5 @@
 export const environment = {
     production: true,
-    backendUrl: 'https://ch-ce-api.azurewebsites.net',    
+    backendUrl: 'https://cardioexplorer-dev-api.azurewebsites.net',
+    frontendUrl: 'https://cardioexplorer-dev.azurewebsites.net/'
 };

@@ -1,6 +1,7 @@
 import { MsalService } from '@azure/msal-angular';
 import { Component, OnInit, inject } from '@angular/core';
 import { UserService } from './service/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent implements OnInit {
   isIframe = false;
   isLoggedIn$ = inject(UserService).isLoggedIn;
 
-  constructor(private authService: MsalService) { }
+  constructor(private authService: MsalService, public router: Router, private userService: UserService) { }
 
   ngOnInit() {
     this.isIframe = window !== window.parent && !window.opener;
@@ -23,8 +24,7 @@ export class AppComponent implements OnInit {
   }
 
    logout() { // Add log out function here
-    this.authService.logoutPopup({
-      mainWindowRedirectUri: "/"
-    });
+    const currentAccount = this.authService.instance.getAllAccounts()[0];
+    this.authService.logoutPopup({account: currentAccount, mainWindowRedirectUri: "/"});
   }
 }

@@ -1,12 +1,12 @@
-<div *ngIf="!currentScore" name="record-container" class="px-[var(--main-margin)] mb-10">
-  <div name="header-div" class="grid grid-flow-col mb-8 pt-[2.5%]">
-    <p class="text-primary font-semibold text-2xl">Patients</p>
+<div *ngIf="!currentScore" name="record-container" class="mb-8 flex flex-col self-center px-[var(--main-margin)]">
+  <div name="header-div" class="flex flex-row justify-between mb-8 pt-[2.5%]">
+    <p class="text-primary font-semibold text-2xl">Scores</p>
     <div class="flex flex-row-reverse">
       <button
         class="pl-6 pr-6 pt-2 pb-2 enabled:bg-secondary enabled:text-white disabled:bg-label-2 disabled:text-white rounded-md border gap-2 font-bold"
-        routerLink="/patient/new"
+        routerLink="/score/new"
       >
-        Create new Patient
+        Create new Score
       </button>
     </div>
   </div>
@@ -38,7 +38,8 @@
           type="date"
           id="patient-birthdate"
           #patientBirthdate
-          class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"
+          class="rounded-md text-label-2 border py-1.5 pl-2 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"
+          max="2999-12-31"
         />
       </div>
       <div class="flex flex-row-reverse">
@@ -91,7 +92,7 @@
               scope="row"
               class="px-6 py-4 font-medium text-text whitespace-nowrap"
             >
-              {{ record.requestId.split("-").slice(-1) }}
+              {{ record.requestId.split("-").shift() }}
             </th>
             <td class="px-6 py-4">
               {{ record.requestTimeStamp | date : "medium" }}

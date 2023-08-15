@@ -18,6 +18,7 @@ import { PatientRecordComponent } from './patient-record/patient-record.componen
 import { ProfileComponent } from './profile/profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'src/environments/environment';
+import { FooterComponent } from './footer/footer.component';
 import { RiskScoreComponent } from './risk-score/risk-score.component';
 import { RecommendationTableComponent } from './recommendation-table/recommendation-table.component';
 import { WarningComponent } from './warning/warning.component';
@@ -28,6 +29,7 @@ import { LoginComponent } from './login/login.component';
 import { FootnoteComponent } from './score/footnote/footnote.component';
 import { YesnoPipe } from './pipes/yesno.pipe';
 import { RowComponent } from './recommendation-table/row/row.component';
+import { VersionComponent } from './version/version.component';
 
 const isIE =
   window.navigator.userAgent.indexOf("MSIE ") > -1 ||
@@ -42,6 +44,7 @@ const isIE =
     ScoreComponent,
     PatientRecordComponent,
     ProfileComponent,
+    FooterComponent,
     RiskScoreComponent,
     RecommendationTableComponent,
     WarningComponent,
@@ -51,6 +54,7 @@ const isIE =
     FootnoteComponent,
     YesnoPipe,
     RowComponent,
+    VersionComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,6 +88,7 @@ const isIE =
         protectedResourceMap: new Map([
           ["https://graph.microsoft.com/v1.0/me", ["user.read"]],
           [environment.backendUrl + "/api/user/request", null],
+          [environment.backendUrl + "/health", null],
           [environment.backendUrl, ["api://7e8be7c1-728f-4dce-af96-c3105974e2ee/Default"]],
         ]),
       }

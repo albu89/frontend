@@ -5,6 +5,7 @@
 @layer base {
   html {
     font-family: inter;
+    font-size: calc(6px + 0.390625vw);
   }
 }
 

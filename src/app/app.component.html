@@ -1,32 +1,69 @@
-<mat-toolbar class="bg-background" *ngIf="isLoggedIn$ | async">
-  <div name="main-nav-bar" class="grid grid-cols-5 w-full place-content-center ">
-    <div routerLink="/" class="hover:cursor-pointer">
-      <img alt="logo" src="./assets/CardioLogo.png" class="h-11 px-10">
+<div class="min-h-screen w-full flex flex-col">
+  <mat-toolbar class="bg-background" *ngIf="isLoggedIn$ | async">
+    <div
+      name="main-nav-bar"
+      class="grid grid-cols-5 w-full place-content-center"
+    >
+      <div routerLink="/" class="hover:cursor-pointer">
+        <img alt="logo" src="./assets/CardioLogo.png" class="h-11 px-10" />
+      </div>
+      <div>
+        <a
+          class="hover:text-secondary align-middle group text-primary transition duration-300 inline-block"
+          routerLink="/"
+          routerLinkActive="text-secondary"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Existing Scores
+          <span
+            class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary"
+            routerLinkActive="max-w-full w-1/6"
+            [routerLinkActiveOptions]="{ exact: true }"
+          ></span>
+        </a>
+      </div>
+      <div>
+        <a
+          class="hover:text-secondary align-middle group text-primary transition duration-300 inline-block"
+          routerLink="/score/new"
+          routerLinkActive="text-secondary"
+        >
+          Create new Score
+          <span
+            class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary"
+            routerLinkActive="max-w-full w-1/6"
+          ></span>
+        </a>
+      </div>
+      <div>
+        <a
+          class="hover:text-secondary align-middle group text-primary transition duration-300 inline-block"
+          mat-button
+          [routerLink]="['profile']"
+          routerLinkActive="text-secondary"
+          >Profile
+          <span
+            class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary"
+            routerLinkActive="max-w-full w-1/6"
+          ></span>
+        </a>
+      </div>
+      <div>
+        <button
+          class="hover:text-secondary align-middle group text-primary transition duration-300"
+          mat-raised-button
+          (click)="logout()"
+        >
+          Logout
+          <span
+            class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary"
+          ></span>
+        </button>
+      </div>
     </div>
-    <div>
-      <a class="hover:text-secondary align-middle group  text-primary transition duration-300 inline-block" routerLink="/" routerLinkActive="text-secondary" [routerLinkActiveOptions]="{exact: true}">Existing Patients
-        <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary" routerLinkActive="max-w-full w-1/6" [routerLinkActiveOptions]="{exact: true}"></span>
-    </a>
-    </div> 
-    <div>
-      <a class="hover:text-secondary align-middle group  text-primary transition duration-300 inline-block" routerLink="/patient/new" routerLinkActive="text-secondary"> Create new patient
-        <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary" routerLinkActive="max-w-full w-1/6"></span>
-      </a>
-    </div>
-    <div>
-      <a class="hover:text-secondary align-middle group  text-primary transition duration-300 inline-block"  mat-button [routerLink]="['profile']" routerLinkActive="text-secondary">Profile
-        <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary" routerLinkActive="max-w-full w-1/6"></span>
-      </a>
-    </div>
-    <div>
-      <button class="hover:text-secondary align-middle group  text-primary transition duration-300" mat-raised-button (click)="logout()">
-        Logout
-        <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary"></span>
-      </button>
-    </div>
+  </mat-toolbar>
+  <div class="grow">
+    <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
+    <router-outlet *ngIf="!isIframe"></router-outlet>
   </div>
-</mat-toolbar>
-<div>
-  <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
-  <router-outlet *ngIf="!isIframe"></router-outlet>
+  <app-footer *ngIf="router.url !== '/login'"></app-footer>
 </div>
