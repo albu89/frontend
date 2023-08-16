@@ -6,7 +6,7 @@
       class="px-8 py-2 basis-[80%] flex flex-row p-2 bg-white border-tone-2 rounded-lg border-solid border gap-1"
     >
       <div class="flex flex-col">
-        <p class="self-center font-medium">{{ category?.shortText }}</p>
+        <p class="font-medium" [class]="longTextVisible ? 'self-start' : 'self-center'">{{ category?.shortText }}</p>
         <p
           class="{{
             longTextVisible ? 'visible' : '!visible hidden'
@@ -17,15 +17,16 @@
       </div>
       <a
         class="text-secondary underline font-medium hover:cursor-pointer"
+        [class]="longTextVisible ? 'self-end' : ''"
         (click)="toggleLongText()"
-        >more</a
+        >{{ longTextVisible ? 'less' : 'more' }}</a
       >
     </div>
     <div
       class="basis-[6%] md:basis-[10%] sm:basis-[15%] p-2 bg-white border-tone-2 rounded-lg border-solid border flex justify-center"
     >
-      <p class="font-medium">
-        {{ (category?.lowerLimit ?? 0) * 100 }}-{{ (category?.upperLimit ?? 0) * 100 }}
+      <p class="font-medium self-center">
+        {{ (category?.lowerLimit ?? 0) * 100 | number: '1.0-0' }}-{{ (category?.upperLimit ?? 0) * 100 | number: '1.0-0' }}
       </p>
     </div>
     <div
@@ -37,6 +38,6 @@
         'bg-text-red': category?.id === 4
       }"
     >
-      <p class="text-xl font-bold">{{ category?.riskValue }}</p>
+      <p class="text-xl font-bold self-center">{{ category?.riskValue }}</p>
     </div>
   </div>

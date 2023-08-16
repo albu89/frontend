@@ -1,6 +1,8 @@
 <div name="page" class="px-[10%] pb-8">
   <div name="header-div" class="flex flex-row justify-between mb-8 pt-[2.5%]">
-    <p class="text-primary font-semibold text-2xl">Score #{{score.requestId}}</p>
+    <p class="text-primary font-semibold text-2xl">
+      Score #{{ score.requestId }}
+    </p>
     <div class="flex flex-row">
       <button
         type="button"
@@ -35,45 +37,62 @@
       />
     </div>
     <div name="recommendation-details">
-      <!-- This should be a Dropdown button to see and hide the table. It doesnt work yet -->
       <button
         class="rounded pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-text hover:bg-primary-600"
         type="button"
         (click)="toggleTable()"
       >
-      {{ tableHidden ? '▶ ' +  schema.recommendationTableHeader : '▼ ' + schema.recommendationTableHeader }}
+        {{
+          tableHidden
+            ? "▶ " + schema.recommendationTableHeader
+            : "▼ " + schema.recommendationTableHeader
+        }}
       </button>
       <div
         class="{{
           tableHidden ? '!visible hidden' : 'visible'
-        }} block rounded-lg bg-white"
+        }} rounded-lg bg-white flex flex-col gap-2"
       >
         <app-recommendation-table
-          [categories]="schema.recommendationCategories"
+          [categories]="relevantRecommendationCategories"
           [recommendationHeader]="schema.recommendationHeader"
           [scoreRangeHeader]="schema.recommendationScoreRangeHeader"
           [probabilityHeader]="schema.recommendationProbabilityHeader"
         ></app-recommendation-table>
+        <div
+          name="footer"
+          class="flex flex-col items-start gap-[0.0625] self-stretch"
+        >
+          <p class="text-label text-xs font-bold">{{ schema.infoText }}</p>
+          <div class="flex flex-row gap-2">
+            <span *ngFor="let key of abbreviationKeys">
+              <p class="text-label text-xs font-medium">
+                {{ key }} = {{ schema.abbreviations[key] }};
+              </p>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
-    <div *ngIf="score.warnings?.length" name="warnings">      
+    <div *ngIf="score.warnings?.length" name="warnings">
       <app-warning
         [warningHeader]="schema.warningHeader"
         [warnings]="score.warnings"
       ></app-warning>
     </div>
-    <div
-      name="footer"
-      class="flex flex-col items-start gap-[0.0625] self-stretch"
-    >
-      <p class="text-label text-xs font-bold">{{ schema.infoText }}</p>
-      <div class="flex flex-row gap-2">
-        <span *ngFor="let key of abbreviationKeys">
-          <p class="text-label text-xs font-medium">
-            {{ key }} = {{ schema.abbreviations[key] }};
-          </p>
-        </span>
-      </div>
+    <div name="footnotes" class="flex flex-col gap-1 pt-4">
+      <app-footnote
+        [header]="schema.cadDefinitionHeader"
+        [text]="schema.cadDefinition"
+      ></app-footnote>
+      <app-footnote
+        [header]="schema.footnoteHeader"
+        [text]="schema.footnote"
+      ></app-footnote>
+      <app-footnote
+        [header]="schema.intendedUseHeader"
+        [text]="schema.intendedUse"
+      ></app-footnote>
     </div>
   </div>
   <div
@@ -86,7 +105,7 @@
     >
       <app-biomarker-info
         Header="Patient Name"
-        Value="{{firstname}} {{lastname}}"
+        Value="{{ firstname }} {{ lastname }}"
         class="col-span-2"
       ></app-biomarker-info>
       <app-biomarker-info
@@ -138,10 +157,5 @@
         [Unit]="this.getBiomarkerUnit(biomarker.id)"
       ></app-biomarker-info>
     </div>
-  </div>
-  <div name="footnotes" class="flex flex-col gap-1 pt-4">
-    <app-footnote [header]="schema.cadDefinitionHeader" [text]="schema.cadDefinition"></app-footnote>
-    <app-footnote [header]="schema.footnoteHeader" [text]="schema.footnote"></app-footnote>
-    <app-footnote [header]="schema.intendedUseHeader" [text]="schema.intendedUse"></app-footnote>
   </div>
 </div>

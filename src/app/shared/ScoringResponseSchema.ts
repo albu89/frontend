@@ -32,6 +32,12 @@ export interface RecommendationCategory {
   lowerLimit: number
   upperLimit: number
   riskValue: string
+  prevalence: Prevalence
+}
+
+export enum Prevalence {
+  Primary = 'Primary',
+  Secondary = 'Secondary'
 }
 
 export interface Abbreviation {

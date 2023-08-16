@@ -4,6 +4,6 @@ export interface PatientRecord {
     requestTimeStamp: Date;
     timeStampString: string | null;
     score: number;
-    risk: string;
+    risk?: string;
     riskClass: number;
 }

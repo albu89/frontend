@@ -3,6 +3,8 @@ import { DatePipe } from '@angular/common';
 import { PatientRecordService } from '../service/patient-record.service';
 import { PatientRecord } from '../shared/PatientRecord';
 import { ScoringResponse } from '../shared/ScoringResponse';
+import { NavigationSkipped, Router } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
 
 @Component({
   selector: 'app-patient-record',
@@ -19,12 +21,30 @@ export class PatientRecordComponent {
 
   currentScore?: ScoringResponse;
 
-  constructor(private patientRecordService: PatientRecordService, public datepipe: DatePipe) { }
+  subscription?: Subscription;
+
+  constructor(private patientRecordService: PatientRecordService, public datepipe: DatePipe, private router: Router) { 
+    this.subscription = this.router.events.pipe(
+      filter(event => event instanceof NavigationSkipped)
+    ).subscribe(() => {
+      this.currentScore = undefined;
+      this.patientName = ''
+      this.patientLastName = ''
+      this.patientBirthdate = new Date
+      this.patientRecordService.getRecords().subscribe((records) => this.patientRecords = records.sort((a, b) => {
+        return new Date(b.requestTimeStamp).getTime() - new Date(a.requestTimeStamp).getTime();
+      }));
+    })
+  }
 
   ngOnInit() {
     this.patientRecordService.getRecords().subscribe((records) => this.patientRecords = records.sort((a, b) => {
       return new Date(b.requestTimeStamp).getTime() - new Date(a.requestTimeStamp).getTime();
     }));
+  }
+
+  ngOnDestroy(){
+    this.subscription?.unsubscribe();
   }
 
   getSpecificRecords(patientName: string, patientLastName: string, patientBirthdate: string) {

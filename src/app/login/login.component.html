@@ -1,18 +1,18 @@
 <div class="w-screen h-screen bg-login bg-center bg-cover p-[3%]">
     <div class="flex flex-col w-[50%] md:w-[15%] sm:w-[25%] p-4 bg-[#f5f8fc] h-full rounded-xl">
         <img src="assets/CardioLogo.png" class="w-auto h-auto self-start">
-        <div class="p-4 grow flex flex-col gap-2" [class]="{'justify-center': !requestingAccess, 'justify-end': requestingAccess}">
+        <div class="p-4 grow flex flex-col gap-2" [class]="{'justify-center': !requestingAccess || accessRequested, 'justify-end': requestingAccess && !accessRequested}">
             <p class="text-primary font-medium text-2xl" [ngClass]="{'!visible hidden': requestingAccess}">Login</p>
             <button *ngIf="!requestingAccess" class="px-6 py-2 bg-secondary text-white rounded-md border gap-2 font-bold" (click)="login()">Login</button>
             <form name="accessrequest" class="flex flex-col" [ngClass]="{'!visible hidden': !requestingAccess || accessRequested}">
                 <label required for="name">Name</label>
-                <input required id="name" #name type="text" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"/>
+                <input (input)="validateName(name.value)" required id="name" #name type="text" [class]="nameValid ? inputClassValid : inputClassInvalid" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6 "/>
                 <label>Lastname</label>
-                <input required id="lastname" #lastname type="text" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"/>
+                <input (input)="validateLastName(lastname.value)" required id="lastname" #lastname type="text" [class]="lastNameValid ? inputClassValid : inputClassInvalid" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6 "/>
                 <label>Email</label>
-                <input required id="email" #email type="email" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"/> 
+                <input (input)="validateMail(email.value)" required id="email" #email type="email" [class]="emailValid ? inputClassValid : inputClassInvalid" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6 "/> 
                 <label>Telephone Nr.</label>
-                <input required id="telephone" #telephone type="tel" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"/> 
+                <input (input)="validatePhone(telephone.value)" required id="telephone" #telephone type="tel" [class]="phoneValid ? inputClassValid : inputClassInvalid" class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6 "/> 
                 <label>Country</label>
                 <select id="country" #country class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2">
                     <option>Germany</option>
@@ -25,10 +25,10 @@
                     <option>Exxeta AG</option>
                     <option>Preventon</option>
                 </select>
-                <button class="mt-2 px-6 py-2 bg-secondary text-white rounded-md border gap-2 font-bold" (click)="sendRequest(name.value, lastname.value, email.value, telephone.value, country.value, organization.value)">Request Access</button>
+                <button class="mt-2 px-6 py-2 enabled:bg-secondary text-white rounded-md border gap-2 font-bold  disabled:bg-label-2" [disabled]="(!phoneValid || !nameValid || !lastNameValid || !emailValid || !telephone.value || !name.value || !lastname.value || !email.value) ? 'disabled' : ''" (click)="sendRequest(name.value, lastname.value, email.value, telephone.value, country.value, organization.value)">Request Access</button>
                 <button class="mt-2 px-6 py-2 text-primary gap-2" (click)="this.requestingAccess = false">Back</button>
             </form>
-            <div class="flex flex-col" [ngClass]="{'!visible hidden': !accessRequested}">
+            <div class="flex flex-col text-center" [ngClass]="{'!visible hidden': !accessRequested}">
                 <p class="text-primary font-medium text-2xl">
                     Access Requested!
                 </p>
@@ -39,7 +39,7 @@
             </div>
             <button class="px-6 py-2 bg-primary text-white rounded-md border gap-2 font-bold" [ngClass]="{'!visible hidden': requestingAccess}" (click)="this.requestingAccess = true">Request Access</button>
         </div>
-        <div id="footer" class="justify-self-end p-4 flex flex-col bg-background text-sm items-center gap-4 justify-start  text-center">
+        <div id="footer" class="justify-self-end p-4 flex flex-col bg-background text-sm items-center gap-4 justify-start  text-center" >
             <!-- <div class="flex flex-row gap-1"> -->
                 <div class="flex flex-row gap-2">
                     <img src="../../assets/Manufacturer.png" alt="manufacturer" class="h-6 m-1">

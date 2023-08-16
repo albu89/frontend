@@ -1,4 +1,4 @@
-import { Warning } from "./ScoringResponseSchema"
+import { Prevalence, Warning } from "./ScoringResponseSchema"
 import { BiomarkersInfo } from "./biomarkersInfo"
 
 export interface ScoringResponse {
@@ -12,4 +12,5 @@ export interface ScoringResponse {
   recommendationSummary: string
   recommendationLongText: string
   biomarkers: BiomarkersInfo
+  prevalence: Prevalence
 }

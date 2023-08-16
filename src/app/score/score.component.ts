@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ScoringResponse } from '../shared/ScoringResponse';
 import { SchemasService } from '../service/schemas.service';
-import { ScoringResponseSchema } from '../shared/ScoringResponseSchema';
+import { RecommendationCategory, ScoringResponseSchema } from '../shared/ScoringResponseSchema';
 import { BiomarkersInfo } from '../shared/biomarkersInfo';
 import { Biomarker } from '../shared/biomarker';
 import { MockedScoringResponse } from '../shared/Mock/MockedScoringResponse';
@@ -24,6 +24,8 @@ export class ScoreComponent {
   medicationMarkers: Biomarker[] = [];
   valueMarkers: Biomarker[] = [];
 
+  relevantRecommendationCategories: RecommendationCategory[] = [];
+
   constructor(private schemaService: SchemasService) {
   }
 
@@ -35,6 +37,7 @@ export class ScoreComponent {
         this.anamnesisMarkers = this.schema.biomarkers.filter(x => x.category === 'Anamnesis');
         this.medicationMarkers = this.schema.biomarkers.filter(x => x.category === 'Medication' || x.category === 'Clinical findings');
         this.valueMarkers = this.schema.biomarkers.filter(x => x.category === 'Enzymes' || x.category === 'Blood Sugar' || x.category === 'Metabolite' || x.category === 'Lipids' || x.category === 'Protein' || x.category === '');
+        this.relevantRecommendationCategories = this.schema.recommendationCategories.filter(x => x.prevalence === this.score.prevalence);
       },
       (error) => {
         console.log(error);
