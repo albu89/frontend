@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Biomarker} from '../shared/biomarker';
+import { Biomarker, validateEntry } from '../shared/biomarker';
 import { BiomarkerService } from '../service/biomarker.service';
 import { ScoringRequest, ScoringRequestValue, ScoringRequestWithPatientData } from '../shared/ScoringRequest';
 import { ScoringResponse } from '../shared/ScoringResponse';
@@ -13,53 +13,42 @@ import { SchemasService } from '../service/schemas.service';
 })
 export class PatientDetailsComponent {
 
-  constructor(private biomarkerService: BiomarkerService, private schemaService: SchemasService) {}
+  constructor(private biomarkerService: BiomarkerService, private schemaService: SchemasService) { }
 
   ngOnInit() {
     this.schemaService.getBiomarkers().subscribe(template => {
       template.forEach(biomarker => {
         biomarker.isValid = true;
-      }); 
+      });
       this.biomarkerTemplate = template;
       this.uniqueCategories = this.getUniqueCategories()
     });
   }
-  biomarkerTemplate : Biomarker[] = [];
-  uniqueCategories : string[] = [];
+  biomarkerTemplate: Biomarker[] = [];
+  uniqueCategories: string[] = [];
   scoreResponse?: ScoringResponse;
   scoreResponseReceived = false;
   patient: Patient = {} as Patient;
-  getUniqueCategories() : string[] {
-    const categories : string[] = ['fixed', 'flexible'];
+  calculationSubmitted = false;
+
+  getUniqueCategories(): string[] {
+    const categories: string[] = ['fixed', 'flexible'];
     return categories;
   }
 
   validateBiomarkers() {
     this.biomarkerTemplate.forEach(biomarker => {
-      
-      //biomarker is each instance of a filled marker
-      if(
-        (typeof biomarker.value === 'number' && biomarker.selectedUnit.minimum && biomarker.selectedUnit.maximum) && 
-        (biomarker.value < biomarker.selectedUnit.minimum || biomarker.value > biomarker.selectedUnit.maximum)) {
-        //negative conseqeunces
-        biomarker.color = 'red';
-        biomarker.errorMessage = `The value must be between ${biomarker.selectedUnit.minimum} and ${biomarker.selectedUnit.maximum}`;
-        biomarker.isValid = false;
-      } else {
-        //positive consequences
-        biomarker.color = '';
-        biomarker.errorMessage = '';
-        biomarker.isValid = true;
-      }
+      validateEntry(biomarker);
     });
 
   }
 
-  submit() {
+   submit() {
     this.validateBiomarkers();
-    if(!this.biomarkerTemplate.every(x => x.isValid)){
+    if (!this.biomarkerTemplate.every(x => x.isValid)) {
       return;
     }
+    this.calculationSubmitted = false;
     this.scoreResponseReceived = false;
     const request: ScoringRequestWithPatientData = {} as ScoringRequestWithPatientData;
     this.biomarkerTemplate.forEach(marker => {
@@ -67,23 +56,22 @@ export class PatientDetailsComponent {
       prop.value = marker.value;
       prop.unitType = marker.selectedUnit.unitType + '';
     });
-    if(!this.patient.dateOfBirth ||!this.patient.lastname ||!this.patient.firstname){
-
+    if (!this.patient.dateOfBirth || !this.patient.lastname || !this.patient.firstname) {
       return;
     }
     request.Firstname = this.patient.firstname;
     request.Lastname = this.patient.lastname;
     request.DateOfBirth = this.patient.dateOfBirth;
-    request.clinical_setting = {value: 0, unitType: ""};
+    request.clinical_setting = { value: 0, unitType: "" };
 
-    this.biomarkerService.sendRequest(request).subscribe(resp => {
+    this.biomarkerService.sendRequest(request).subscribe(async resp => {
       this.scoreResponse = resp;
       this.scoreResponseReceived = true;
     });
+    this.calculationSubmitted = true;
   }
 
   submitButtonDisabled(): boolean {
-    const result = this.biomarkerTemplate.every(x => x.value != null);
-    return !result;
+    return this.calculationSubmitted;
   }
 }

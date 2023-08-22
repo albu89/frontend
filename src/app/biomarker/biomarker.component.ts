@@ -3,6 +3,7 @@ import {
   Biomarker,
   BiomarkerUnit,
   BiomarkerUnitType,
+  validateEntry,
 } from '../shared/biomarker';
 import { UserService } from '../service/user.service';
 
@@ -17,8 +18,18 @@ export class BiomarkerComponent {
   inputTypeEnum: typeof InputType = InputType;
   requiredType: InputType = InputType.Selection;
   infotextVisible = false;
+  timerId?: NodeJS.Timeout;
 
   constructor(private userService: UserService) { }
+
+  validateEntry: void = validateEntry(this.biomarker);
+
+  onValueChanged() {
+    clearTimeout(this.timerId);
+    this.timerId = setTimeout(() => {
+      validateEntry(this.biomarker);
+    }, 350)
+  }
 
   ngOnInit() {
     // Special handling for Input range for qwave
@@ -63,7 +74,7 @@ export class BiomarkerComponent {
   }
 
   ngDoCheck() {
-    if(this.biomarker.id === 'q_wave'){
+    if (this.biomarker.id === 'q_wave') {
       const currentUser = this.userService.currentUserSubject.getValue();
       const priorCAD = this.sideEffectMarkers.find(marker => marker.id === 'prior_CAD');
       const higherPrevalence = !!(currentUser?.clinicalSetting === 'SecondaryCare' || priorCAD?.value);
@@ -79,6 +90,7 @@ export class BiomarkerComponent {
     } else {
       this.biomarker.value = value;
     }
+    validateEntry(this.biomarker);
   }
 
   showInfoText() {

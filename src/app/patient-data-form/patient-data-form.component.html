@@ -1,48 +1,50 @@
 <div
-  class="px-8 py-6 bg-background border-tone-2 rounded-lg border-solid border grid grid-cols-3 gap-4 mb-4"
+  class="px-8 py-6 bg-background border-tone-2 focus:border-2 rounded-lg border-solid border grid grid-cols-3 gap-4 mb-4"
 >
   <div>
     <div class="flex flex-row">
-      <label for="patient-name">Patient Name</label>
+      <label class="text-label" for="patient-name">Patient name</label>
       <img
         class="pl-1 transititext-primary text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
         src="./assets/Info.svg"
         data-te-toggle="tooltip"
-        title=""
+        title="First name of the patient"
       />
     </div>
     <input
       type="text"
       id="patient-name"
       [(ngModel)]="patient.firstname"
-      class="basis-1/2 rounded-md border-0 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+      placeholder="Type in patient name..."
+      class=" w-full rounded-md border  border-tone-2 py-1.5 pl-2 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 shadow-sm"
     />
   </div>
   <div>
     <div class="flex flex-row">
-      <label for="patient-last-name">Patient Lastname</label>
+      <label class="text-label"for="patient-last-name">Patient last name</label>
       <img
         class="pl-1 transititext-primary text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
         src="./assets/Info.svg"
         data-te-toggle="tooltip"
-        title=""
+        title="Last name of the patient"
       />
     </div>
     <input
       type="text"
       id="patient-last-name"
+      placeholder="Type in patient last name..."
       [(ngModel)]="patient.lastname"
-      class="basis-1/2 rounded-md border-0 py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6"
+      class="w-full rounded-md border py-1.5 pl-2 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2 shadow-sm"
     />
   </div>
   <div>
     <div class="flex flex-row">
-      <label for="patient-birthdate">Patient Birthdate</label>
+      <label class="text-label" for="patient-birthdate">Patient Birthdate</label>
       <img
         class="pl-1 transititext-primary text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
         src="./assets/Info.svg"
         data-te-toggle="tooltip"
-        title=""
+        title="Date of birth of the patient"
       />
     </div>
     <input
