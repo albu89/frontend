@@ -24,13 +24,14 @@ type ProfileType = {
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  profile!: ProfileType | undefined;
-  userProfile?: Profile;
+  adProfile!: ProfileType | undefined;
   updatedUserProfile = new Profile();
   countryCodes: Country[] = countryData;
   selectedCountry?: string;
   updatedUser = this.formBuilder.group<Profile>(this.updatedUserProfile)
   userExistedPreviously = false;
+  firstStyle = 'bg-tone-1 text-text';
+  secondStyle = 'bg-tone-1 text-text';
 
   constructor(
     private http: HttpClient,
@@ -42,48 +43,60 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.getProfile();
     this.userService.getUser()
-    .subscribe({
-      next: value => this.handleExistingUser(value),
-      error: error => this.handleError(error)
-    });
+      .subscribe({
+        next: value => this.handleExistingUser(value),
+        error: error => this.handleError(error)
+      });
 
   }
   handleError(error: HttpErrorResponse): void {
     if (error.status === 404) {
       this.userExistedPreviously = false;
+      this.updatedUserProfile.country = "Switzerland";
+      this.updatedUserProfile.language = "english";
+      this.updatedUserProfile.unitLabValues = "si";
     }
   }
   handleExistingUser(value: Profile | null): void {
-    if(!value) {
+    if (!value) {
       return;
     }
     this.userExistedPreviously = true;
-    this.userProfile = value;
     this.updatedUserProfile = value;
+    this.updatedUser.controls['clinicalSetting'].disable();
+    this.setValid(this.updatedUserProfile.clinicalSetting);
+  }
+
+  setValid(value: string) {
+    switch (value) {
+      case 'PrimaryCare':
+        this.firstStyle = 'border border-primary bg-primary text-white';
+        this.secondStyle = 'bg-tone-1 text-text'
+        break;
+      case 'SecondaryCare':
+        this.secondStyle = 'border border-primary bg-primary text-white';
+        this.firstStyle = 'bg-tone-1 text-text'
+        break;
+    }
   }
 
   getProfile() {
     this.http.get(GRAPH_ENDPOINT)
       .subscribe(profile => {
-        this.profile = profile as ProfileType;
-        this.updatedUserProfile.username = this.profile.userPrincipalName ?? "";
-        this.updatedUserProfile.emailAddress = this.profile.mail ?? this.profile.userPrincipalName ?? "";
+        this.adProfile = profile as ProfileType;
+        this.updatedUserProfile.username = this.adProfile.userPrincipalName ?? "";
+        this.updatedUserProfile.emailAddress = this.adProfile.mail ?? this.adProfile.userPrincipalName ?? "";
       });
   }
 
-  getSelectedCountry(country: string) {
-    this.selectedCountry = country;
-    this.updatedUser.value.country = country;
-  }
-
   onSubmit() {
-    this.updatedUser.value.emailAddress = this.profile?.mail ?? this.profile?.userPrincipalName ?? "";
+    this.updatedUser.value.emailAddress = this.adProfile?.mail ?? this.adProfile?.userPrincipalName ?? "";
+    this.updatedUser.value.countryCode = this.countryCodes.find(x => x.name === this.updatedUserProfile.country)?.alpha2 ?? '';
     if (this.userExistedPreviously) {
       this.userService.updateUser(this.updatedUser.value as Profile)
         .subscribe(data => {
-          this.userProfile = data;
           this.updatedUser = this.formBuilder.group(data);
-          this.selectedCountry = this.userProfile?.country;
+          this.selectedCountry = this.updatedUserProfile?.country;
           if (this.router.url.includes('onboard')) {
             this.router.navigate(['/']);
           }
@@ -91,9 +104,8 @@ export class ProfileComponent implements OnInit {
     } else {
       this.userService.createUser(this.updatedUser.value as Profile)
         .subscribe(data => {
-          this.userProfile = data;
           this.updatedUser = this.formBuilder.group(data);
-          this.selectedCountry = this.userProfile?.country;
+          this.selectedCountry = this.updatedUserProfile?.country;
           if (this.router.url.includes('onboard')) {
             this.router.navigate(['/']);
           }
