@@ -27,6 +27,7 @@ const routes: Routes = [
   {
     path: "score/new",
     component: PatientDetailsComponent,
+    data: undefined,
     canActivate: [MsalGuard, CanActivateGuard]
   },
   {
@@ -36,6 +37,12 @@ const routes: Routes = [
   {
     path: "onboard",
     component: ProfileComponent
+  },
+  {
+    path: "score/edit",
+    component: PatientDetailsComponent,
+    data :{ name:"", lastName:"", dateOfBirth:"", requestId:""},
+    canActivate: [MsalGuard, CanActivateGuard]
   }
 ];
 

@@ -1,3 +1,5 @@
+import { LanguageService } from "../service/language.service";
+
 export interface Biomarker {
     id: string;
     category: string;
@@ -13,7 +15,12 @@ export interface Biomarker {
     isValid: boolean | undefined;
 }
 
-export function validateEntry(biomarker: Biomarker): void {
+export function isStringValue(value: number | boolean | string): value is string {
+    return typeof value === 'string';
+}
+
+export function validateEntry(biomarker: Biomarker, translate: LanguageService): void {
+    console.log('validating')
     const valueType = biomarker.selectedUnit?.type?.toLowerCase();
     switch (valueType) {
         case "integer":
@@ -22,7 +29,12 @@ export function validateEntry(biomarker: Biomarker): void {
             if (inputValue > biomarker.selectedUnit.maximum || inputValue < biomarker.selectedUnit.minimum || inputValue == null) {
                 biomarker.color = 'red';
                 biomarker.isValid = false;
-                biomarker.errorMessage = `The value must be between ${biomarker.selectedUnit.minimum} and ${biomarker.selectedUnit.maximum}`;
+                translate.translate.get('validationRangeMessage', { minimum: biomarker.selectedUnit.minimum, maximum: biomarker.selectedUnit.maximum }).subscribe(
+                    {
+                        next: value => biomarker.errorMessage = value,
+                        error: () => biomarker.errorMessage = `The value must be between ${biomarker.selectedUnit.minimum} and ${biomarker.selectedUnit.maximum}`
+                    }
+                );
             } else {
                 biomarker.isValid = true;
             }
@@ -35,7 +47,12 @@ export function validateEntry(biomarker: Biomarker): void {
             else {
                 biomarker.color = 'red';
                 biomarker.isValid = false;
-                biomarker.errorMessage = `Select an option`;
+                translate.translate.get('optionSelect').subscribe(
+                    {
+                        next: value => biomarker.errorMessage = value,
+                        error: () => biomarker.errorMessage = `Select an option`
+                    }
+                );                
             }
             break;
         case "boolean":
@@ -44,7 +61,12 @@ export function validateEntry(biomarker: Biomarker): void {
             } else {
                 biomarker.color = 'red';
                 biomarker.isValid = false;
-                biomarker.errorMessage = `Select an option`;
+                translate.translate.get('optionSelect').subscribe(
+                    {
+                        next: value => biomarker.errorMessage = value,
+                        error: () => biomarker.errorMessage = `Select an option`
+                    }
+                );      
             }
 
             break;
@@ -58,6 +80,7 @@ export interface BiomarkerUnit {
     name: string;
     type: string;
     enum: string[];
+    displayNames?: Map<string, string>;
     clinicalSetting: string;
     unitType: BiomarkerUnitType;
     values: string[];

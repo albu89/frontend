@@ -3,9 +3,10 @@ import { ScoringResponse } from '../shared/ScoringResponse';
 import { SchemasService } from '../service/schemas.service';
 import { RecommendationCategory, ScoringResponseSchema } from '../shared/ScoringResponseSchema';
 import { BiomarkersInfo } from '../shared/biomarkersInfo';
-import { Biomarker } from '../shared/biomarker';
+import { Biomarker, BiomarkerUnit } from '../shared/biomarker';
 import { MockedScoringResponse } from '../shared/Mock/MockedScoringResponse';
 import {LanguageService} from "../service/language.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-score',
@@ -27,22 +28,23 @@ export class ScoreComponent {
 
   relevantRecommendationCategories: RecommendationCategory[] = [];
 
-  constructor(private schemaService: SchemasService, private languageService:LanguageService ) {
+  constructor(private schemaService: SchemasService, private router: Router, private languageService:LanguageService ) {
   }
 
   ngOnInit() {
-    this.schemaService.getResponseSchema().subscribe(
-      (response) => {
+    this.schemaService.getResponseSchema().subscribe({
+      next: response => {
         this.schema = response;
         this.abbreviationKeys = Object.keys(this.schema.abbreviations);
         this.anamnesisMarkers = this.schema.biomarkers.filter(x => x.category === 'Anamnesis');
         this.medicationMarkers = this.schema.biomarkers.filter(x => x.category === 'Medication' || x.category === 'Clinical findings');
-        this.valueMarkers = this.schema.biomarkers.filter(x => x.category === 'Enzymes' || x.category === 'Blood Sugar' || x.category === 'Metabolite' || x.category === 'Lipids' || x.category === 'Protein' || x.category === '');
+        this.valueMarkers = this.schema.biomarkers.filter(x => x.category !== 'Anamnesis' && x.category !== 'Medication' && x.category !== 'Clinical findings');
         this.relevantRecommendationCategories = this.schema.recommendationCategories.filter(x => x.prevalence === this.score.prevalence);
       },
-      (error) => {
+      error: error => {
         console.log(error);
       }
+    }
     )
     this.languageService.getLanguageObservable().subscribe({
       next: value => {
@@ -63,17 +65,31 @@ export class ScoreComponent {
     })
   }
 
-  getBiomarkerValue(id: string): number | Date | string | boolean {
-    id = id.replace(/_/g, "");
-    return this.score.biomarkers[id as keyof BiomarkersInfo];
+  editScore() {
+    this.router.navigateByUrl('/score/edit', {state: {name: this.firstname, lastName: this.lastname, dateOfBirth: this.birthdate.toDateString(), requestId: this.score.requestId }});
   }
 
-  getBiomarkerUnit(id: string): string {
+  getBiomarkerValue(id: string): number | Date | string | boolean {
     const idClean = id.replace(/_/g, "");
-    const resUnit = this.score.biomarkers[`${idClean}Unit` as keyof BiomarkersInfo]
-    const [marker] = this.schema.biomarkers.filter(b => b.id === id);
-    const [unit] =  marker.units.filter(unit => unit.unitType === resUnit);
-    return unit?.name;
+    let val = this.score.biomarkers[idClean as keyof BiomarkersInfo];
+    const unit = this.getBiomarkerUnit(id);
+    const displayNames = unit?.displayNames;
+    const hasDisplayNames = (displayNames !== undefined && displayNames !== null);
+    const stringValue = val as string;
+    const found = hasDisplayNames ? Object.entries(displayNames).find(x => x[0].toUpperCase() === stringValue.toUpperCase()) : undefined;
+    const displayVal = found?.[1];
+    val = hasDisplayNames ? displayVal : val;
+    return val;
+  }
+
+  getBiomarkerUnit(id: string): BiomarkerUnit | undefined {
+    const idClean = id.replace(/_/g, "");
+    let resUnit = this.score.biomarkers[`${idClean}Unit` as keyof BiomarkersInfo]
+    resUnit = resUnit ?? 'SI';
+    const marker = this.schema.biomarkers.find(b => b.id === id);
+    let unit = marker?.units?.find(unit => unit.unitType === resUnit);
+    unit = unit ?? marker?.units[0];
+    return unit ?? undefined;
   }
 
   tableHidden = true;

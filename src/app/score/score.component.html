@@ -7,9 +7,10 @@
       <button
         type="button"
         class="pl-6 pr-6 pt-2 pb-2 enabled:bg-white enabled:text-secondary rounded-md border font-bold"
-        routerLink="/score/new"
+        (click)="editScore()"
+        *ngIf="score.canEdit"
       >
-        {{'scoreCalculateNew' | translate}}
+        {{'editScore' | translate}}
       </button>
       <button
         type="button"
@@ -130,7 +131,7 @@
         [Header]="biomarker.fieldname"
         [InfoText]="biomarker.infoText"
         [Value]="this.getBiomarkerValue(biomarker.id)"
-        [Unit]="this.getBiomarkerUnit(biomarker.id)"
+        [Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"
       ></app-biomarker-info>
     </div>
     <div
@@ -142,7 +143,7 @@
         [Header]="biomarker.fieldname"
         [InfoText]="biomarker.infoText"
         [Value]="this.getBiomarkerValue(biomarker.id)"
-        [Unit]="this.getBiomarkerUnit(biomarker.id)"
+        [Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"
       ></app-biomarker-info>
     </div>
     <div
@@ -154,7 +155,7 @@
         [Header]="biomarker.fieldname"
         [InfoText]="biomarker.infoText"
         [Value]="this.getBiomarkerValue(biomarker.id)"
-        [Unit]="this.getBiomarkerUnit(biomarker.id)"
+        [Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"
       ></app-biomarker-info>
     </div>
   </div>

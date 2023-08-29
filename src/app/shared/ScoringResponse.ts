@@ -13,4 +13,5 @@ export interface ScoringResponse {
   recommendationLongText: string
   biomarkers: BiomarkersInfo
   prevalence: Prevalence
+  canEdit: boolean
 }

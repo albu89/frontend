@@ -35,6 +35,6 @@ export class AppComponent implements OnInit {
   }
 
   selectionChanged() {
-    this.languageService.setLanguage(this.selectedLocale);
+    this.languageService.setLanguage(this.selectedLocale, false);
   }
 }

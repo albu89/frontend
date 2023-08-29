@@ -1,9 +1,10 @@
 <div *ngIf="!scoreResponse" class="mt-8 flex flex-col self-center px-[var(--main-margin)]">
-  <p class="text-primary text-2xl font-semibold mb-8">{{'createNewScore'| translate}}</p>
+  <p class="text-primary text-2xl font-semibold mb-8">{{ canEditPatientData ? 'Create New Score' : 'Edit Score' }} </p>
   <app-patient-data-form
     [biomarkers]="biomarkerTemplate"
     [patient]="patient"
     [uniqueCategories]="uniqueCategories"
+    [canEdit]="canEditPatientData"
   ></app-patient-data-form>
   <div class="flex flex-row-reverse mt-6">
 

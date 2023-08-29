@@ -5,6 +5,10 @@ import { ScoringRequest, ScoringRequestValue, ScoringRequestWithPatientData } fr
 import { ScoringResponse } from '../shared/ScoringResponse';
 import { Patient } from '../shared/patient';
 import { SchemasService } from '../service/schemas.service';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { PatientRecordService } from '../service/patient-record.service';
+import { BiomarkersInfo } from '../shared/biomarkersInfo';
 import { LanguageService } from '../service/language.service';
 
 @Component({
@@ -13,8 +17,10 @@ import { LanguageService } from '../service/language.service';
   styleUrls: ['./patient-details.component.css']
 })
 export class PatientDetailsComponent {
+  patientData = { name: '', lastName: '', dateOfBirth: '', requestId: '' };
+  canEditPatientData = true;
 
-  constructor(private biomarkerService: BiomarkerService, private schemaService: SchemasService, private languageService: LanguageService) { }
+  constructor(private router: Router, private biomarkerService: BiomarkerService, private schemaService: SchemasService, private patientRecordService: PatientRecordService, private location: Location, private languageService: LanguageService) { }
 
   ngOnInit() {
     this.languageService.getLanguageObservable().subscribe(
@@ -28,7 +34,10 @@ export class PatientDetailsComponent {
 
             this.biomarkerTemplate = this.biomarkerTemplate.length === 0 ? template : this.biomarkerTemplate;
             this.uniqueCategories = this.uniqueCategories.length === 0 ? this.getUniqueCategories() : this.uniqueCategories;
-
+            if (this.router.url.includes('edit')) {
+              this.loadData();
+              this.canEditPatientData = !(this.patientData && this.patientData.name && this.patientData.lastName && this.patientData.dateOfBirth && this.patientData.requestId);
+            }
             if (!isInitialLoad) {
               this.biomarkerTemplate.forEach(marker => {
                 const templateMarker = template.find(t => t.id === marker.id)
@@ -39,11 +48,34 @@ export class PatientDetailsComponent {
                 marker.units = templateMarker.units;
                 marker.selectedUnit = templateMarker.units.find(u => u.id === marker.selectedUnit?.id) ?? templateMarker.units[0];
               });
+              this.validateBiomarkers();
             }
           })
       }
     )
   }
+
+  loadData() {
+    this.patientData = this.location.getState() as { name: string; lastName: string; dateOfBirth: string; requestId: string };
+    this.patientRecordService.getSpecificRecordById(this.patientData.name as string, this.patientData.lastName as string, this.patientData.dateOfBirth as string, this.patientData.requestId)
+      .subscribe((record) => {
+        for (const biomarker of this.biomarkerTemplate) {
+          const id = biomarker.id;
+          const cleanId = id.replace(/_/g, "");
+          const newValue = record.biomarkers[cleanId as keyof BiomarkersInfo] as string | number | boolean;
+          const resUnit = record.biomarkers[`${cleanId}Unit` as keyof BiomarkersInfo]
+          const [marker] = this.biomarkerTemplate.filter(b => b.id === id);
+          let [unit] = marker.units.filter(unit => unit.unitType === resUnit);
+          unit = unit === undefined ? marker.units[0] : unit;
+          biomarker.value = newValue;
+          biomarker.selectedUnit = unit;
+        }
+        this.patient.dateOfBirth = new Date(this.patientData.dateOfBirth);
+        this.patient.firstname = this.patientData.name;
+        this.patient.lastname = this.patientData.lastName;
+      });
+  }
+
   biomarkerTemplate: Biomarker[] = [];
   uniqueCategories: string[] = [];
   scoreResponse?: ScoringResponse;
@@ -58,7 +90,7 @@ export class PatientDetailsComponent {
 
   validateBiomarkers() {
     this.biomarkerTemplate.forEach(biomarker => {
-      validateEntry(biomarker);
+      validateEntry(biomarker, this.languageService);
     });
 
   }
@@ -84,10 +116,18 @@ export class PatientDetailsComponent {
     request.DateOfBirth = this.patient.dateOfBirth;
     request.clinical_setting = { value: 0, unitType: "" };
 
-    this.biomarkerService.sendRequest(request).subscribe(async resp => {
-      this.scoreResponse = resp;
-      this.scoreResponseReceived = true;
-    });
+    if(!this.patientData.requestId) {
+      this.biomarkerService.sendRequest(request).subscribe(async resp => {
+        this.scoreResponse = resp;
+        this.scoreResponseReceived = true;
+      });
+    } else {
+      this.biomarkerService.editRequest(request, this.patientData.requestId).subscribe(async resp => {
+        this.scoreResponse = resp;
+        this.scoreResponseReceived = true;
+      });
+    }
+
     this.calculationSubmitted = true;
   }
 

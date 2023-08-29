@@ -52,6 +52,9 @@
   "scoreCalculating": "Calculating...",
   "secondaryCare": "Secondary Care",
   "primaryCare": "Primary Care",
-  "yes": "yup",
-  "no": "no"
+  "yes": "Yes",
+  "no": "No",
+  "editScore": "Edit Score",
+  "validationRangeMessage": "The value must be between {{minimum}} and {{maximum}}.",
+  "optionSelect": "Select an option"
 }

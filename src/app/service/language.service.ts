@@ -8,6 +8,7 @@ import {BehaviorSubject} from "rxjs";
 export class LanguageService {
   private currentLanguage = 'en-GB';
   private storageKey = 'preferredLanguage';
+  private profileStorageKey = 'profileLanguage';
   private languageSubject = new BehaviorSubject<string>(this.currentLanguage);
 
   constructor(public translate: TranslateService) {
@@ -15,10 +16,19 @@ export class LanguageService {
     this.loadLanguage();
   }
 
-  setLanguage(lang: string)  {
-    this.translate.use(lang);
-    this.saveLanguage(lang);
-    this.languageSubject.next(lang);
+  setLanguage(lang: string, fromProfile: boolean)  {
+    if(fromProfile && localStorage.getItem(this.profileStorageKey) !== lang)
+    {
+      localStorage.setItem(this.profileStorageKey, lang);
+      this.saveLanguage(lang);
+      this.languageSubject.next(lang);
+    }
+    else if (!fromProfile)
+    {
+      this.translate.use(lang);
+      this.saveLanguage(lang);
+      this.languageSubject.next(lang);
+    }
   }
 
   getCurrentLanguage() {
@@ -40,7 +50,7 @@ export class LanguageService {
   private loadLanguage() {
     const savedLanguage = localStorage.getItem(this.storageKey);
     if (savedLanguage) {
-      this.setLanguage(savedLanguage);
+      this.setLanguage(savedLanguage, false);
     }
   }
 }

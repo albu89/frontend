@@ -25,7 +25,7 @@ export class MockedBiomarkersInfo implements BiomarkersInfo {
     systolicbpUnit = "SI"
     diastolicbp = 70
     diastolicbpUnit = "SI"
-    qwave = "Pathological"
+    qwave = "Screening"
     amylasep = 50
     amylasepUnit = "SI"
     alkaline = 50

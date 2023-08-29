@@ -19,6 +19,7 @@
       [(ngModel)]="patient.firstname"
       placeholder="{{'patientNamePlaceholder' | translate}}"
       class=" w-full rounded-md border  border-tone-2 py-1.5 pl-2 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 shadow-sm"
+      [disabled]="!canEdit"
     />
   </div>
   <div>
@@ -38,7 +39,7 @@
       placeholder="{{'patientLastNamePlaceholder' | translate}}"
       [(ngModel)]="patient.lastname"
       class="w-full rounded-md border py-1.5 pl-2 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2 shadow-sm"
-      class="w-full rounded-md border py-1.5 pl-2 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2 shadow-sm"
+      [disabled]="!canEdit"
     />
   </div>
   <div>
@@ -59,6 +60,7 @@
       (ngModelChange)="setDateOfBirth($event)"
       class=" w-full text-label-2 rounded-md border py-1.5 pl-2 pr-2 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2 shadow-sm"
       max="2999-12-31"
+      [disabled]="!canEdit"
     />
   </div>
 </div>

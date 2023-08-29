@@ -52,6 +52,9 @@
   "scoreCalculating": "Berechne...",
   "secondaryCare": "Sekundäre Kümmerung",
   "primaryCare": "Primäre Kümmerung",
-  "yes": "ja",
-  "no": "nein"
+  "yes": "Ja",
+  "no": "Nein",
+  "editScore": "Score bearbeiten",
+  "validationRangeMessage": "Der Wert muss zwischen {{minimum}} und {{maximum}} liegen.",
+  "optionSelect": "Wählen Sie eine Option"
 }

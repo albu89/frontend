@@ -3,9 +3,11 @@ import {
   Biomarker,
   BiomarkerUnit,
   BiomarkerUnitType,
+  isStringValue,
   validateEntry,
 } from '../shared/biomarker';
 import { UserService } from '../service/user.service';
+import { LanguageService } from '../service/language.service';
 
 @Component({
   selector: 'app-biomarker',
@@ -19,15 +21,20 @@ export class BiomarkerComponent {
   requiredType: InputType = InputType.Selection;
   infotextVisible = false;
   timerId?: NodeJS.Timeout;
+  choices?: Map<string, string>
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private langService: LanguageService) { }
 
-  validateEntry: void = validateEntry(this.biomarker);
+  onChange(newValue: BiomarkerUnit) {
+    this.biomarker.selectedUnit = newValue;
+    validateEntry(this.biomarker, this.langService);
+  }
+  isStringValue = isStringValue;
 
   onValueChanged() {
     clearTimeout(this.timerId);
     this.timerId = setTimeout(() => {
-      validateEntry(this.biomarker);
+      validateEntry(this.biomarker, this.langService);
     }, 350)
   }
 
@@ -42,7 +49,6 @@ export class BiomarkerComponent {
       this.biomarker.selectedUnit = a;
       this.biomarker.preferredUnit = BiomarkerUnitType[this.biomarker.selectedUnit.unitType];
     } else {
-
       if (this.biomarker.units.length > 1) {
         this.biomarker.preferredUnit ??= BiomarkerUnitType[BiomarkerUnitType.SI];
         this.biomarker.selectedUnit = this.biomarker.units.filter((unit) =>
@@ -57,7 +63,6 @@ export class BiomarkerComponent {
         this.biomarker.selectedUnit = {} as BiomarkerUnit;
         this.requiredType = InputType.String;
       }
-
     }
     switch (this.biomarker.selectedUnit.type.toLowerCase()) {
       case "string":
@@ -71,6 +76,10 @@ export class BiomarkerComponent {
         this.requiredType = InputType.Number;
         break;
     }
+    const displayNames = this.biomarker.selectedUnit.displayNames;
+    const enums = this.biomarker.selectedUnit?.enum ? new Map<string, string>(this.biomarker.selectedUnit?.enum?.map((obj) => [obj, obj])) : undefined;
+    const values = this.biomarker.selectedUnit?.values ? new Map<string, string>(this.biomarker.selectedUnit?.values?.map((obj) => [obj, obj])) : undefined
+    this.choices = displayNames || enums || values;
   }
 
   ngDoCheck() {
@@ -80,6 +89,10 @@ export class BiomarkerComponent {
       const higherPrevalence = !!(currentUser?.clinicalSetting === 'SecondaryCare' || priorCAD?.value);
       const prevalence = higherPrevalence ? 'SecondaryCare' : 'PrimaryCare';
       this.biomarker.selectedUnit = this.biomarker.units.find(unit => unit.clinicalSetting === prevalence) ?? this.biomarker.units[0];
+      const displayNames = this.biomarker.selectedUnit.displayNames;
+      const enums = this.biomarker.selectedUnit?.enum ? new Map<string, string>(this.biomarker.selectedUnit?.enum?.map((obj) => [obj, obj])) : undefined;
+      const values = this.biomarker.selectedUnit?.values ? new Map<string, string>(this.biomarker.selectedUnit?.values?.map((obj) => [obj, obj])) : undefined
+      this.choices = displayNames || enums || values;
       this.biomarker.preferredUnit = BiomarkerUnitType[this.biomarker.selectedUnit.unitType];
     }
   }
@@ -90,11 +103,7 @@ export class BiomarkerComponent {
     } else {
       this.biomarker.value = value;
     }
-    validateEntry(this.biomarker);
-  }
-
-  showInfoText() {
-    this.infotextVisible = !this.infotextVisible;
+    validateEntry(this.biomarker, this.langService);
   }
 }
 

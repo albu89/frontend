@@ -63,6 +63,10 @@ export class PatientRecordComponent {
       })
   }
 
+  editSpecificScore(requestId: string) {
+    this.router.navigateByUrl('/score/edit', {state: {name: this.patientName, lastName: this.patientLastName, dateOfBirth: this.patientBirthdate.toDateString(), requestId: requestId }});
+  }
+
   openSpecificScore(requestId: string) {
     this.patientRecordService.getSpecificRecordById(this.patientName, this.patientLastName, this.patientBirthdate.toDateString(), requestId)
       .subscribe((score) => {

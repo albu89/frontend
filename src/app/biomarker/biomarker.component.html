@@ -18,23 +18,22 @@
   >
     <button
       *ngFor="
-        let choice of biomarker.selectedUnit.enum ||
-          biomarker.selectedUnit.values
+        let choice of choices | keyvalue
       "
       [class]="
-        biomarker.value === choice ||
-        biomarker.value === ('yes'.toUpperCase() === choice.toUpperCase())
+      isStringValue(biomarker.value) && biomarker.value.toUpperCase() === choice.key.toUpperCase() ||
+      biomarker.value === ('yes'.toUpperCase() === choice.value.toUpperCase())
           ? 'min-w-[4rem] flex px-2 py-2.5 rounded items-center justify-center border border-primary bg-primary text-white shadow-sm'
           : 'min-w-[4rem] flex px-2 py-2.5 rounded items-center justify-center border border-tone-2 bg-tone-1 text-text shadow-sm'
       "
       [class.aria-selected]="
-        biomarker.value === choice ||
-        biomarker.value === ('yes'.toUpperCase() === choice.toUpperCase())
+      biomarker.value  === choice.key ||
+      biomarker.value === ('yes'.toUpperCase() === choice.value.toUpperCase())
       "
-      (click)="setValue(choice)"
+      (click)="setValue(choice.key)"
     >
-      {{ choice | translate }}
-    </button>
+        {{ choice.value | translate }}
+      </button>
   </div>
 
   <div
@@ -57,9 +56,9 @@
       <select
         *ngIf="biomarker.units.length > 1"
         name="unitSelector"
-        [(ngModel)]="biomarker.selectedUnit"
-        class="py-1 px-2 mr-1 text-gray-500 focus:outline-none sm:text-sm text-label-2"
-        (change)="(validateEntry)"
+        [ngModel]="biomarker.selectedUnit"
+        class=" py-1 px-2 mr-1 text-gray-500 focus:outline-none sm:text-sm text-label-2"
+        (ngModelChange)="onChange($event)"
       >
         <option
           class="pr-2"

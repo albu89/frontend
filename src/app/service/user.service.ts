@@ -56,10 +56,8 @@ export class UserService {
 
   setAuth(user: Profile): void {
     this.currentUserSubject.next(user);
-
-    console.log(user.language);
     const selectedLanguage = user.language === 'deutsch' ? 'de-DE' : 'en-GB';
-    this.languageService.setLanguage(selectedLanguage);
+    this.languageService.setLanguage(selectedLanguage, true);
   }
 
   purgeAuth(): void {

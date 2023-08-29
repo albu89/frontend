@@ -16,4 +16,9 @@ export class BiomarkerService {
     const url = environment.backendUrl + '/api/scores/request'; 
     return this.http.post<ScoringResponse>(url, request);
   }
+
+  editRequest(request: ScoringRequestWithPatientData, id: string) {
+    const url = environment.backendUrl + '/api/scores/' + id; 
+    return this.http.put<ScoringResponse>(url, request);
+  }
 }

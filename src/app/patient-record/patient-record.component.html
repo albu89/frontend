@@ -112,6 +112,9 @@
               >
                 {{'details' | translate}}
               </button>
+              <button *ngIf="record.canEdit" class="text-secondary pl-5" (click)="editSpecificScore(record.requestId)">
+                Edit
+              </button>
             </td>
           </tr>
         </tbody>
