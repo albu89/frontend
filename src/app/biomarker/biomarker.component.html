@@ -16,28 +16,25 @@
     *ngIf="requiredType === inputTypeEnum.Selection"
     class="flex flex-row gap-2"
   >
-    <span
+    <button
       *ngFor="
         let choice of biomarker.selectedUnit.enum ||
           biomarker.selectedUnit.values
       "
+      [class]="
+        biomarker.value === choice ||
+        biomarker.value === ('yes'.toUpperCase() === choice.toUpperCase())
+          ? 'min-w-[4rem] flex px-2 py-2.5 rounded items-center justify-center border border-primary bg-primary text-white shadow-sm'
+          : 'min-w-[4rem] flex px-2 py-2.5 rounded items-center justify-center border border-tone-2 bg-tone-1 text-text shadow-sm'
+      "
+      [class.aria-selected]="
+        biomarker.value === choice ||
+        biomarker.value === ('yes'.toUpperCase() === choice.toUpperCase())
+      "
+      (click)="setValue(choice)"
     >
-      <button
-        [class]="
-          biomarker.value === choice ||
-          biomarker.value === ('yes'.toUpperCase() === choice.toUpperCase())
-            ? 'px-2 py-2.5 rounded items-center self-stretch border border-primary bg-primary text-white shadow-sm'
-            : 'flex px-2 py-2.5 border border-tone-2 rounded items-center self-stretch bg-tone-1 text-text shadow-sm'
-        "
-        [class.aria-selected]="
-          biomarker.value === choice ||
-          biomarker.value === ('yes'.toUpperCase() === choice.toUpperCase())
-        "
-        (click)="setValue(choice)"
-      >
-        {{ choice }}
-      </button>
-    </span>
+      {{ choice | translate }}
+    </button>
   </div>
 
   <div
@@ -45,32 +42,36 @@
     class="relative mt-2 rounded-md shadow-sm"
   >
     <input
-      type="number" min="0"
+      type="number"
+      min="0"
       [(ngModel)]="biomarker.value"
       (input)="onValueChanged()"
       [class]="
         biomarker.isValid
-        ? 'block w-full rounded-md border border-tone-2 py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6'
-        : 'block w-full rounded-md border border-text-red py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-text-red focus:outline-none sm:text-sm sm:leading-6'
-        "
-      
-      [placeholder]="biomarker.selectedUnit.type === 'float' ? '0.00': '0'"
+          ? 'block w-full rounded-md border border-tone-2 py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6'
+          : 'block w-full rounded-md border border-text-red py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-text-red focus:outline-none sm:text-sm sm:leading-6'
+      "
+      [placeholder]="biomarker.selectedUnit.type === 'float' ? '0.00' : '0'"
     />
     <div class="absolute inset-y-0 right-0 flex items-center">
       <select
         *ngIf="biomarker.units.length > 1"
         name="unitSelector"
         [(ngModel)]="biomarker.selectedUnit"
-        class=" py-1 px-2 mr-1 text-gray-500 focus:outline-none sm:text-sm text-label-2"
-        (change)="validateEntry"
+        class="py-1 px-2 mr-1 text-gray-500 focus:outline-none sm:text-sm text-label-2"
+        (change)="(validateEntry)"
       >
-        <option class="pr-2" *ngFor="let unit of biomarker.units" [ngValue]="unit">
+        <option
+          class="pr-2"
+          *ngFor="let unit of biomarker.units"
+          [ngValue]="unit"
+        >
           {{ unit.name }}
         </option>
       </select>
       <div
         *ngIf="biomarker.units.length === 1"
-        class="h-full rounded-md  py-1 pl-2 pr-2 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm flex items-center justify-center text-label-2"
+        class="h-full rounded-md py-1 pl-2 pr-2 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm flex items-center justify-center text-label-2"
       >
         <p class="text-center">{{ biomarker.selectedUnit.name }}</p>
       </div>
@@ -78,16 +79,19 @@
   </div>
 
   <div *ngIf="requiredType === inputTypeEnum.String">
-   <input 
-      (input)="onValueChanged()" 
+    <input
+      (input)="onValueChanged()"
       [class]="
-      biomarker.isValid
-      ? 'block w-full rounded-md border border-tone-2 py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6'
-      : 'block w-full rounded-md border border-text-red py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-text-red focus:outline-none sm:text-sm sm:leading-6'
-      "      type="text"
+        biomarker.isValid
+          ? 'block w-full rounded-md border border-tone-2 py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6'
+          : 'block w-full rounded-md border border-text-red py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-text-red focus:outline-none sm:text-sm sm:leading-6'
+      "
+      type="text"
       [(ngModel)]="biomarker.value"
     />
   </div>
-  <p *ngIf="!biomarker.isValid" class="text-text-red">{{biomarker.errorMessage}}</p>
+  <p *ngIf="!biomarker.isValid" class="text-text-red">
+    {{ biomarker.errorMessage }}
+  </p>
   <p *ngIf="biomarker.isValid" class=""></p>
 </div>

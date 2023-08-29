@@ -9,7 +9,7 @@
     <div class="flex flex-row gap-1">
         <p class="text-text font-normal" name="Value" *ngIf="!isDate && !isBoolean">{{ Value }}</p>
         <p class="text-text font-normal" name="DateValue" *ngIf="isDate">{{ DateValue | date : 'mediumDate' }}</p>
-        <p class="text-text font-normal" name="BooleanValue" *ngIf="isBoolean">{{ !!Value | yesno }}</p>
+        <p class="text-text font-normal" name="BooleanValue" *ngIf="isBoolean">{{ !!Value | yesno | async }}</p>
         <p>{{ Unit }}</p>
     </div>
 </div>

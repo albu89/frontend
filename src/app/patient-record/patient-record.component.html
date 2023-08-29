@@ -1,45 +1,41 @@
 <div *ngIf="!currentScore" name="record-container" class="mb-8 flex flex-col self-center px-[var(--main-margin)]">
   <div name="header-div" class="flex flex-row justify-between mb-8 pt-[2.5%]">
-    <p class="text-primary font-semibold text-2xl">Scores</p>
+    <p class="text-primary font-semibold text-2xl">{{'scores' | translate}}</p>
     <div class="flex flex-row-reverse">
       <button
         class="pl-6 pr-6 pt-2 pb-2 enabled:bg-secondary enabled:text-white disabled:bg-label-2 disabled:text-white rounded-md border gap-2 font-bold"
         routerLink="/score/new"
       >
-        Create new Score
+        {{'createNewScore' | translate}}
       </button>
     </div>
   </div>
   <div class="bg-[#F6F8FC] shadow-md border border-tone-2 sm:rounded-lg">
     <form name="patientinfo" class="grid grid-col grid-cols-6 m-6">
       <div class="flex flex-col col-span-2 p-1">
-        <label for="patient-name" class="text-label" >Patient name</label>
+        <label for="patient-name" class="text-label" >{{'patientName' | translate}}</label>
         <input
           type="text"
           id="patient-name"
-          placeholder="Type in patient name..."
-          placeholder="Type in patient name..."
+          placeholder="{{'patientNamePlaceholder' | translate}}"
           #patientName
-          class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"
           class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"
         />
       </div>
       <div class="flex flex-col p-1 col-span-2">
         <label for="patient-last-name" class="text-label"
-          >Patient last name</label
+          >{{'patientLastName' | translate}}</label
         >
         <input
           type="text"
           id="patient-last-name"
-          placeholder="Type in patient last name..."
-          placeholder="Type in patient last name..."
+          placeholder="{{'patientLastNamePlaceholder' | translate}}"
           #patientLastName
-          class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"
           class="basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-1 focus:ring-inset focus:ring-primary focus:outline-none sm:text-sm sm:leading-6 border-tone-2"
         />
       </div>
       <div class="flex flex-col p-1">
-        <label for="patient-birthdate" class="text-label">Birthdate</label>
+        <label for="patient-birthdate" class="text-label">{{'birthdate' | translate}}</label>
         <input
           type="date"
           id="patient-birthdate"
@@ -62,7 +58,7 @@
             "
             class="pl-6 pr-6 pt-2 pb-2 enabled:bg-secondary enabled:text-white disabled:bg-label-2 disabled:text-white rounded-md border gap-2 font-bold"
           >
-            Search
+            {{'search' | translate}}
           </button>
         </div>
       </div>
@@ -74,9 +70,9 @@
       >
         <thead class="text-xs text-text dark:text-text border-b border-label">
           <tr>
-            <th scope="col" class="px-6 py-3 text-label">ID</th>
-            <th scope="col" class="px-6 py-3 text-label">Timestamp</th>
-            <th scope="col" class="px-6 py-3 text-label">Risk</th>
+            <th scope="col" class="px-6 py-3 text-label">{{'id' | translate}}</th>
+            <th scope="col" class="px-6 py-3 text-label">{{'timestamp' | translate}}</th>
+            <th scope="col" class="px-6 py-3 text-label">{{'risk' | translate}}</th>
             <th
               *ngIf="showDetailsButton"
               scope="col"
@@ -114,7 +110,7 @@
                 class="text-secondary"
                 (click)="openSpecificScore(record.requestId)"
               >
-                Details
+                {{'details' | translate}}
               </button>
             </td>
           </tr>

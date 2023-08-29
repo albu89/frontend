@@ -28,6 +28,8 @@
     "@azure/msal-angular": "^2.5.8",
     "@azure/msal-browser": "^2.37.1",
     "@ng-bootstrap/ng-bootstrap": "^14.1.1",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "@popperjs/core": "^2.11.6",
     "@w11k/git-info": "^1.1.2",
     "bootstrap": "^5.2.3",

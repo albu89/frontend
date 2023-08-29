@@ -1,5 +1,5 @@
 <div *ngIf="!scoreResponse" class="mt-8 flex flex-col self-center px-[var(--main-margin)]">
-  <p class="text-primary text-2xl font-semibold mb-8">Create New Score</p>
+  <p class="text-primary text-2xl font-semibold mb-8">{{'createNewScore'| translate}}</p>
   <app-patient-data-form
     [biomarkers]="biomarkerTemplate"
     [patient]="patient"
@@ -9,7 +9,7 @@
 
     <button *ngIf="!calculationSubmitted" class="px-6 py-2 mb-10 enabled:bg-secondary enabled:text-white rounded-md border gap-2 font-bold"
     (click)="submit()">
-      Calculate Risk Score
+    {{'scoreCalculate' | translate}}
     </button>
     <button *ngIf="calculationSubmitted"
       class="px-6 py-2 mb-10 bg-label-2 text-white rounded-md border gap-2 font-bold"

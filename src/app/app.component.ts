@@ -2,6 +2,7 @@ import { MsalService } from '@azure/msal-angular';
 import { Component, OnInit, inject } from '@angular/core';
 import { UserService } from './service/user.service';
 import { Router } from '@angular/router';
+import {LanguageService} from "./service/language.service";
 
 @Component({
   selector: 'app-root',
@@ -13,10 +14,15 @@ export class AppComponent implements OnInit {
   isIframe = false;
   isLoggedIn$ = inject(UserService).isLoggedIn;
 
-  constructor(private authService: MsalService, public router: Router, private userService: UserService) { }
+  selectedLocale = 'en-GB';
+
+  constructor(private authService: MsalService, public router: Router, private userService: UserService, public languageService: LanguageService) { }
 
   ngOnInit() {
     this.isIframe = window !== window.parent && !window.opener;
+    this.languageService.getLanguageObservable().subscribe({
+      next: value => this.selectedLocale = value
+    })
   }
 
   login() {
@@ -26,5 +32,9 @@ export class AppComponent implements OnInit {
    logout() { // Add log out function here
     const currentAccount = this.authService.instance.getAllAccounts()[0];
     this.authService.logoutPopup({account: currentAccount, mainWindowRedirectUri: "/"});
+  }
+
+  selectionChanged() {
+    this.languageService.setLanguage(this.selectedLocale);
   }
 }

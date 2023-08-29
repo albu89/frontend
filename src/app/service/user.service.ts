@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Profile } from '../shared/profile';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable, distinctUntilChanged, map, shareReplay, tap } from 'rxjs';
+import { LanguageService } from './language.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class UserService {
 
   public isLoggedIn = this.currentUser.pipe(map((user) => !!user));
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private languageService: LanguageService) { }
   baseUrl = environment.backendUrl + '/api/user';
 
   getUser(): Observable<Profile | null> {
@@ -55,6 +56,10 @@ export class UserService {
 
   setAuth(user: Profile): void {
     this.currentUserSubject.next(user);
+
+    console.log(user.language);
+    const selectedLanguage = user.language === 'deutsch' ? 'de-DE' : 'en-GB';
+    this.languageService.setLanguage(selectedLanguage);
   }
 
   purgeAuth(): void {

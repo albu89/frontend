@@ -5,6 +5,7 @@ import { RecommendationCategory, ScoringResponseSchema } from '../shared/Scoring
 import { BiomarkersInfo } from '../shared/biomarkersInfo';
 import { Biomarker } from '../shared/biomarker';
 import { MockedScoringResponse } from '../shared/Mock/MockedScoringResponse';
+import {LanguageService} from "../service/language.service";
 
 @Component({
   selector: 'app-score',
@@ -26,7 +27,7 @@ export class ScoreComponent {
 
   relevantRecommendationCategories: RecommendationCategory[] = [];
 
-  constructor(private schemaService: SchemasService) {
+  constructor(private schemaService: SchemasService, private languageService:LanguageService ) {
   }
 
   ngOnInit() {
@@ -43,6 +44,23 @@ export class ScoreComponent {
         console.log(error);
       }
     )
+    this.languageService.getLanguageObservable().subscribe({
+      next: value => {
+        this.schemaService.getResponseSchema().subscribe(
+          (response) => {
+            this.schema = response;
+            this.abbreviationKeys = Object.keys(this.schema.abbreviations);
+            this.anamnesisMarkers = this.schema.biomarkers.filter(x => x.category === 'Anamnesis');
+            this.medicationMarkers = this.schema.biomarkers.filter(x => x.category === 'Medication' || x.category === 'Clinical findings');
+            this.valueMarkers = this.schema.biomarkers.filter(x => x.category === 'Enzymes' || x.category === 'Blood Sugar' || x.category === 'Metabolite' || x.category === 'Lipids' || x.category === 'Protein' || x.category === '');
+            this.relevantRecommendationCategories = this.schema.recommendationCategories.filter(x => x.prevalence === this.score.prevalence);
+          },
+          (error) => {
+            console.log(error);
+          }
+        )
+      }
+    })
   }
 
   getBiomarkerValue(id: string): number | Date | string | boolean {

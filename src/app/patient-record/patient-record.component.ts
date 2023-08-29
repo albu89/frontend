@@ -31,6 +31,7 @@ export class PatientRecordComponent {
       this.patientName = ''
       this.patientLastName = ''
       this.patientBirthdate = new Date
+      this.showDetailsButton = false;
       this.patientRecordService.getRecords().subscribe((records) => this.patientRecords = records.sort((a, b) => {
         return new Date(b.requestTimeStamp).getTime() - new Date(a.requestTimeStamp).getTime();
       }));
@@ -41,6 +42,7 @@ export class PatientRecordComponent {
     this.patientRecordService.getRecords().subscribe((records) => this.patientRecords = records.sort((a, b) => {
       return new Date(b.requestTimeStamp).getTime() - new Date(a.requestTimeStamp).getTime();
     }));
+    this.showDetailsButton = false;
   }
 
   ngOnDestroy(){

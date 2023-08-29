@@ -5,6 +5,7 @@ import { ScoringRequest, ScoringRequestValue, ScoringRequestWithPatientData } fr
 import { ScoringResponse } from '../shared/ScoringResponse';
 import { Patient } from '../shared/patient';
 import { SchemasService } from '../service/schemas.service';
+import { LanguageService } from '../service/language.service';
 
 @Component({
   selector: 'app-patient-details',
@@ -13,16 +14,35 @@ import { SchemasService } from '../service/schemas.service';
 })
 export class PatientDetailsComponent {
 
-  constructor(private biomarkerService: BiomarkerService, private schemaService: SchemasService) { }
+  constructor(private biomarkerService: BiomarkerService, private schemaService: SchemasService, private languageService: LanguageService) { }
 
   ngOnInit() {
-    this.schemaService.getBiomarkers().subscribe(template => {
-      template.forEach(biomarker => {
-        biomarker.isValid = true;
-      });
-      this.biomarkerTemplate = template;
-      this.uniqueCategories = this.getUniqueCategories()
-    });
+    this.languageService.getLanguageObservable().subscribe(
+      {
+        next: (value) =>
+          this.schemaService.getBiomarkers().subscribe(template => {
+            template.forEach(biomarker => {
+              biomarker.isValid = true;
+            });
+            const isInitialLoad = !!this.biomarkerTemplate && this.biomarkerTemplate.length === 0;
+
+            this.biomarkerTemplate = this.biomarkerTemplate.length === 0 ? template : this.biomarkerTemplate;
+            this.uniqueCategories = this.uniqueCategories.length === 0 ? this.getUniqueCategories() : this.uniqueCategories;
+
+            if (!isInitialLoad) {
+              this.biomarkerTemplate.forEach(marker => {
+                const templateMarker = template.find(t => t.id === marker.id)
+                if (!templateMarker)
+                  return;
+                marker.fieldname = templateMarker.fieldname;
+                marker.infoText = templateMarker.infoText;
+                marker.units = templateMarker.units;
+                marker.selectedUnit = templateMarker.units.find(u => u.id === marker.selectedUnit?.id) ?? templateMarker.units[0];
+              });
+            }
+          })
+      }
+    )
   }
   biomarkerTemplate: Biomarker[] = [];
   uniqueCategories: string[] = [];
@@ -43,7 +63,7 @@ export class PatientDetailsComponent {
 
   }
 
-   submit() {
+  submit() {
     this.validateBiomarkers();
     if (!this.biomarkerTemplate.every(x => x.isValid)) {
       return;
