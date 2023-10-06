@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { MsalModule, MsalGuard, MsalInterceptor } from '@azure/msal-angular';
-import { PublicClientApplication, InteractionType } from '@azure/msal-browser';
-import { MatToolbarModule } from '@angular/material/toolbar';
-
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {MsalModule, MsalGuard, MsalInterceptor} from '@azure/msal-angular';
+import {PublicClientApplication, InteractionType} from '@azure/msal-browser';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from '@angular/common/http';
@@ -32,6 +31,10 @@ import { RowComponent } from './recommendation-table/row/row.component';
 import { VersionComponent } from './version/version.component';
 import {TranslateModule, TranslateLoader} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {CdkDrag, CdkDragPlaceholder, CdkDropList, CdkDropListGroup} from '@angular/cdk/drag-drop';
+import {CategoryListFlexibleComponent} from './category/category-list-flexible/category-list-flexible.component';
+import { CategoryListFlexibleEditComponent } from './category/category-list-flexible-edit/category-list-flexible-edit.component';
+import { CategoryListFixedComponent } from './category/category-list-fixed/category-list-fixed.component';
 
 const isIE =
   window.navigator.userAgent.indexOf("MSIE ") > -1 ||
@@ -61,6 +64,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     YesnoPipe,
     RowComponent,
     VersionComponent,
+    CategoryListFlexibleComponent,
+    CategoryListFlexibleEditComponent,
+    CategoryListFixedComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -69,6 +76,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    CdkDrag,
+    CdkDropList,
+    CdkDropListGroup,
+    CdkDragPlaceholder,
     MatToolbarModule,
     TranslateModule.forRoot({
       loader: {
@@ -108,13 +119,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     ),
     BrowserAnimationsModule,
   ],
-  providers: [ {
+  providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: MsalInterceptor,
     multi: true,
   },
-  DatePipe,
-  MsalGuard,],
+    DatePipe,
+    MsalGuard,],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

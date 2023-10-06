@@ -1,0 +1,15 @@
+<!-- Flexible biomarkers -->
+<div
+  class="px-8 py-6 mb-4 bg-background border-tone-2 rounded-lg border-solid border grid lg:grid-cols-5 md:grid-cols-4 gap-4 align-items-end">
+    <span *ngFor="let biomarker of biomarkers">
+            <!-- biomarker form -->
+            <app-biomarker [biomarker]="biomarker" [sideEffectMarkers]="biomarkers" [unitTypeEditable]="false"/>
+  </span>
+    <!-- Save and edit button -->
+    <div class="flex flex-row-reverse col-start-1 col-end-6">
+        <button (click)="enableEditMode()"
+                class="px-4 py-1 flex rounded justify-center items-center gap-2 h-11 underline text-secondary font-[500]">
+            {{ 'category.edit' | translate }}
+        </button>
+    </div>
+</div>

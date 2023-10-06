@@ -4,6 +4,7 @@ import { Profile } from '../shared/profile';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable, distinctUntilChanged, map, shareReplay, tap } from 'rxjs';
 import { LanguageService } from './language.service';
+import { UserPreferences} from "../shared/preferences";
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,15 @@ export class UserService {
 
   purgeAuth(): void {
     this.currentUserSubject.next(null);
+  }
+
+  //todo clarify what to do with Observable<any> type and enable eslint again
+
+  /* eslint-disable */
+  updateUserPreferences(preferences: UserPreferences): Observable<any> {
+    const url = this.baseUrl + '/preferences';
+    return this.http.patch(url, preferences); //todo errorhandling
+
   }
 
 }

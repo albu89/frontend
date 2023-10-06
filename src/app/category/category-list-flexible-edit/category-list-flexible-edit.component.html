@@ -1,0 +1,27 @@
+<!-- Flexible biomarkers -->
+<div cdkDropListGroup
+     class="px-8 py-6 mb-4 bg-background border-tone-2 rounded-lg border-solid border overflow-hidden grid lg:grid-cols-5 md:grid-cols-4 gap-4 align-items-end">
+
+  <div *ngFor="let biomarker of biomarkers; let i= index"
+       cdkDropList
+       cdkDropListOrientation="horizontal"
+       (cdkDropListDropped)="dropItem($event)"
+       [cdkDropListData]="{item:biomarker,index:i}"
+       class="relative">
+
+    <div class="cursor-move" cdkDrag>
+      <div *cdkDragPlaceholder></div>
+      <app-biomarker [biomarker]="biomarker"
+                     [sideEffectMarkers]="biomarkers"
+                     [unitTypeEditable]="true"/>
+      <!-- todo unit type editable ? also splitting - waiting for refactor of the form? -->
+    </div>
+  </div>
+
+  <div class="flex flex-row-reverse col-start-1 col-end-6">
+    <button (click)="savePreferences()"
+            class="px-4 py-1 flex rounded justify-center items-center gap-2 h-11 underline text-secondary font-[500]">
+      {{ 'category.save' | translate }}
+    </button>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {
   Biomarker,
   BiomarkerUnit,
@@ -6,7 +6,7 @@ import {
   isStringValue,
   validateEntry,
 } from '../shared/biomarker';
-import { UserService } from '../service/user.service';
+import {UserService} from '../service/user.service';
 import { LanguageService } from '../service/language.service';
 
 @Component({
@@ -14,16 +14,19 @@ import { LanguageService } from '../service/language.service';
   templateUrl: './biomarker.component.html',
   styleUrls: ['./biomarker.component.css'],
 })
-export class BiomarkerComponent {
+export class BiomarkerComponent implements OnInit {
   @Input() biomarker: Biomarker = {} as Biomarker;
-  @Input() sideEffectMarkers: Biomarker[] = []
+  @Input() sideEffectMarkers: Biomarker[] = [];
+  @Input() unitTypeEditable = false;
+
   inputTypeEnum: typeof InputType = InputType;
   requiredType: InputType = InputType.Selection;
   infotextVisible = false;
   timerId?: NodeJS.Timeout;
   choices?: Map<string, string>
 
-  constructor(private userService: UserService, private langService: LanguageService) { }
+  constructor(private userService: UserService, private langService: LanguageService) {
+  }
 
   onChange(newValue: BiomarkerUnit) {
     this.biomarker.selectedUnit = newValue;
@@ -58,8 +61,7 @@ export class BiomarkerComponent {
         const onlyUnit = this.biomarker.units[0];
         this.biomarker.preferredUnit = BiomarkerUnitType[onlyUnit.unitType];
         this.biomarker.selectedUnit = onlyUnit;
-      }
-      else {
+      } else {
         this.biomarker.selectedUnit = {} as BiomarkerUnit;
         this.requiredType = InputType.String;
       }

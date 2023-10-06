@@ -1,0 +1,9 @@
+<!-- Fixed biomarkers -->
+<div
+  class="px-8 py-6 mb-4 bg-background border-tone-2 rounded-lg border-solid border grid lg:grid-cols-5 md:grid-cols-4 gap-4 align-items-end">
+    <span *ngFor="let biomarker of biomarkers"
+          [class.col-span-2]="EXTRA_WIDTH_CATEGORIES.includes(biomarker.id)">
+            <!-- biomarker form -->
+            <app-biomarker [biomarker]="biomarker" [sideEffectMarkers]="biomarkers" [unitTypeEditable]="false"/>
+  </span>
+</div>

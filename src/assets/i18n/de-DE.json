@@ -56,5 +56,10 @@
   "no": "Nein",
   "editScore": "Score bearbeiten",
   "validationRangeMessage": "Der Wert muss zwischen {{minimum}} und {{maximum}} liegen.",
-  "optionSelect": "Wählen Sie eine Option"
+  "optionSelect": "Wählen Sie eine Option",
+  "category": {
+    "noContent":  "Keine Biomarker gefunden.",
+    "edit": "Bearbeiten",
+    "save": "Speichern"
+  }
 }
