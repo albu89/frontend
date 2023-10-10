@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { PatientRecordService } from '../service/patient-record.service';
 import { PatientRecord } from '../shared/PatientRecord';
@@ -7,70 +7,85 @@ import { NavigationSkipped, Router } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
 
 @Component({
-  selector: 'app-patient-record',
-  templateUrl: './patient-record.component.html',
-  styleUrls: ['./patient-record.component.css']
+	selector: 'app-patient-record',
+	templateUrl: './patient-record.component.html',
+	styleUrls: ['./patient-record.component.css'],
 })
-export class PatientRecordComponent {
+export class PatientRecordComponent implements OnInit, OnDestroy {
+	patientRecords?: PatientRecord[];
+	showDetailsButton = false;
+	patientName = '';
+	patientLastName = '';
+	patientBirthdate = new Date();
 
-  patientRecords?: PatientRecord[];
-  showDetailsButton = false;
-  patientName = ''
-  patientLastName = ''
-  patientBirthdate = new Date
+	currentScore?: ScoringResponse;
 
-  currentScore?: ScoringResponse;
+	subscription?: Subscription;
 
-  subscription?: Subscription;
+	constructor(
+		private patientRecordService: PatientRecordService,
+		public datepipe: DatePipe,
+		private router: Router
+	) {
+		this.subscription = this.router.events.pipe(filter(event => event instanceof NavigationSkipped)).subscribe(() => {
+			this.currentScore = undefined;
+			this.patientName = '';
+			this.patientLastName = '';
+			this.patientBirthdate = new Date();
+			this.showDetailsButton = false;
+			this.patientRecordService.getRecords().subscribe(
+				records =>
+					(this.patientRecords = records.sort((a, b) => {
+						return new Date(b.requestTimeStamp).getTime() - new Date(a.requestTimeStamp).getTime();
+					}))
+			);
+		});
+	}
 
-  constructor(private patientRecordService: PatientRecordService, public datepipe: DatePipe, private router: Router) { 
-    this.subscription = this.router.events.pipe(
-      filter(event => event instanceof NavigationSkipped)
-    ).subscribe(() => {
-      this.currentScore = undefined;
-      this.patientName = ''
-      this.patientLastName = ''
-      this.patientBirthdate = new Date
-      this.showDetailsButton = false;
-      this.patientRecordService.getRecords().subscribe((records) => this.patientRecords = records.sort((a, b) => {
-        return new Date(b.requestTimeStamp).getTime() - new Date(a.requestTimeStamp).getTime();
-      }));
-    })
-  }
+	ngOnInit() {
+		this.patientRecordService.getRecords().subscribe(
+			records =>
+				(this.patientRecords = records.sort((a, b) => {
+					return new Date(b.requestTimeStamp).getTime() - new Date(a.requestTimeStamp).getTime();
+				}))
+		);
+		this.showDetailsButton = false;
+	}
 
-  ngOnInit() {
-    this.patientRecordService.getRecords().subscribe((records) => this.patientRecords = records.sort((a, b) => {
-      return new Date(b.requestTimeStamp).getTime() - new Date(a.requestTimeStamp).getTime();
-    }));
-    this.showDetailsButton = false;
-  }
+	ngOnDestroy() {
+		this.subscription?.unsubscribe();
+	}
 
-  ngOnDestroy(){
-    this.subscription?.unsubscribe();
-  }
+	getSpecificRecords(patientName: string, patientLastName: string, patientBirthdate: string) {
+		this.patientRecordService
+			.getSpecificRecords(patientName, patientLastName, patientBirthdate)
+			.subscribe((records: PatientRecord[]) => {
+				this.showDetailsButton = patientName && patientLastName && patientBirthdate ? true : false;
+				this.patientName = this.showDetailsButton ? patientName : '';
+				this.patientLastName = this.showDetailsButton ? patientLastName : '';
+				this.patientBirthdate = this.showDetailsButton ? new Date(patientBirthdate) : new Date();
+				this.patientRecords = records.sort((a, b) => {
+					return new Date(b.requestTimeStamp).getTime() - new Date(a.requestTimeStamp).getTime();
+				});
+			});
+	}
 
-  getSpecificRecords(patientName: string, patientLastName: string, patientBirthdate: string) {
-    this.patientRecordService
-      .getSpecificRecords(patientName, patientLastName, patientBirthdate)
-      .subscribe((records: PatientRecord[]) => {
-        this.showDetailsButton = patientName && patientLastName && patientBirthdate ? true : false;
-        this.patientName = this.showDetailsButton ? patientName : '';
-        this.patientLastName = this.showDetailsButton ? patientLastName : '';
-        this.patientBirthdate = this.showDetailsButton ? new Date(patientBirthdate) : new Date;
-        this.patientRecords = records.sort((a, b) => {
-          return new Date(b.requestTimeStamp).getTime() - new Date(a.requestTimeStamp).getTime();
-        })
-      })
-  }
+	editSpecificScore(requestId: string) {
+		this.router.navigateByUrl('/score/edit', {
+			state: {
+				name: this.patientName,
+				lastName: this.patientLastName,
+				dateOfBirth: this.patientBirthdate.toDateString(),
+				requestId: requestId,
+			},
+		});
+	}
 
-  editSpecificScore(requestId: string) {
-    this.router.navigateByUrl('/score/edit', {state: {name: this.patientName, lastName: this.patientLastName, dateOfBirth: this.patientBirthdate.toDateString(), requestId: requestId }});
-  }
-
-  openSpecificScore(requestId: string) {
-    this.patientRecordService.getSpecificRecordById(this.patientName, this.patientLastName, this.patientBirthdate.toDateString(), requestId)
-      .subscribe((score) => {
-        this.currentScore = score;
-      });
-  }
+	openSpecificScore(requestId: string) {
+		this.patientRecordService
+			.getSpecificRecordById(this.patientName, this.patientLastName, this.patientBirthdate.toDateString(), requestId)
+			.subscribe(score => {
+				this.currentScore = score;
+			});
+	}
 }

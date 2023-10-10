@@ -5,20 +5,18 @@ import { ScoringResponse } from '../shared/ScoringResponse';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class BiomarkerService {
+	constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { 
-  }
+	sendRequest(request: ScoringRequestWithPatientData) {
+		const url = environment.backendUrl + '/api/scores/request';
+		return this.http.post<ScoringResponse>(url, request);
+	}
 
-  sendRequest(request: ScoringRequestWithPatientData) {
-    const url = environment.backendUrl + '/api/scores/request'; 
-    return this.http.post<ScoringResponse>(url, request);
-  }
-
-  editRequest(request: ScoringRequestWithPatientData, id: string) {
-    const url = environment.backendUrl + '/api/scores/' + id; 
-    return this.http.put<ScoringResponse>(url, request);
-  }
+	editRequest(request: ScoringRequestWithPatientData, id: string) {
+		const url = environment.backendUrl + '/api/scores/' + id;
+		return this.http.put<ScoringResponse>(url, request);
+	}
 }

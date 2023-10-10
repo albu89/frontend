@@ -1,27 +1,28 @@
 <ng-container *ngIf="biomarkers.length > 0; else noContent">
-  <!-- Fixed biomarkers -->
-  <app-category-list-fixed [biomarkers]="fixedBiomarkers"></app-category-list-fixed>
+	<!-- Fixed biomarkers -->
+	<app-category-list-fixed
+		class="mb-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6"
+		[biomarkers]="fixedBiomarkers"></app-category-list-fixed>
 
-  <!-- Flexible biomarkers -->
-  <!-- non-edit-mode -->
-  <app-category-list-flexible
-    *ngIf="!isEditingEnabled"
-    [biomarkers]="flexibleBiomarkers"
-    (isEditingEnabled) ="enableEditMode()"
-  >
-  </app-category-list-flexible>
+	<!-- Flexible biomarkers -->
+	<!-- non-edit-mode -->
+	<app-category-list-flexible
+		*ngIf="!isEditingEnabled"
+		class="mb-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6"
+		[biomarkers]="flexibleBiomarkers"
+		(isEditingEnabled)="enableEditMode()">
+	</app-category-list-flexible>
 
-  <!-- edit-mode -->
-  <app-category-list-flexible-edit
-    *ngIf="isEditingEnabled"
-    [biomarkers]="flexibleBiomarkers"
-    (saveChanges)="savePreferences()"
-  >
-  </app-category-list-flexible-edit>
-
+	<!-- edit-mode -->
+	<app-category-list-flexible-edit
+		*ngIf="isEditingEnabled"
+		class="mb-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6"
+		[biomarkers]="flexibleBiomarkers"
+		(saveChanges)="savePreferences()">
+	</app-category-list-flexible-edit>
 </ng-container>
 
 <!--No Content-->
 <ng-template #noContent>
-    <div>{{ 'category.noContent' | translate }}</div>
+	<div>{{ 'category.noContent' | translate }}</div>
 </ng-template>

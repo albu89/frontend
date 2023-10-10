@@ -1,10 +1,6 @@
 <div
-  class="{{ riskClass == '0' ? grey : '' }} {{
-    riskClass == '1' ? green : ''
-  }} {{ riskClass == '2' ? yellow : '' }} {{
-    riskClass == '3' ? orange : ''
-  }} {{ riskClass == '4' ? red : '' }} 
-  rounded-md px-2 py-1 uppercase flex-shrink w-min font-[400]"
->
-  {{ risk }}
+	class="w-min flex-shrink rounded-md px-2 py-1 font-[400] uppercase"
+	[class]="'bg-risk-label-bg-' + riskClass + ' text-risk-label-text-' + riskClass">
+	<!-- TODO: Not tested with "INCOMPLETE"-->
+	{{ risk }}
 </div>

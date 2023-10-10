@@ -1,75 +1,154 @@
-<div class="min-h-screen w-full flex flex-col">
-  <mat-toolbar class="bg-background" *ngIf="isLoggedIn$ | async">
-    <div
-      name="main-nav-bar"
-      class="grid grid-cols-6 w-full place-content-center"
-    >
-      <div routerLink="/" class="hover:cursor-pointer">
-        <img alt="logo" src="./assets/CardioLogo.png" class="h-11 px-10" />
-      </div>
-      <div>
-        <a
-          class="hover:text-secondary align-middle group text-primary transition duration-300 inline-block"
-          routerLink="/"
-          routerLinkActive="text-secondary"
-          [routerLinkActiveOptions]="{ exact: true }"
-          >{{'existingScores' | translate}}
-          <span
-            class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary"
-            routerLinkActive="max-w-full w-1/6"
-            [routerLinkActiveOptions]="{ exact: true }"
-          ></span>
-        </a>
-      </div>
-      <div>
-        <a
-          class="hover:text-secondary align-middle group text-primary transition duration-300 inline-block"
-          routerLink="/score/new"
-          routerLinkActive="text-secondary"
-        >
-        {{'createNewScore' | translate}}
-          <span
-            class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary"
-            routerLinkActive="max-w-full w-1/6"
-          ></span>
-        </a>
-      </div>
-      <div>
-        <a
-          class="hover:text-secondary align-middle group text-primary transition duration-300 inline-block"
-          mat-button
-          [routerLink]="['profile']"
-          routerLinkActive="text-secondary"
-          >{{'profile' | translate}}
-          <span
-            class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary"
-            routerLinkActive="max-w-full w-1/6"
-          ></span>
-        </a>
-      </div>
-      <div>
-        <button
-          class="hover:text-secondary align-middle group text-primary transition duration-300"
-          mat-raised-button
-          (click)="logout()"
-        >
-        {{'logout' | translate}}
-          <span
-            class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-secondary"
-          ></span>
-        </button>
-      </div>
-      <div>
-        <select class="bg-background text-primary" [(ngModel)]="selectedLocale" (change)="selectionChanged()">
-          <option selected value="en-GB">🇬🇧 English</option>
-          <option value="de-DE">🇩🇪 Deutsch</option>
-        </select>
-      </div>
-    </div>
-  </mat-toolbar>
-  <div class="grow">
-    <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
-    <router-outlet *ngIf="!isIframe"></router-outlet>
-  </div>
-  <app-footer *ngIf="router.url !== '/login'"></app-footer>
+<div class="flex min-h-screen w-full flex-col">
+	<nav class="border-gray-200 bg-background" *ngIf="!isLoginPage">
+		<div class="mx-auto flex max-w-screen-2xl flex-wrap items-center p-4">
+			<a routerLink="/" class="mr-10 flex items-center">
+				<img src="./assets/cardio-explorer-logo.svg" class="mr-3 h-16" alt="Cardio Explorer Logo" />
+			</a>
+			<div class="ml-auto flex items-center md:order-2">
+				<button
+					type="button"
+					data-dropdown-toggle="language-dropdown-menu"
+					data-dropdown-offset-distance="2"
+					class="inline-flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 font-medium text-gray-900 hover:bg-gray-100">
+					{{ selectedLocaleDisplay }}
+					<svg
+						class="ml-2.5 h-2.5 w-2.5"
+						aria-hidden="true"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 10 6">
+						<path
+							stroke="currentColor"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="m1 1 4 4 4-4" />
+					</svg>
+				</button>
+				<div
+					class="z-50 hidden list-none divide-y divide-gray-100 rounded-lg shadow ring-gray-800"
+					id="language-dropdown-menu">
+					<ul class="bg-white py-2 font-medium" role="none">
+						<li>
+							<a
+								href="#"
+								class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+								role="menuitem"
+								(click)="selectLanguage('en-GB')">
+								<div class="inline-flex items-center">{{ LOCALE_DISPLAY.get('en-GB') }}</div>
+							</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+								role="menuitem"
+								(click)="selectLanguage('de-DE')">
+								<div class="inline-flex items-center">{{ LOCALE_DISPLAY.get('de-DE') }}</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="flex items-center md:order-3">
+					<button
+						#userDdtrigger
+						type="button"
+						class="mr-3 flex rounded-md p-2 text-gray-800 hover:bg-gray-800 hover:text-white focus:ring-4 md:mr-0"
+						id="user-menu-button"
+						aria-expanded="false"
+						data-dropdown-toggle="user-dropdown"
+						data-dropdown-placement="bottom-end">
+						<span class="sr-only">Open user menu</span>
+						<svg
+							class="h-6 w-6"
+							aria-hidden="true"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="currentColor"
+							viewBox="0 0 14 18">
+							<path d="M7 8a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-2 3h4a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z" />
+						</svg>
+					</button>
+					<div
+						#userDdTarget
+						class="z-50 hidden list-none divide-y divide-gray-100 rounded-md bg-white shadow"
+						id="user-dropdown">
+						<ul class="py-2" aria-labelledby="user-menu-button">
+							<li>
+								<a
+									[routerLink]="['profile']"
+									ariaCurrentWhenActive="page"
+									routerLinkActive="text-secondary"
+									[routerLinkActiveOptions]="{ exact: true }"
+									(click)="userDropdown.hide()"
+									class="block px-4 py-2 text-gray-700 hover:bg-gray-100 md:hover:text-secondary"
+									>{{ 'profile' | translate }}</a
+								>
+							</li>
+						</ul>
+						<div class="py-2">
+							<button class="block px-4 py-2 text-gray-700 hover:bg-gray-100" (click)="logout()">
+								{{ 'logout' | translate }}
+								<span
+									class="block h-0.5 max-w-0 bg-secondary transition-all duration-500 group-hover:max-w-full"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<button
+					data-collapse-toggle="navbar-user"
+					type="button"
+					class="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 md:hidden"
+					aria-controls="navbar-user"
+					aria-expanded="false">
+					<span class="sr-only">Open main menu</span>
+					<svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+						<path
+							stroke="currentColor"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M1 1h15M1 7h15M1 13h15" />
+					</svg>
+				</button>
+			</div>
+			<div class="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto" id="navbar-user">
+				<ul
+					class="mt-4 flex flex-col rounded-lg border border-gray-100 p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0">
+					<li>
+						<a
+							routerLink="/"
+							ariaCurrentWhenActive="page"
+							routerLinkActive="text-secondary"
+							[routerLinkActiveOptions]="{ exact: true }"
+							class="group block rounded py-2 pl-3 pr-4 text-gray-900 transition duration-300 md:p-0 md:hover:text-secondary"
+							>{{ 'existingScores' | translate }}
+							<span
+								class="block h-0.5 max-w-0 bg-secondary transition-all duration-500 group-hover:max-w-full"
+								routerLinkActive="max-w-full w-1/6"
+								[routerLinkActiveOptions]="{ exact: true }"></span
+						></a>
+					</li>
+					<li>
+						<a
+							routerLink="/score/new"
+							ariaCurrentWhenActive="page"
+							routerLinkActive="text-secondary"
+							[routerLinkActiveOptions]="{ exact: true }"
+							class="group block rounded py-2 pl-3 pr-4 text-gray-900 transition duration-300 md:p-0 md:hover:text-secondary"
+							>{{ 'createNewScore' | translate }}
+							<span
+								class="block h-0.5 max-w-0 bg-secondary transition-all duration-500 group-hover:max-w-full"
+								routerLinkActive="max-w-full w-1/6"
+								[routerLinkActiveOptions]="{ exact: true }"></span
+						></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div [class]="!isLoginPage ? 'layout mt-8 grow' : ''">
+		<!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
+		<router-outlet *ngIf="!isIframe"></router-outlet>
+	</div>
+	<app-footer class="mt-6 p-8" *ngIf="!isLoginPage"></app-footer>
 </div>

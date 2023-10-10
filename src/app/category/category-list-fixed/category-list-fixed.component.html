@@ -1,9 +1,16 @@
 <!-- Fixed biomarkers -->
-<div
-  class="px-8 py-6 mb-4 bg-background border-tone-2 rounded-lg border-solid border grid lg:grid-cols-5 md:grid-cols-4 gap-4 align-items-end">
-    <span *ngFor="let biomarker of biomarkers"
-          [class.col-span-2]="EXTRA_WIDTH_CATEGORIES.includes(biomarker.id)">
-            <!-- biomarker form -->
-            <app-biomarker [biomarker]="biomarker" [sideEffectMarkers]="biomarkers" [unitTypeEditable]="false"/>
-  </span>
-</div>
+<ng-container *ngFor="let category of categories">
+	<ng-container *ngIf="category !== ''">
+		<h4 class="mt-4 first-of-type:mt-0">{{ category }}</h4>
+		<hr class="pb-2 text-primary" />
+	</ng-container>
+	<div class="flex flex-wrap gap-x-8 gap-y-4">
+		<span
+			*ngFor="let biomarker of categorizedBiomarkers(category)"
+			class="flex min-w-40 flex-col justify-end"
+			[class.col-span-2]="EXTRA_WIDTH_CATEGORIES.includes(biomarker.id)">
+			<!-- biomarker form -->
+			<app-biomarker [biomarker]="biomarker" [sideEffectMarkers]="biomarkers" [unitTypeEditable]="false" />
+		</span>
+	</div>
+</ng-container>

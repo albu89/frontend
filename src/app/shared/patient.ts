@@ -1,5 +1,5 @@
-export interface Patient{
-    firstname: string
-    lastname: string
-    dateOfBirth: Date
+export interface Patient {
+	firstname: string;
+	lastname: string;
+	dateOfBirth: Date;
 }

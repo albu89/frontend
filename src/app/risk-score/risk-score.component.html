@@ -1,38 +1,24 @@
-<div class="flex flex-row gap-4 max-h-200">
-  <div
-    class="{{ RiskClass == '0' ? grey : '' }} {{
-      RiskClass == '1' ? green : ''
-    }} {{ RiskClass == '2' ? yellow : '' }} {{
-      RiskClass == '3' ? orange : ''
-    }} {{ RiskClass == '4' ? red : '' }} 
-  p-6 flex flex-col justify-center gap-16 self-start
-  rounded-md 
-  "
-  >
-    <p class="uppercase">{{ ScoreHeader }}</p>
-    <p class="font-bold text-4xl mr-4">{{ ScoreValue * 100 | number: '1.0-0' }}</p>
-  </div>
-  <div
-    class="{{ RiskClass == '0' ? grey : '' }} {{
-      RiskClass == '1' ? green : ''
-    }} {{ RiskClass == '2' ? yellow : '' }} {{
-      RiskClass == '3' ? orange : ''
-    }} {{ RiskClass == '4' ? red : '' }}
-  p-6 flex flex-col
-  rounded-md justify-center gap-10 self-start
-   "
-  >
-    <p class="uppercase">{{ RiskHeader }}</p>
-    <p class="font-bold text-4xl mr-4">{{ RiskValue }}</p>
-  </div>
-  <div class="bg-white border-tone-1 shadow rounded-lg border-solid border flex flex-col p-6 gap-2 w-full">
-    <p class="text-label font-medium uppercase">{{ RecommendationHeader }}</p>
-    <p class="text-text text-xl font-medium">{{ Recommendation }}</p>
-    <div class="{{ isLongTextVisible ? '' : 'hidden'}} pt-2">
-      <p class="text-text font-medium">{{ RecommendationLong }}</p>
-    </div>
-    <div class="flex flex-row p-4 justify-end items-center">
-        <button class="underline text-secondary font-medium" (click)="showLongText()">More</button>
-    </div>
-  </div>
+<div class="max-h-200 flex flex-row gap-4">
+	<div
+		class="flex flex-col justify-center gap-16 self-start rounded-md p-6 text-white"
+		[class]="'bg-risk-' + RiskClass">
+		<p class="uppercase">{{ ScoreHeader }}</p>
+		<p class="mr-4 text-4xl font-bold">{{ ScoreValue * 100 | number: '1.0-0' }}</p>
+	</div>
+	<div
+		class="flex flex-col justify-center gap-10 self-start rounded-md p-6 text-white"
+		[class]="'bg-risk-' + RiskClass">
+		<p class="uppercase">{{ RiskHeader }}</p>
+		<p class="mr-4 text-4xl font-bold">{{ RiskValue }}</p>
+	</div>
+	<div class="flex w-full flex-col gap-2 rounded-lg border border-solid border-tone-1 bg-white p-6 shadow">
+		<p class="font-medium uppercase text-label">{{ RecommendationHeader }}</p>
+		<p class="font-medium text-text">{{ Recommendation }}</p>
+		<div class="{{ isLongTextVisible ? '' : 'hidden' }} pt-2">
+			<p class="text-sm">{{ RecommendationLong }}</p>
+		</div>
+		<button class="edit self-end" (click)="showLongText()">
+			{{ isLongTextVisible ? 'less' : 'more' }}
+		</button>
+	</div>
 </div>

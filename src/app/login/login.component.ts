@@ -4,71 +4,79 @@ import { MsalService } from '@azure/msal-angular';
 import { UserService } from '../service/user.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+	selector: 'app-login',
+	templateUrl: './login.component.html',
+	styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+	// TODO: Please implement proper Angular form validation
+	requestingAccess = false;
+	accessRequested = false;
+	emailValid = true;
+	phoneValid = true;
+	nameValid = true;
+	lastNameValid = true;
 
-  requestingAccess = false;
-  accessRequested = false;
-  inputClassBase = 'basis-1/2 rounded-md border py-1.5 pl-2 focus:ring-2 focus:ring-inset focus:outline-none sm:text-sm sm:leading-6 ';
-  inputClassValid = 'border-tone-2 focus:ring-primary';
-  inputClassInvalid = 'border-text-red ring-text-red';
-  emailValid = true;
-  phoneValid = true;
-  nameValid = true;
-  lastNameValid = true;
-  
-  emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  phoneRegex = /^(?:(?:\+|00)(49|1)[\s.-]*|\b(0|1))[1-9][0-9]*[\s.-]*[0-9]+[\s.-]*[0-9]+[\s.-]*[0-9]+$|^(?:\+1|1)?[-. ]?\(?[2-9]\d{2}\)?[-. ]?\d{3}[-. ]?\d{4}$/;
-  
-  constructor(private authService: MsalService, private router: Router, private userService: UserService) { }
+	emailRegex = /^[\w!#$%&'*+./=?^`{|}~-]+@[\dA-Za-z-]+(?:\.[\dA-Za-z-]+)*$/;
+	phoneRegex =
+		/^(?:(?:\+|0{2})(49|1)[\s.-]*|\b([01]))[1-9]\d*(?:[\s.-]*\d+){3}$|^(?:\+1|1)?[ .-]?\(?[2-9]\d{2}\)?[ .-]?\d{3}[ .-]?\d{4}$/;
 
-  login() {
-    this.authService.loginPopup()
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/']);
-        },
-        error: (error) => console.log(error)
-      });
-  }
+	constructor(
+		private authService: MsalService,
+		private router: Router,
+		private userService: UserService
+	) {}
 
-  requestAccess() {
-    this.requestingAccess = true;
-  }
+	login() {
+		this.authService.loginPopup().subscribe({
+			next: () => {
+				this.router.navigate(['/']);
+			},
+			error: error => console.log(error),
+		});
+	}
 
-  sendRequest(name: string, lastname: string, email: string, telephone: string, country: string, organization: string): boolean {
-    if (!name || !lastname || !email || !telephone) {
-      return false;
-    }
+	requestAccess() {
+		this.requestingAccess = true;
+	}
 
-    this.userService.requestAccess(name, lastname, email, telephone, country, organization)
-      .subscribe({
-        next: () => {
-          this.accessRequested = true;
-        },
-        error: (error) => console.log(error)
-      });
+	sendRequest(
+		name: string,
+		lastname: string,
+		email: string,
+		telephone: string,
+		country: string,
+		organization: string
+	): boolean {
+		if (!name || !lastname || !email || !telephone) {
+			return false;
+		}
 
-    return true
-  }
+		this.userService.requestAccess(name, lastname, email, telephone, country, organization).subscribe({
+			next: () => {
+				this.accessRequested = true;
+			},
+			error: error => console.log(error),
+		});
 
-  validateMail(mail : string) {
-    this.emailValid = mail.match(this.emailRegex) !== null;
-  }
+		return true;
+	}
 
-  validatePhone(phone : string) {
-    this.phoneValid = phone.match(this.phoneRegex) !== null;
-  }
+	validateMail(mail: string) {
+		this.emailValid = mail.match(this.emailRegex) !== null;
+	}
 
-  validateName(text : string) {
-    this.nameValid = text.length > 1;
-  }
+	validatePhone(phone: string) {
+		this.phoneValid = phone.match(this.phoneRegex) !== null;
+	}
 
-  validateLastName(text : string) {
-    this.lastNameValid = text.length > 1;
-  }
+	validateName(text: string) {
+		this.nameValid = text.length > 1;
+	}
 
+	validateLastName(text: string) {
+		this.lastNameValid = text.length > 1;
+	}
+
+	// TODO: Country and organisation not required fields and not validated?
 }
