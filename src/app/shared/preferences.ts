@@ -1,7 +1,7 @@
 export interface UserPreferences {
-	[key: string]: UserPreference;
+  [key: string]: UserPreference;
 }
 export interface UserPreference {
-	orderNumber: number;
-	preferredUnit: string;
+  orderNumber: number;
+  preferredUnit: string;
 }

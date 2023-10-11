@@ -1,1 +1,13 @@
+node_modules
+dist
+jest.config.js
+fixtures
+coverage
+__snapshots__
+setup-jest.ts
+proxy.conf.js
+proxy-cypress.conf.js
+cypress
+i18n-diff-compare.js
+translate.js
 git-version.js

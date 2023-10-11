@@ -1,108 +1,109 @@
 <div name="page">
-	<div name="header-div" class="flex flex-row justify-between">
-		<h1>Score #{{ score.requestId }}</h1>
-		<div>
-			<button type="button" class="action" routerLink="/score/new">{{ 'scorePrint' | translate }}</button>
-		</div>
-	</div>
-	<div
-		name="results"
-		class="mb-4 flex flex-col gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow">
-		<div name="score-results">
-			<app-risk-score
-				[RiskValue]="score.riskValue"
-				[RiskClass]="score.riskClass"
-				[RiskHeader]="schema.riskHeader"
-				[ScoreHeader]="schema.scoreHeader"
-				[ScoreValue]="score.classifier_score"
-				[RecommendationHeader]="schema.recommendationHeader"
-				[Recommendation]="score.recommendationSummary"
-				[RecommendationLong]="score.recommendationLongText" />
-		</div>
-		<div name="recommendation-details">
-			<button
-				class="hover:bg-primary-600 rounded pb-2 pt-2.5 font-medium uppercase leading-normal text-text"
-				type="button"
-				(click)="toggleTable()">
-				{{ tableHidden ? '▶ ' + schema.recommendationTableHeader : '▼ ' + schema.recommendationTableHeader }}
-			</button>
-			<div class="{{ tableHidden ? '!visible hidden' : 'visible' }} rounded-lg bg-white flex flex-col gap-2">
-				<app-recommendation-table
-					[categories]="relevantRecommendationCategories"
-					[recommendationHeader]="schema.recommendationHeader"
-					[scoreRangeHeader]="schema.recommendationScoreRangeHeader"
-					[probabilityHeader]="schema.recommendationProbabilityHeader"></app-recommendation-table>
-				<div name="footer" class="flex flex-col items-start gap-[0.0625] self-stretch">
-					<p class="font-bold text-label">{{ schema.infoText }}</p>
-					<div class="flex flex-row gap-2">
-						<span *ngFor="let key of abbreviationKeys">
-							<p class="font-medium text-label">{{ key }} = {{ schema.abbreviations[key] }};</p>
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div *ngIf="score.warnings?.length" name="warnings">
-			<app-warning [warningHeader]="schema.warningHeader" [warnings]="score.warnings"></app-warning>
-		</div>
-		<table name="footnotes" class="border-separate border-spacing-3 pt-4 text-xs text-label">
-			<tbody class="align-top">
-				<tr app-footnote [header]="schema.cadDefinitionHeader" [text]="schema.cadDefinition"></tr>
-				<tr app-footnote [header]="schema.footnoteHeader" [text]="schema.footnote"></tr>
-				<tr app-footnote [header]="schema.intendedUseHeader" [text]="schema.intendedUse"></tr>
-			</tbody>
-		</table>
-	</div>
-	<div
-		name="values"
-		class="my-4 flex flex-col gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow">
-		<div
-			name="patientInfo"
-			class="mb-4 grid grid-cols-4 gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
-			<app-biomarker-info
-				Header="Patient Name"
-				Value="{{ firstname }} {{ lastname }}"
-				class="col-span-2"></app-biomarker-info>
-			<app-biomarker-info
-				Header="Birthdate"
-				[Value]="birthdate"
-				InfoText="Birthdate of the patient"
-				[isDate]="true"></app-biomarker-info>
-			<app-biomarker-info
-				Header="Input date"
-				[Value]="score.biomarkers.createdOn"
-				InfoText="Date the Scoring request was made"
-				[isDate]="true"></app-biomarker-info>
-		</div>
-		<div
-			name="baseInfo"
-			class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
-			<app-biomarker-info
-				*ngFor="let biomarker of anamnesisMarkers"
-				[Header]="biomarker.fieldname"
-				[InfoText]="biomarker.infoText"
-				[Value]="this.getBiomarkerValue(biomarker.id)"
-				[Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"></app-biomarker-info>
-		</div>
-		<div
-			name="baseInfo"
-			class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
-			<app-biomarker-info
-				*ngFor="let biomarker of medicationMarkers"
-				[Header]="biomarker.fieldname"
-				[InfoText]="biomarker.infoText"
-				[Value]="this.getBiomarkerValue(biomarker.id)"
-				[Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"></app-biomarker-info>
-		</div>
-		<div
-			name="baseInfo"
-			class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
-			<app-biomarker-info
-				*ngFor="let biomarker of valueMarkers"
-				[Header]="biomarker.fieldname"
-				[InfoText]="biomarker.infoText"
-				[Value]="this.getBiomarkerValue(biomarker.id)"
-				[Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"></app-biomarker-info>
-		</div>
-	</div>
+  <div name="header-div" class="flex flex-row justify-between">
+    <h1>Score #{{ score.requestId }}</h1>
+    <div>
+      <button type="button" class="action" routerLink="/score/new">{{ 'scorePrint' | translate }}</button>
+    </div>
+  </div>
+  <div
+    name="results"
+    class="mb-4 flex flex-col gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow"
+    *ngIf="schema">
+    <div name="score-results">
+      <ce-risk-score
+        [RiskValue]="score.riskValue"
+        [RiskClass]="score.riskClass"
+        [RiskHeader]="schema.riskHeader"
+        [ScoreHeader]="schema.scoreHeader"
+        [ScoreValue]="score.classifierScore"
+        [RecommendationHeader]="schema.recommendationHeader"
+        [Recommendation]="score.recommendationSummary"
+        [RecommendationLong]="score.recommendationLongText" />
+    </div>
+    <div name="recommendation-details">
+      <button
+        class="hover:bg-primary-600 rounded pb-2 pt-2.5 font-medium uppercase leading-normal text-text"
+        type="button"
+        (click)="toggleTable()">
+        {{ tableHidden ? '▶ ' + schema.recommendationTableHeader : '▼ ' + schema.recommendationTableHeader }}
+      </button>
+      <div class="{{ tableHidden ? '!visible hidden' : 'visible' }} rounded-lg bg-white flex flex-col gap-2">
+        <ce-recommendation-table
+          [categories]="relevantRecommendationCategories"
+          [recommendationHeader]="schema.recommendationHeader"
+          [scoreRangeHeader]="schema.recommendationScoreRangeHeader"
+          [probabilityHeader]="schema.recommendationProbabilityHeader"></ce-recommendation-table>
+        <div name="footer" class="flex flex-col items-start gap-[0.0625] self-stretch">
+          <p class="font-bold text-label">{{ schema.infoText }}</p>
+          <div class="flex flex-row gap-2">
+            <span *ngFor="let key of abbreviationKeys">
+              <p class="font-medium text-label">{{ key }} = {{ schema.abbreviations[key] }};</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="score.warnings?.length" name="warnings">
+      <ce-warning [warningHeader]="schema.warningHeader" [warnings]="score.warnings"></ce-warning>
+    </div>
+    <table name="footnotes" class="border-separate border-spacing-3 pt-4 text-xs text-label">
+      <tbody class="align-top">
+        <tr ce-footnote [header]="schema.cadDefinitionHeader" [text]="schema.cadDefinition"></tr>
+        <tr ce-footnote [header]="schema.footnoteHeader" [text]="schema.footnote"></tr>
+        <tr ce-footnote [header]="schema.intendedUseHeader" [text]="schema.intendedUse"></tr>
+      </tbody>
+    </table>
+  </div>
+  <div
+    name="values"
+    class="my-4 flex flex-col gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow">
+    <div
+      name="patientInfo"
+      class="mb-4 grid grid-cols-4 gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
+      <ce-biomarker-info
+        Header="Patient Name"
+        Value="{{ firstname }} {{ lastname }}"
+        class="col-span-2"></ce-biomarker-info>
+      <ce-biomarker-info
+        Header="Birthdate"
+        [Value]="birthdate"
+        InfoText="Birthdate of the patient"
+        [isDate]="true"></ce-biomarker-info>
+      <ce-biomarker-info
+        Header="Input date"
+        [Value]="score.biomarkers.createdOn"
+        InfoText="Date the Scoring request was made"
+        [isDate]="true"></ce-biomarker-info>
+    </div>
+    <div
+      name="baseInfo"
+      class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
+      <ce-biomarker-info
+        *ngFor="let biomarker of anamnesisMarkers"
+        [Header]="biomarker.fieldname"
+        [InfoText]="biomarker.infoText"
+        [Value]="this.getBiomarkerValue(biomarker.id)"
+        [Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"></ce-biomarker-info>
+    </div>
+    <div
+      name="baseInfo"
+      class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
+      <ce-biomarker-info
+        *ngFor="let biomarker of medicationMarkers"
+        [Header]="biomarker.fieldname"
+        [InfoText]="biomarker.infoText"
+        [Value]="this.getBiomarkerValue(biomarker.id)"
+        [Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"></ce-biomarker-info>
+    </div>
+    <div
+      name="baseInfo"
+      class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
+      <ce-biomarker-info
+        *ngFor="let biomarker of valueMarkers"
+        [Header]="biomarker.fieldname"
+        [InfoText]="biomarker.infoText"
+        [Value]="this.getBiomarkerValue(biomarker.id)"
+        [Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"></ce-biomarker-info>
+    </div>
+  </div>
 </div>

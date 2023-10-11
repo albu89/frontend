@@ -7,72 +7,76 @@ import { LanguageService } from './language.service';
 import { UserPreferences } from '../shared/preferences';
 
 @Injectable({
-	providedIn: 'root',
+  providedIn: 'root',
 })
 export class UserService {
-	public currentUserSubject = new BehaviorSubject<Profile | null>(null);
-	public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
+  public currentUserSubject = new BehaviorSubject<Profile | null>(null);
+  public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
+  public isLoggedIn = this.currentUser.pipe(map(user => !!user));
+  public baseUrl = environment.backendUrl + '/api/user';
 
-	public isLoggedIn = this.currentUser.pipe(map(user => !!user));
+  public constructor(
+    private readonly http: HttpClient,
+    private readonly languageService: LanguageService
+  ) {}
 
-	constructor(
-		private http: HttpClient,
-		private languageService: LanguageService
-	) {}
-	baseUrl = environment.backendUrl + '/api/user';
+  public getUser(): Observable<Profile | null> {
+    if (!this.currentUserSubject.value) {
+      return this.http.get<Profile>(this.baseUrl).pipe(
+        tap({
+          next: val => this.setAuth(val),
+          error: () => this.purgeAuth(),
+        }),
+        shareReplay(1)
+      );
+    }
+    return this.currentUser;
+  }
 
-	getUser(): Observable<Profile | null> {
-		if (!this.currentUserSubject.value) {
-			return this.http.get<Profile>(this.baseUrl).pipe(
-				tap({
-					next: val => this.setAuth(val),
-					error: () => this.purgeAuth(),
-				}),
-				shareReplay(1)
-			);
-		}
+  public updateUser(profile: Profile) {
+    const url = this.baseUrl;
+    return this.http.patch<Profile>(url, profile).pipe(tap(user => this.setAuth(user)));
+  }
 
-		return this.currentUser;
-	}
+  public createUser(profile: Profile) {
+    const url = this.baseUrl;
+    return this.http.post<Profile>(url, profile).pipe(tap(user => this.setAuth(user)));
+  }
 
-	updateUser(profile: Profile) {
-		const url = this.baseUrl;
-		return this.http.patch<Profile>(url, profile).pipe(tap(user => this.setAuth(user)));
-	}
+  public requestAccess(
+    name: string,
+    lastname: string,
+    email: string,
+    tel: string,
+    country: string,
+    organization: string
+  ) {
+    const url = this.baseUrl + '/request';
+    const request = {
+      firstname: name,
+      surname: lastname,
+      emailaddress: email,
+      phoneNumber: tel,
+      country,
+      organization,
+    };
+    return this.http.post(url, request);
+  }
 
-	createUser(profile: Profile) {
-		const url = this.baseUrl;
-		return this.http.post<Profile>(url, profile).pipe(tap(user => this.setAuth(user)));
-	}
+  public setAuth(user: Profile): void {
+    this.currentUserSubject.next(user);
+    const selectedLanguage = user.language === 'deutsch' ? 'de-DE' : 'en-GB';
+    this.languageService.setLanguage(selectedLanguage, true);
+  }
 
-	requestAccess(name: string, lastname: string, email: string, tel: string, country: string, organization: string) {
-		const url = this.baseUrl + '/request';
-		const request = {
-			firstname: name,
-			surname: lastname,
-			emailaddress: email,
-			phoneNumber: tel,
-			country,
-			organization,
-		};
-		return this.http.post(url, request);
-	}
+  private purgeAuth(): void {
+    this.currentUserSubject.next(null);
+  }
 
-	setAuth(user: Profile): void {
-		this.currentUserSubject.next(user);
-		const selectedLanguage = user.language === 'deutsch' ? 'de-DE' : 'en-GB';
-		this.languageService.setLanguage(selectedLanguage, true);
-	}
-
-	purgeAuth(): void {
-		this.currentUserSubject.next(null);
-	}
-
-	//todo clarify what to do with Observable<any> type and enable eslint again
-
-	/* eslint-disable */
-	updateUserPreferences(preferences: UserPreferences): Observable<any> {
-		const url = this.baseUrl + '/preferences';
-		return this.http.patch(url, preferences); //todo errorhandling
-	}
+  //todo clarify what to do with Observable<any> type and enable eslint again
+  /* eslint-disable */
+  public updateUserPreferences(preferences: UserPreferences): Observable<any> {
+    const url = this.baseUrl + '/preferences';
+    return this.http.patch(url, preferences); //todo errorhandling
+  }
 }

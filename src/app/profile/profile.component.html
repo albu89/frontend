@@ -1,379 +1,379 @@
 <form class="mb-10" [formGroup]="updatedUser" (ngSubmit)="onSubmit()">
-	<h1>Profile</h1>
-	<div class="block place-content-center rounded-xl border border-tone-2 bg-background px-[10%] py-[2.5%]">
-		<div class="flex flex-col place-content-center">
-			<h3>{{ 'userIdentitySetting' | translate }}</h3>
-			<hr class="pb-6 text-primary" />
-			<div class="mb-6 grid gap-6 md:grid-cols-2">
-				<div name="mail" class="relative">
-					<input
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						readonly
-						id="emailAdress"
-						type="email"
-						formControlName="emailAddress"
-						[(ngModel)]="updatedUserProfile.emailAddress" />
-					<label
-						for="emailAdress"
-						class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-						>{{ 'userEMail' | translate }}</label
-					>
-				</div>
-			</div>
-		</div>
-		<div class="flex flex-col place-content-center">
-			<h3>{{ 'userGeneralSetting' | translate }}</h3>
-			<hr class="pb-6 text-primary" />
-			<div class="mb-6 grid gap-6 md:grid-cols-2">
-				<div name="salutation" class="relative">
-					<select
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						[class.empty]="updatedUserProfile.salutation === ''"
-						name="salutation"
-						id="salutation"
-						formControlName="salutation"
-						[(ngModel)]="updatedUserProfile.salutation">
-						<option value="mr">Mr.</option>
-						<option value="ms">Ms.</option>
-						<option value="msr">Msr.</option>
-					</select>
-					<label
-						for="salutation"
-						class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-						>{{ 'userSalutation' | translate }}</label
-					>
-				</div>
-				<div name="title" class="relative">
-					<input
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						id="Title"
-						type="text"
-						placeholder=" "
-						formControlName="title"
-						[(ngModel)]="updatedUserProfile.title" />
-					<label
-						for="title"
-						class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-						>{{ 'userTitle' | translate }}</label
-					>
-				</div>
-				<div name="firstName" class="relative">
-					<input
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						id="firstname"
-						type="text"
-						placeholder=" "
-						formControlName="firstName"
-						[(ngModel)]="updatedUserProfile.firstName" />
-					<label
-						for="firstname"
-						class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-						>{{ 'userFirstName' | translate }}</label
-					>
-				</div>
-				<div name="lastName" class="relative">
-					<input
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						id="surname"
-						type="text"
-						placeholder=" "
-						formControlName="surname"
-						[(ngModel)]="updatedUserProfile.surname" />
-					<label
-						for="surname"
-						class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-						>{{ 'userLastName' | translate }}</label
-					>
-				</div>
-				<div name="professionalSpecialisation" class="relative">
-					<input
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						id="professionalspecialisation"
-						type="text"
-						placeholder=" "
-						formControlName="professionalSpecialisation"
-						[(ngModel)]="updatedUserProfile.professionalSpecialisation" />
-					<label
-						for="professionalspecialisation"
-						class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-						>{{ 'userProfSpec' | translate }}</label
-					>
-				</div>
-				<div name="department" class="relative">
-					<input
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						id="department"
-						type="text"
-						placeholder=" "
-						formControlName="department"
-						[(ngModel)]="updatedUserProfile.department" />
-					<label
-						for="department"
-						class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-						>{{ 'userDepartment' | translate }}</label
-					>
-				</div>
-			</div>
-		</div>
-		<div class="flex flex-col place-content-center">
-			<h3>Contact details</h3>
-			<hr class="pb-6 text-primary" />
-			<div class="mb-6 grid gap-6 md:grid-cols-2">
-				<div name="address" class="relative">
-					<input
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						id="address"
-						type="text"
-						placeholder=" "
-						formControlName="address"
-						[(ngModel)]="updatedUserProfile.address" />
-					<label
-						for="address"
-						class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-						>{{ 'userAddress' | translate }}</label
-					>
-				</div>
-				<div name="zip" class="relative">
-					<input
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						id="zip"
-						type="text"
-						placeholder=" "
-						formControlName="zipCode"
-						[(ngModel)]="updatedUserProfile.zipCode" />
-					<label
-						for="zip"
-						class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-						>{{ 'userZIP' | translate }}</label
-					>
-				</div>
-				<div name="city" class="relative">
-					<input
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						id="city"
-						type="text"
-						placeholder=" "
-						formControlName="city"
-						[(ngModel)]="updatedUserProfile.city" />
-					<label
-						for="city"
-						class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-						>{{ 'userCity' | translate }}</label
-					>
-				</div>
-				<div name="country" class="relative">
-					<select
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						[class.empty]="updatedUserProfile.country === ''"
-						#country
-						name="country"
-						id="country"
-						formControlName="country"
-						[(ngModel)]="updatedUserProfile.country">
-						<option *ngFor="let code of countryCodes" [value]="code.name">
-							<!-- TODO: I am not sure this is properly translated -->
-							{{ code.name }}
-						</option>
-					</select>
-					<label
-						for="country"
-						class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-						>{{ 'userCountryCode' | translate }}</label
-					>
-				</div>
-				<div name="telephoneNumber" class="relative">
-					<input
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						id="telephoneNumber"
-						type="text"
-						placeholder=" "
-						[value]="updatedUserProfile.telephoneNumber"
-						formControlName="telephoneNumber"
-						[(ngModel)]="updatedUserProfile.telephoneNumber" />
-					<label
-						for="telephoneNumber"
-						class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-						>{{ 'userPhoneNumber' | translate }}</label
-					>
-				</div>
-			</div>
-		</div>
-		<div class="flex flex-col place-content-center">
-			<h3>Settings</h3>
-			<!-- TODO: this is not properly translated -->
-			<hr class="pb-6 text-primary" />
-			<div class="mb-6 grid gap-6 md:grid-cols-2">
-				<div name="language" class="relative">
-					<select
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						[class.empty]="updatedUserProfile.language === ''"
-						name="language"
-						id="language"
-						placeholder=" "
-						[value]="updatedUserProfile.language"
-						formControlName="language"
-						[(ngModel)]="updatedUserProfile.language">
-						<option value="english">English</option>
-						<option value="deutsch">Deutsch</option>
-						<option value="français">Français</option>
-					</select>
-					<label
-						for="language"
-						class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-						>Language</label
-					><!-- TODO: this is not properly translated -->
-				</div>
-				<div name="unitLabValues" class="relative">
-					<select
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						[class.empty]="updatedUserProfile.unitLabValues === ''"
-						name="unitLabValues"
-						id="unitLabValues"
-						[value]="updatedUserProfile.unitLabValues"
-						formControlName="unitLabValues"
-						[(ngModel)]="updatedUserProfile.unitLabValues">
-						<option value="si">SI</option>
-						<option value="conventional">Conventional</option>
-						<!-- TODO: this is not properly translated -->
-					</select>
-					<label
-						for="unitLabValues"
-						class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-						>Units lab values</label
-					><!-- TODO: this is not properly translated -->
-				</div>
-				<div name="preferredLab" class="relative">
-					<input
-						class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-						id="preferredlab"
-						type="text"
-						placeholder=" "
-						formControlName="preferredLab"
-						[(ngModel)]="updatedUserProfile.preferredLab" />
-					<label
-						for="preferredlab"
-						class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-						>{{ 'userPrefLab' | translate }}</label
-					>
-				</div>
-			</div>
-		</div>
-		<div class="flex flex-col place-content-center justify-center">
-			<h3>Clinical Setting</h3>
-			<!-- TODO: this is not properly translated (/!\ The text is different from what was before this commit. Don't translate blindly; please check the text documented in Confluence!) -->
-			<hr class="pb-6 text-primary" />
-			<div class="w-full self-center" data-accordion="collapse">
-				<h4>
-					<button
-						type="button"
-						class="flex w-full items-center justify-between py-5 text-left font-medium text-gray-500"
-						data-accordion-target="#clinical-setting-choose"
-						[attr.aria-expanded]="!userExistedPreviously"
-						aria-controls="clinical-setting-choose">
-						<span>How to choose?</span>
-						<svg
-							data-accordion-icon
-							class="h-3 w-3 shrink-0 rotate-180"
-							aria-hidden="true"
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 10 6">
-							<path
-								stroke="currentColor"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M9 5 5 1 1 5" />
-						</svg>
-					</button>
-				</h4>
-				<div id="clinical-setting-choose" class="hidden" aria-labelledby="clinical-setting-choose">
-					<p>
-						To ensure accurate risk stratification using the Cardio Explorer, the choice of the appropriate calibration
-						should be tailored to the clinical setting, such as risk stratification or screening in primary care versus
-						evaluation by a cardiologist or in a hospital setting (secondary care).
-					</p>
-					<p>
-						The accuracy of a disease prediction model depends on the prevalence of the disease in the population being
-						tested. Therefore, the cut-off points on the receiver operating characteristic (ROC) curve, which indicate
-						the balance between sensitivity and specificity of the model, need to be adjusted based on the prevalence of
-						the clinical setting where the model is being used. This is typically referred to as calibration. This
-						calibration process ensures that the model's predictions are accurate and reliable in the specific
-						population being tested. By adjusting the cut-off point, the model can maintain an appropriate balance
-						between sensitivity and specificity, which is crucial for accurate disease prediction and diagnosis.
-					</p>
-					<p>
-						For example, in a hospital population with a high prevalence of CAD, a lower cut-off point on the ROC curve
-						is appropriate in order to maximize sensitivity and minimize false negatives. Conversely, in a primary care
-						population with a low prevalence of CAD, a higher cut-off point is needed to maximize specificity and
-						minimize false positives.
-					</p>
-				</div>
+  <h1>Profile</h1>
+  <div class="block place-content-center rounded-xl border border-tone-2 bg-background px-[10%] py-[2.5%]">
+    <div class="flex flex-col place-content-center">
+      <h3>{{ 'userIdentitySetting' | translate }}</h3>
+      <hr class="pb-6 text-primary" />
+      <div class="mb-6 grid gap-6 md:grid-cols-2">
+        <div name="mail" class="relative">
+          <input
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            readonly
+            id="emailAdress"
+            type="email"
+            formControlName="emailAddress"
+            [(ngModel)]="updatedUserProfile.emailAddress" />
+          <label
+            for="emailAdress"
+            class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
+            >{{ 'userEMail' | translate }}</label
+          >
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col place-content-center">
+      <h3>{{ 'userGeneralSetting' | translate }}</h3>
+      <hr class="pb-6 text-primary" />
+      <div class="mb-6 grid gap-6 md:grid-cols-2">
+        <div name="salutation" class="relative">
+          <select
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            [class.empty]="updatedUserProfile.salutation === ''"
+            name="salutation"
+            id="salutation"
+            formControlName="salutation"
+            [(ngModel)]="updatedUserProfile.salutation">
+            <option value="mr">Mr.</option>
+            <option value="ms">Ms.</option>
+            <option value="msr">Msr.</option>
+          </select>
+          <label
+            for="salutation"
+            class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
+            >{{ 'userSalutation' | translate }}</label
+          >
+        </div>
+        <div name="title" class="relative">
+          <input
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            id="Title"
+            type="text"
+            placeholder=" "
+            formControlName="title"
+            [(ngModel)]="updatedUserProfile.title" />
+          <label
+            for="title"
+            class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
+            >{{ 'userTitle' | translate }}</label
+          >
+        </div>
+        <div name="firstName" class="relative">
+          <input
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            id="firstname"
+            type="text"
+            placeholder=" "
+            formControlName="firstName"
+            [(ngModel)]="updatedUserProfile.firstName" />
+          <label
+            for="firstname"
+            class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
+            >{{ 'userFirstName' | translate }}</label
+          >
+        </div>
+        <div name="lastName" class="relative">
+          <input
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            id="surname"
+            type="text"
+            placeholder=" "
+            formControlName="surname"
+            [(ngModel)]="updatedUserProfile.surname" />
+          <label
+            for="surname"
+            class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
+            >{{ 'userLastName' | translate }}</label
+          >
+        </div>
+        <div name="professionalSpecialisation" class="relative">
+          <input
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            id="professionalspecialisation"
+            type="text"
+            placeholder=" "
+            formControlName="professionalSpecialisation"
+            [(ngModel)]="updatedUserProfile.professionalSpecialisation" />
+          <label
+            for="professionalspecialisation"
+            class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
+            >{{ 'userProfSpec' | translate }}</label
+          >
+        </div>
+        <div name="department" class="relative">
+          <input
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            id="department"
+            type="text"
+            placeholder=" "
+            formControlName="department"
+            [(ngModel)]="updatedUserProfile.department" />
+          <label
+            for="department"
+            class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
+            >{{ 'userDepartment' | translate }}</label
+          >
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col place-content-center">
+      <h3>Contact details</h3>
+      <hr class="pb-6 text-primary" />
+      <div class="mb-6 grid gap-6 md:grid-cols-2">
+        <div name="address" class="relative">
+          <input
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            id="address"
+            type="text"
+            placeholder=" "
+            formControlName="address"
+            [(ngModel)]="updatedUserProfile.address" />
+          <label
+            for="address"
+            class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
+            >{{ 'userAddress' | translate }}</label
+          >
+        </div>
+        <div name="zip" class="relative">
+          <input
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            id="zip"
+            type="text"
+            placeholder=" "
+            formControlName="zipCode"
+            [(ngModel)]="updatedUserProfile.zipCode" />
+          <label
+            for="zip"
+            class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
+            >{{ 'userZIP' | translate }}</label
+          >
+        </div>
+        <div name="city" class="relative">
+          <input
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            id="city"
+            type="text"
+            placeholder=" "
+            formControlName="city"
+            [(ngModel)]="updatedUserProfile.city" />
+          <label
+            for="city"
+            class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
+            >{{ 'userCity' | translate }}</label
+          >
+        </div>
+        <div name="country" class="relative">
+          <select
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            [class.empty]="updatedUserProfile.country === ''"
+            #country
+            name="country"
+            id="country"
+            formControlName="country"
+            [(ngModel)]="updatedUserProfile.country">
+            <option *ngFor="let code of countryCodes" [value]="code.name">
+              <!-- TODO: I am not sure this is properly translated -->
+              {{ code.name }}
+            </option>
+          </select>
+          <label
+            for="country"
+            class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
+            >{{ 'userCountryCode' | translate }}</label
+          >
+        </div>
+        <div name="telephoneNumber" class="relative">
+          <input
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            id="telephoneNumber"
+            type="text"
+            placeholder=" "
+            [value]="updatedUserProfile.telephoneNumber"
+            formControlName="telephoneNumber"
+            [(ngModel)]="updatedUserProfile.telephoneNumber" />
+          <label
+            for="telephoneNumber"
+            class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
+            >{{ 'userPhoneNumber' | translate }}</label
+          >
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col place-content-center">
+      <h3>Settings</h3>
+      <!-- TODO: this is not properly translated -->
+      <hr class="pb-6 text-primary" />
+      <div class="mb-6 grid gap-6 md:grid-cols-2">
+        <div name="language" class="relative">
+          <select
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            [class.empty]="updatedUserProfile.language === ''"
+            name="language"
+            id="language"
+            placeholder=" "
+            [value]="updatedUserProfile.language"
+            formControlName="language"
+            [(ngModel)]="updatedUserProfile.language">
+            <option value="english">English</option>
+            <option value="deutsch">Deutsch</option>
+            <option value="français">Français</option>
+          </select>
+          <label
+            for="language"
+            class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
+            >Language</label
+          ><!-- TODO: this is not properly translated -->
+        </div>
+        <div name="unitLabValues" class="relative">
+          <select
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            [class.empty]="updatedUserProfile.unitLabValues === ''"
+            name="unitLabValues"
+            id="unitLabValues"
+            [value]="updatedUserProfile.unitLabValues"
+            formControlName="unitLabValues"
+            [(ngModel)]="updatedUserProfile.unitLabValues">
+            <option value="si">SI</option>
+            <option value="conventional">Conventional</option>
+            <!-- TODO: this is not properly translated -->
+          </select>
+          <label
+            for="unitLabValues"
+            class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
+            >Units lab values</label
+          ><!-- TODO: this is not properly translated -->
+        </div>
+        <div name="preferredLab" class="relative">
+          <input
+            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+            id="preferredlab"
+            type="text"
+            placeholder=" "
+            formControlName="preferredLab"
+            [(ngModel)]="updatedUserProfile.preferredLab" />
+          <label
+            for="preferredlab"
+            class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
+            >{{ 'userPrefLab' | translate }}</label
+          >
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col place-content-center justify-center">
+      <h3>Clinical Setting</h3>
+      <!-- TODO: this is not properly translated (/!\ The text is different from what was before this commit. Don't translate blindly; please check the text documented in Confluence!) -->
+      <hr class="pb-6 text-primary" />
+      <div class="w-full self-center" data-accordion="collapse">
+        <h4>
+          <button
+            type="button"
+            class="flex w-full items-center justify-between py-5 text-left font-medium text-gray-500"
+            data-accordion-target="#clinical-setting-choose"
+            [attr.aria-expanded]="!userExistedPreviously"
+            aria-controls="clinical-setting-choose">
+            <span>How to choose?</span>
+            <svg
+              data-accordion-icon
+              class="h-3 w-3 shrink-0 rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6">
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5 5 1 1 5" />
+            </svg>
+          </button>
+        </h4>
+        <div id="clinical-setting-choose" class="hidden" aria-labelledby="clinical-setting-choose">
+          <p>
+            To ensure accurate risk stratification using the Cardio Explorer, the choice of the appropriate calibration
+            should be tailored to the clinical setting, such as risk stratification or screening in primary care versus
+            evaluation by a cardiologist or in a hospital setting (secondary care).
+          </p>
+          <p>
+            The accuracy of a disease prediction model depends on the prevalence of the disease in the population being
+            tested. Therefore, the cut-off points on the receiver operating characteristic (ROC) curve, which indicate
+            the balance between sensitivity and specificity of the model, need to be adjusted based on the prevalence of
+            the clinical setting where the model is being used. This is typically referred to as calibration. This
+            calibration process ensures that the model's predictions are accurate and reliable in the specific
+            population being tested. By adjusting the cut-off point, the model can maintain an appropriate balance
+            between sensitivity and specificity, which is crucial for accurate disease prediction and diagnosis.
+          </p>
+          <p>
+            For example, in a hospital population with a high prevalence of CAD, a lower cut-off point on the ROC curve
+            is appropriate in order to maximize sensitivity and minimize false negatives. Conversely, in a primary care
+            population with a low prevalence of CAD, a higher cut-off point is needed to maximize specificity and
+            minimize false positives.
+          </p>
+        </div>
 
-				<h4 *ngIf="userExistedPreviously">
-					<button
-						type="button"
-						class="flex w-full items-center justify-between py-5 text-left font-medium text-gray-500"
-						data-accordion-target="#clinical-setting-change"
-						aria-expanded="false"
-						aria-controls="clinical-setting-change">
-						<span>How to request a change?</span>
-						<svg
-							data-accordion-icon
-							class="h-3 w-3 shrink-0 rotate-180"
-							aria-hidden="true"
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 10 6">
-							<path
-								stroke="currentColor"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M9 5 5 1 1 5" />
-						</svg>
-					</button>
-				</h4>
-				<div id="clinical-setting-change" class="hidden" aria-labelledby="clinical-setting-change">
-					<p>TBD</p>
-				</div>
-			</div>
-			<div class="flex h-full w-3/4 flex-row items-center justify-center self-center py-2.5">
-				<ng-template ngFor let-clinicalSetting [ngForOf]="CLINICAL_SETTINGS">
-					<div
-						*ngIf="!userExistedPreviously || updatedUserProfile.clinicalSetting === clinicalSetting.name"
-						class="flex basis-1/2 items-center justify-center py-1.5">
-						<div class="flex flex-col justify-center self-stretch rounded px-2 py-2.5 text-center">
-							<input
-								[id]="clinicalSetting.name"
-								class="peer absolute m-0 inline-block cursor-pointer opacity-0 disabled:cursor-default"
-								type="radio"
-								name="clinicalSetting"
-								[value]="clinicalSetting.name"
-								formControlName="clinicalSetting"
-								[(ngModel)]="updatedUserProfile.clinicalSetting" />
-							<label
-								[for]="clinicalSetting.name"
-								class="flex h-36 cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-tone-1 p-6 font-semibold text-text peer-checked:border peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-disabled:cursor-default"
-								>{{ clinicalSetting.descr }}</label
-							>
-						</div>
-					</div>
-				</ng-template>
-			</div>
-			<div *ngIf="!userExistedPreviously" class="flex w-3/4 self-center">
-				<input
-					id="clinicalSettingConfirmBox"
-					type="checkbox"
-					value=""
-					class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500" />
-				<label for="clinicalSettingConfirmBox" class="ml-2 font-medium text-gray-900"
-					>I understand that my choice is conclusive.</label
-				>
-			</div>
-		</div>
-		<div class="flex flex-row-reverse py-6">
-			<button class="action" type="submit">Update</button>
-		</div>
-	</div>
+        <h4 *ngIf="userExistedPreviously">
+          <button
+            type="button"
+            class="flex w-full items-center justify-between py-5 text-left font-medium text-gray-500"
+            data-accordion-target="#clinical-setting-change"
+            aria-expanded="false"
+            aria-controls="clinical-setting-change">
+            <span>How to request a change?</span>
+            <svg
+              data-accordion-icon
+              class="h-3 w-3 shrink-0 rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6">
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5 5 1 1 5" />
+            </svg>
+          </button>
+        </h4>
+        <div id="clinical-setting-change" class="hidden" aria-labelledby="clinical-setting-change">
+          <p>TBD</p>
+        </div>
+      </div>
+      <div class="flex h-full w-3/4 flex-row items-center justify-center self-center py-2.5">
+        <ng-template ngFor let-clinicalSetting [ngForOf]="CLINICAL_SETTINGS">
+          <div
+            *ngIf="!userExistedPreviously || updatedUserProfile.clinicalSetting === clinicalSetting.name"
+            class="flex basis-1/2 items-center justify-center py-1.5">
+            <div class="flex flex-col justify-center self-stretch rounded px-2 py-2.5 text-center">
+              <input
+                [id]="clinicalSetting.name"
+                class="peer absolute m-0 inline-block cursor-pointer opacity-0 disabled:cursor-default"
+                type="radio"
+                name="clinicalSetting"
+                [value]="clinicalSetting.name"
+                formControlName="clinicalSetting"
+                [(ngModel)]="updatedUserProfile.clinicalSetting" />
+              <label
+                [for]="clinicalSetting.name"
+                class="flex h-36 cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-tone-1 p-6 font-semibold text-text peer-checked:border peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-disabled:cursor-default"
+                >{{ clinicalSetting.descr }}</label
+              >
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div *ngIf="!userExistedPreviously" class="flex w-3/4 self-center">
+        <input
+          id="clinicalSettingConfirmBox"
+          type="checkbox"
+          value=""
+          class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500" />
+        <label for="clinicalSettingConfirmBox" class="ml-2 font-medium text-gray-900"
+          >I understand that my choice is conclusive.</label
+        >
+      </div>
+    </div>
+    <div class="flex flex-row-reverse py-6">
+      <button class="action" type="submit">Update</button>
+    </div>
+  </div>
 </form>

@@ -3,22 +3,22 @@ import { EXTRA_WIDTH_CATEGORIES } from '../_models/categories-constants';
 import { Biomarker } from '../../shared/biomarker';
 
 @Component({
-	selector: 'app-category-list-fixed',
-	templateUrl: './category-list-fixed.component.html',
-	styleUrls: ['./category-list-fixed.component.css'],
+  selector: 'ce-category-list-fixed',
+  templateUrl: './category-list-fixed.component.html',
+  styleUrls: ['./category-list-fixed.component.scss'],
 })
 export class CategoryListFixedComponent implements OnInit {
-	@Input() public biomarkers!: Biomarker[];
+  @Input() public biomarkers!: Biomarker[];
 
-	protected readonly EXTRA_WIDTH_CATEGORIES = EXTRA_WIDTH_CATEGORIES;
+  public categories: string[] = [];
 
-	categories: string[] = [];
+  protected readonly EXTRA_WIDTH_CATEGORIES = EXTRA_WIDTH_CATEGORIES;
 
-	ngOnInit() {
-		this.categories = [...new Set(this.biomarkers.map(b => b.category))];
-	}
+  public ngOnInit() {
+    this.categories = [...new Set(this.biomarkers.map(b => b.category))];
+  }
 
-	categorizedBiomarkers(category: string): Biomarker[] {
-		return this.biomarkers.filter(b => b.category === category);
-	}
+  public categorizedBiomarkers(category: string): Biomarker[] {
+    return this.biomarkers.filter(b => b.category === category);
+  }
 }

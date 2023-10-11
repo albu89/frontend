@@ -5,32 +5,37 @@ import { PatientRecord } from '../shared/PatientRecord';
 import { ScoringResponse } from '../shared/ScoringResponse';
 
 @Injectable({
-	providedIn: 'root',
+  providedIn: 'root',
 })
 export class PatientRecordService {
-	baseUrl = environment.backendUrl + '/api/scores';
-	constructor(private http: HttpClient) {}
+  public baseUrl = environment.backendUrl + '/api/scores';
+  public constructor(private readonly http: HttpClient) {}
 
-	getRecords() {
-		return this.http.get<PatientRecord[]>(this.baseUrl, { withCredentials: true, responseType: 'json' });
-	}
+  public getRecords() {
+    return this.http.get<PatientRecord[]>(this.baseUrl, { withCredentials: true, responseType: 'json' });
+  }
 
-	getSpecificRecords(patientName: string, patientLastName: string, patientBirthdate: string) {
-		const encodedName = encodeURIComponent(patientName);
-		const encodedLastName = encodeURIComponent(patientLastName);
-		const headers = new HttpHeaders({ name: encodedName, lastname: encodedLastName, dateOfBirth: patientBirthdate });
+  public getSpecificRecords(patientName: string, patientLastName: string, patientBirthdate: string) {
+    const encodedName = encodeURIComponent(patientName);
+    const encodedLastName = encodeURIComponent(patientLastName);
+    const headers = new HttpHeaders({ name: encodedName, lastname: encodedLastName, dateOfBirth: patientBirthdate });
 
-		return this.http.get<PatientRecord[]>(this.baseUrl, {
-			headers: headers,
-			withCredentials: true,
-			responseType: 'json',
-		});
-	}
+    return this.http.get<PatientRecord[]>(this.baseUrl, {
+      headers: headers,
+      withCredentials: true,
+      responseType: 'json',
+    });
+  }
 
-	getSpecificRecordById(patientName: string, patientLastName: string, patientBirthdate: string, requestId: string) {
-		const encodedName = encodeURIComponent(patientName);
-		const encodedLastName = encodeURIComponent(patientLastName);
-		const headers = new HttpHeaders({ name: encodedName, lastname: encodedLastName, dateOfBirth: patientBirthdate });
-		return this.http.get<ScoringResponse>(this.baseUrl + `/${requestId}`, { headers, responseType: 'json' });
-	}
+  public getSpecificRecordById(
+    patientName: string,
+    patientLastName: string,
+    patientBirthdate: string,
+    requestId: string
+  ) {
+    const encodedName = encodeURIComponent(patientName);
+    const encodedLastName = encodeURIComponent(patientLastName);
+    const headers = new HttpHeaders({ name: encodedName, lastname: encodedLastName, dateOfBirth: patientBirthdate });
+    return this.http.get<ScoringResponse>(this.baseUrl + `/${requestId}`, { headers, responseType: 'json' });
+  }
 }

@@ -6,25 +6,26 @@ import { ScoringResponseSchema } from '../shared/ScoringResponseSchema';
 import { LanguageService } from './language.service';
 
 @Injectable({
-	providedIn: 'root',
+  providedIn: 'root',
 })
 export class SchemasService {
-	constructor(
-		private http: HttpClient,
-		private languageService: LanguageService
-	) {}
-	baseUrl = environment.backendUrl + '/api/schemas';
+  public baseUrl = environment.backendUrl + '/api/schemas';
 
-	getBiomarkers() {
-		return this.http.get<Biomarker[]>(this.baseUrl + '/biomarkers', this.createLanguageParams());
-	}
+  public constructor(
+    private readonly http: HttpClient,
+    private readonly languageService: LanguageService
+  ) {}
 
-	getResponseSchema() {
-		const url = this.baseUrl + '/scoring';
-		return this.http.get<ScoringResponseSchema>(url, this.createLanguageParams());
-	}
+  public getBiomarkers() {
+    return this.http.get<Biomarker[]>(this.baseUrl + '/biomarkers', this.createLanguageParams());
+  }
 
-	createLanguageParams() {
-		return { params: new HttpParams().set('locale', this.languageService.getLanguageSubject().getValue()) };
-	}
+  public getResponseSchema() {
+    const url = this.baseUrl + '/scoring';
+    return this.http.get<ScoringResponseSchema>(url, this.createLanguageParams());
+  }
+
+  public createLanguageParams() {
+    return { params: new HttpParams().set('locale', this.languageService.getLanguageSubject().getValue()) };
+  }
 }

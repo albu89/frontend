@@ -37,90 +37,90 @@ import { CategoryListFixedComponent } from './category/category-list-fixed/categ
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1; // TODO: I think we can safely drop IE support.
 
-export function HttpLoaderFactory(http: HttpClient) {
-	return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+export function httpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 @NgModule({
-	declarations: [
-		AppComponent,
-		PatientDetailsComponent,
-		PatientDataFormComponent,
-		BiomarkerComponent,
-		CategoryComponent,
-		ScoreComponent,
-		PatientRecordComponent,
-		ProfileComponent,
-		FooterComponent,
-		RiskScoreComponent,
-		RecommendationTableComponent,
-		WarningComponent,
-		BiomarkerInfoComponent,
-		RiskLabelComponent,
-		LoginComponent,
-		FootnoteComponent,
-		YesnoPipe,
-		RowComponent,
-		VersionComponent,
-		CategoryListFlexibleComponent,
-		CategoryListFlexibleEditComponent,
-		CategoryListFixedComponent,
-	],
-	imports: [
-		BrowserModule,
-		AppRoutingModule,
-		HttpClientModule,
-		FormsModule,
-		ReactiveFormsModule,
-		CdkDrag,
-		CdkDropList,
-		CdkDropListGroup,
-		CdkDragPlaceholder,
-		TranslateModule.forRoot({
-			loader: {
-				provide: TranslateLoader,
-				useFactory: HttpLoaderFactory,
-				deps: [HttpClient],
-			},
-		}),
-		MsalModule.forRoot(
-			new PublicClientApplication({
-				auth: {
-					clientId: '7e8be7c1-728f-4dce-af96-c3105974e2ee', // Application (client) ID from the app registration
-					authority: 'https://login.microsoftonline.com/d8a83447-d1d0-41e3-a7cc-6be16c052845', // The Azure cloud instance and the app's sign-in audience (tenant ID, common, organizations, or consumers)
-					redirectUri: environment.frontendUrl, // This is your redirect URI
-				},
-				cache: {
-					cacheLocation: 'localStorage',
-					storeAuthStateInCookie: isIE, // Set to true for Internet Explorer 11
-				},
-			}),
-			{
-				interactionType: InteractionType.Popup, // MSAL Guard Configuration
-				authRequest: {
-					scopes: ['user.read', 'Default'],
-				},
-			},
-			{
-				interactionType: InteractionType.Popup, // MSAL Interceptor Configuration
-				protectedResourceMap: new Map([
-					['https://graph.microsoft.com/v1.0/me', ['user.read']],
-					[environment.backendUrl + '/api/user/request', null],
-					[environment.backendUrl + '/health', null],
-					[environment.backendUrl, ['api://7e8be7c1-728f-4dce-af96-c3105974e2ee/Default']],
-				]),
-			}
-		),
-		BrowserAnimationsModule,
-	],
-	providers: [
-		{
-			provide: HTTP_INTERCEPTORS,
-			useClass: MsalInterceptor,
-			multi: true,
-		},
-		DatePipe,
-		MsalGuard,
-	],
-	bootstrap: [AppComponent, MsalRedirectComponent],
+  declarations: [
+    AppComponent,
+    PatientDetailsComponent,
+    PatientDataFormComponent,
+    BiomarkerComponent,
+    CategoryComponent,
+    ScoreComponent,
+    PatientRecordComponent,
+    ProfileComponent,
+    FooterComponent,
+    RiskScoreComponent,
+    RecommendationTableComponent,
+    WarningComponent,
+    BiomarkerInfoComponent,
+    RiskLabelComponent,
+    LoginComponent,
+    FootnoteComponent,
+    YesnoPipe,
+    RowComponent,
+    VersionComponent,
+    CategoryListFlexibleComponent,
+    CategoryListFlexibleEditComponent,
+    CategoryListFixedComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CdkDrag,
+    CdkDropList,
+    CdkDropListGroup,
+    CdkDragPlaceholder,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
+    MsalModule.forRoot(
+      new PublicClientApplication({
+        auth: {
+          clientId: '7e8be7c1-728f-4dce-af96-c3105974e2ee', // Application (client) ID from the app registration
+          authority: 'https://login.microsoftonline.com/d8a83447-d1d0-41e3-a7cc-6be16c052845', // The Azure cloud instance and the app's sign-in audience (tenant ID, common, organizations, or consumers)
+          redirectUri: environment.frontendUrl, // This is your redirect URI
+        },
+        cache: {
+          cacheLocation: 'localStorage',
+          storeAuthStateInCookie: isIE, // Set to true for Internet Explorer 11
+        },
+      }),
+      {
+        interactionType: InteractionType.Popup, // MSAL Guard Configuration
+        authRequest: {
+          scopes: ['user.read', 'Default'],
+        },
+      },
+      {
+        interactionType: InteractionType.Popup, // MSAL Interceptor Configuration
+        protectedResourceMap: new Map([
+          ['https://graph.microsoft.com/v1.0/me', ['user.read']],
+          [environment.backendUrl + '/api/user/request', null],
+          [environment.backendUrl + '/health', null],
+          [environment.backendUrl, ['api://7e8be7c1-728f-4dce-af96-c3105974e2ee/Default']],
+        ]),
+      }
+    ),
+    BrowserAnimationsModule,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true,
+    },
+    DatePipe,
+    MsalGuard,
+  ],
+  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}

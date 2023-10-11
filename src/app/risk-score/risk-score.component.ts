@@ -1,23 +1,23 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-	selector: 'app-risk-score',
-	templateUrl: './risk-score.component.html',
-	styleUrls: ['./risk-score.component.css'],
+  selector: 'ce-risk-score',
+  templateUrl: './risk-score.component.html',
+  styleUrls: ['./risk-score.component.scss'],
 })
 export class RiskScoreComponent {
-	@Input() ScoreHeader = '';
-	@Input() ScoreValue = 0;
-	@Input() RiskHeader = '';
-	@Input() RiskValue = '';
-	@Input() RecommendationHeader = '';
-	@Input() Recommendation = '';
-	@Input() RecommendationLong = '';
-	@Input() RiskClass = 0;
+  @Input() public ScoreHeader = '';
+  @Input() public ScoreValue = 0;
+  @Input() public RiskHeader = '';
+  @Input() public RiskValue = '';
+  @Input() public RecommendationHeader = '';
+  @Input() public Recommendation = '';
+  @Input() public RecommendationLong = '';
+  @Input() public RiskClass = 0;
 
-	isLongTextVisible = false;
+  public isLongTextVisible = false;
 
-	showLongText() {
-		this.isLongTextVisible = !this.isLongTextVisible;
-	}
+  public showLongText() {
+    this.isLongTextVisible = !this.isLongTextVisible;
+  }
 }

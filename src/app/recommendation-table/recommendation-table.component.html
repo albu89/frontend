@@ -1,12 +1,12 @@
 <table class="block w-full border-separate border-spacing-3 overflow-x-auto text-left text-sm">
-	<thead class="border-b border-label text-label-2">
-		<tr class="align-bottom">
-			<th scope="col" class="w-full min-w-80">{{ recommendationHeader }}</th>
-			<th scope="col" class="w-36 min-w-24 text-center">{{ scoreRangeHeader }}</th>
-			<th scope="col" class="w-36 min-w-36 text-center">{{ probabilityHeader }}</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr app-row *ngFor="let category of categories" [category]="category"></tr>
-	</tbody>
+  <thead class="border-b border-label text-label-2">
+    <tr class="align-bottom">
+      <th scope="col" class="w-full min-w-80">{{ recommendationHeader }}</th>
+      <th scope="col" class="w-36 min-w-24 text-center">{{ scoreRangeHeader }}</th>
+      <th scope="col" class="w-36 min-w-36 text-center">{{ probabilityHeader }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ce-row *ngFor="let category of categories" [category]="category"></tr>
+  </tbody>
 </table>

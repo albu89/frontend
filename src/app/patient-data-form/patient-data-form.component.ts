@@ -4,21 +4,21 @@ import { Patient } from '../shared/patient';
 import { initFlowbite } from 'flowbite';
 
 @Component({
-	selector: 'app-patient-data-form',
-	templateUrl: './patient-data-form.component.html',
-	styleUrls: ['./patient-data-form.component.css'],
+  selector: 'ce-patient-data-form',
+  templateUrl: './patient-data-form.component.html',
+  styleUrls: ['./patient-data-form.component.scss'],
 })
 export class PatientDataFormComponent implements AfterViewInit {
-	@Input() uniqueCategories: string[] = [];
-	@Input() biomarkers: Biomarker[] = [];
-	@Input() patient: Patient = {} as Patient;
-	@Input() canEdit = true;
+  @Input() public uniqueCategories: string[] = [];
+  @Input() public biomarkers: Biomarker[] = [];
+  @Input() public patient: Partial<Patient> = {};
+  @Input() public canEdit = true;
 
-	ngAfterViewInit() {
-		initFlowbite();
-	}
+  public ngAfterViewInit() {
+    initFlowbite();
+  }
 
-	setDateOfBirth(input: Date) {
-		this.patient.dateOfBirth = input;
-	}
+  public setDateOfBirth(input: Date) {
+    this.patient.dateOfBirth = input;
+  }
 }

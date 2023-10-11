@@ -1,22 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-	selector: 'app-biomarker-info',
-	templateUrl: './biomarker-info.component.html',
-	styleUrls: ['./biomarker-info.component.css'],
+  selector: 'ce-biomarker-info',
+  templateUrl: './biomarker-info.component.html',
+  styleUrls: ['./biomarker-info.component.scss'],
 })
 export class BiomarkerInfoComponent implements OnInit {
-	@Input() Header = '';
-	@Input() Value?: number | Date | boolean | string;
-	@Input() InfoText = '';
-	@Input() Unit = '';
-	@Input() isDate = false;
+  @Input() public Header = '';
+  @Input() public Value?: number | Date | boolean | string;
+  @Input() public InfoText = '';
+  @Input() public Unit = '';
+  @Input() public isDate = false;
 
-	DateValue: number | null = null;
-	isBoolean = false;
+  public DateValue: number | null = null;
+  public isBoolean = false;
 
-	ngOnInit() {
-		this.DateValue = this.isDate ? Date.parse(this.Value as string) : null;
-		this.isBoolean = typeof this.Value === 'boolean';
-	}
+  public ngOnInit() {
+    this.DateValue = this.isDate ? Date.parse(this.Value as string) : null;
+    this.isBoolean = typeof this.Value === 'boolean';
+  }
 }
