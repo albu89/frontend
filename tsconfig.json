@@ -23,10 +23,21 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "noImplicitAny": true,
+    "noUnusedLocals": true,
     "strictPropertyInitialization": true,
     "strictNullChecks": true,
     "strictBindCallApply": true,
-    "strictFunctionTypes": true
+    "strictFunctionTypes": true,
+    "paths": {
+      "@/*": ["./src/"],
+      "@env/*": ["./src/environments/*"],
+      "@features/*": ["./src/app/features/*"],
+      "@shared/*": ["./src/app/shared/*"],
+      "@core/*": ["./src/app/core/*"],
+      "@models/*": ["./src/app/core/models/*"],
+      "@services/*": ["./src/app/core/services/*"],
+      "@layout/*": ["./src/app/layout/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

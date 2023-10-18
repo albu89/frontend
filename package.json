@@ -6,7 +6,7 @@
     "ng": "ng",
     "postinstall": "node git-version.js",
     "start": "ng serve --configuration production",
-    "dev": "ng serve --configuration local",
+    "start:dev": "ng serve --configuration local",
     "build": "ng build --configuration production",
     "build:dev": "ng build --configuration development",
     "build:staging": "ng build --configuration staging",
@@ -30,6 +30,8 @@
     "@angular/router": "^16.2.0",
     "@azure/msal-angular": "^3.0.2",
     "@azure/msal-browser": "^3.0.2",
+    "@ngrx/component": "^16.3.0",
+    "@ngrx/component-store": "^16.3.0",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@popperjs/core": "^2.11.6",
@@ -81,7 +83,8 @@
   },
   "lint-staged": {
     "*.{js,ts,json,css,scss,html,md}": [
-      "npm run prettier"
-    ]
+      "npx prettier --write"
+    ],
+    "*.{js,ts,html}": ["eslint --fix"]
   }
 }

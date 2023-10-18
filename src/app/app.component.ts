@@ -1,9 +1,10 @@
 import { MsalService } from '@azure/msal-angular';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { LanguageService } from './service/language.service';
+import { LanguageService } from './core/services/language.service';
 import { Dropdown, initFlowbite } from 'flowbite';
 import { filter, map } from 'rxjs/operators';
+import { PageLinks } from '@core/enums/page-links.enum';
 
 @Component({
   selector: 'ce-root',
@@ -24,6 +25,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   public isLoginPage = false;
 
   public selectedLocaleDisplay = this.LOCALE_DISPLAY.get('en-GB');
+
+  protected readonly PageLinks = PageLinks;
 
   public constructor(
     private readonly authService: MsalService,
@@ -59,7 +62,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public logout() {
     // Add log out function here
     const currentAccount = this.authService.instance.getAllAccounts()[0];
-    this.authService.logoutPopup({ account: currentAccount, mainWindowRedirectUri: '/' });
+    this.authService.logoutPopup({ account: currentAccount, mainWindowRedirectUri: PageLinks.ROOT });
   }
 
   public selectLanguage(locale: string) {

@@ -21,6 +21,12 @@ export default {
         xl: '1280px',
         '2xl': '1536px',
       },
+      width: {
+        layout: '90%',
+      },
+      fontFamily: {
+        inter: 'inter',
+      },
     },
     colors: {
       primary: '#2115A8',

@@ -1,0 +1,75 @@
+<ng-container
+  *ngrxLet="{
+    currentScore: currentScore$,
+    showDetailsButton: showDetailsButton$,
+    searchParameters: searchParameters$,
+    patientRecords: patientRecords$
+  } as data">
+  <div *ngIf="!data.currentScore" name="record-container" class="base-view">
+    <div name="header-div" class="flex flex-row justify-between">
+      <h1>{{ 'scores' | translate }}</h1>
+      <div>
+        <button class="action" [routerLink]="PageLinks.NEW_SCORE">{{ 'createNewScore' | translate }}</button>
+      </div>
+    </div>
+
+    <!-- Search form -->
+    <div class="border border-tone-2 bg-[#F6F8FC] shadow-md sm:rounded-lg">
+      <form name="patientinfo" class="grid-col m-6 grid grid-cols-6">
+        <div class="col-span-2 flex flex-col p-1">
+          <label for="patient-name" class="text-label">{{ 'patientName' | translate }}</label>
+          <input
+            type="text"
+            id="patient-name"
+            placeholder="{{ 'patientNamePlaceholder' | translate }}"
+            #patientName
+            class="basis-1/2 rounded-md border border-tone-2 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary" />
+        </div>
+        <div class="col-span-2 flex flex-col p-1">
+          <label for="patient-last-name" class="text-label">{{ 'patientLastName' | translate }}</label>
+          <input
+            type="text"
+            id="patient-last-name"
+            placeholder="{{ 'patientLastNamePlaceholder' | translate }}"
+            #patientLastName
+            class="basis-1/2 rounded-md border border-tone-2 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary" />
+        </div>
+        <div class="flex flex-col p-1">
+          <label for="patient-birthdate" class="text-label">{{ 'birthdate' | translate }}</label>
+          <input
+            type="date"
+            id="patient-birthdate"
+            #patientBirthdate
+            class="rounded-md border border-tone-2 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary"
+            max="2999-12-31" />
+        </div>
+        <div class="flex flex-row-reverse">
+          <div class="flex w-28 flex-col p-1">
+            <span class="mb-1 h-4"></span>
+            <button
+              (click)="getSpecificRecords(patientName.value, patientLastName.value, patientBirthdate.valueAsDate)"
+              class="action">
+              {{ 'search' | translate }}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Record list -->
+      <ce-patient-record-list
+        *ngIf="data.patientRecords && data.searchParameters"
+        [patientRecords]="data.patientRecords"
+        [showDetailsButton]="data.showDetailsButton"
+        (editSpecificScore)="editSpecificScore($event, data.searchParameters)"
+        (openSpecificScore)="openSpecificScore($event, data.searchParameters)"></ce-patient-record-list>
+    </div>
+  </div>
+
+  <!-- Todo please create a route which accepts the score data without id -->
+  <ce-score
+    *ngIf="data.currentScore && areSearchParameterValid(data.searchParameters)"
+    [score]="data.currentScore"
+    [firstname]="data.searchParameters.patientName!"
+    [lastname]="data.searchParameters.patientLastName!"
+    [birthdate]="data.searchParameters.patientBirthdate!"></ce-score>
+</ng-container>

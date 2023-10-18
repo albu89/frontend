@@ -1,0 +1,39 @@
+<div class="p-6">
+  <table class="w-full table-auto text-left text-sm">
+    <thead class="border-b border-label text-label">
+      <tr>
+        <th scope="col" class="px-6 py-3">{{ 'id' | translate }}</th>
+        <th scope="col" class="px-6 py-3">{{ 'timestamp' | translate }}</th>
+        <th scope="col" class="px-6 py-3">{{ 'risk' | translate }}</th>
+        <th *ngIf="showDetailsButton" scope="col" class="inline-block px-6 py-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let record of patientRecords; let i = index; trackBy: trackById"
+        [class]="i % 2 ? 'px-6 py-4 whitespace-nowrap' : 'px-6 py-4 whitespace-nowrap bg-table'">
+        <td class="whitespace-nowrap px-6 py-4">
+          {{ record.requestId.split('-').shift() }}
+        </td>
+        <td class="px-6 py-4">
+          {{ record.requestTimeStamp | date: 'medium' }}
+        </td>
+        <!-- <td class="px-6 py-4">{{ record.score }}</td> -->
+        <td class="px-6 py-6">
+          <div>
+            <ce-risk-label [risk]="record.risk ?? 'INCOMPLETE'" [riskClass]="record.riskClass"></ce-risk-label>
+          </div>
+        </td>
+        <td *ngIf="showDetailsButton" class="px-6 py-6">
+          <button class="edit self-end" (click)="openSpecificScore.emit(record.requestId)">
+            {{ 'details' | translate }}
+          </button>
+          <button *ngIf="record.canEdit" class="pl-5 text-secondary" (click)="editSpecificScore.emit(record.requestId)">
+            Edit
+            <!-- TODO: translation -->
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,17 @@
+<div class="flex flex-col gap-1 font-normal text-label">
+  <div class="flex flex-row gap-1">
+    <p>{{ Header }}</p>
+    <img
+      class="hover:text-primary-600 focus:text-primary-600 active:text-primary-700 h-[0.75rem] w-[0.75rem] self-center transition duration-150 ease-in-out"
+      *ngIf="InfoText"
+      src="../../../../assets/info.svg"
+      alt="Tooltip icon"
+      title="{{ InfoText }}" />
+  </div>
+  <div class="flex flex-row gap-1">
+    <p class="font-normal text-text" name="Value" *ngIf="!isDate && !isBoolean">{{ Value }}</p>
+    <p class="font-normal text-text" name="DateValue" *ngIf="isDate">{{ DateValue | date: 'mediumDate' }}</p>
+    <p class="font-normal text-text" name="BooleanValue" *ngIf="isBoolean">{{ !!Value | yesno | async }}</p>
+    <p>{{ Unit }}</p>
+  </div>
+</div>

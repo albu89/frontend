@@ -9,14 +9,15 @@
   }
 
   * {
-    font-family: inter;
+    @apply font-inter;
   }
 
   .layout {
-    max-width: 80rem;
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
+    @apply ml-auto mr-auto flex w-layout max-w-7xl flex-grow flex-col;
+  }
+
+  .base-view {
+    @apply flex flex-col;
   }
 
   h1,

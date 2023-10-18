@@ -1,46 +1,45 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular';
-import { PatientDetailsComponent } from './patient-details/patient-details.component';
-import { ProfileComponent } from './profile/profile.component';
-import { PatientRecordComponent } from './patient-record/patient-record.component';
-import { ScoreComponent } from './score/score.component';
-import { CanActivateGuard } from './authentication/CanActivateGuard';
-import { LoginComponent } from './login/login.component';
+import { PageLinks } from '@core/enums/page-links.enum';
+import { CanActivateGuard } from '@core/authentication/can-activate.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: PatientRecordComponent,
+    loadComponent: () =>
+      import('@features/patient-records/patient-records.component').then(m => m.PatientRecordsComponent),
     canActivate: [MsalGuard, CanActivateGuard],
   },
   {
-    path: 'score',
-    component: ScoreComponent,
+    path: PageLinks.SCORE,
+    loadComponent: () => import('@features/score-details/score.component').then(m => m.ScoreComponent),
     canActivate: [MsalGuard, CanActivateGuard],
   },
   {
-    path: 'profile',
-    component: ProfileComponent,
+    path: PageLinks.PROFILE,
+    loadComponent: () => import('@features/user-profile/user-profile.component').then(m => m.UserProfileComponent),
     canActivate: [MsalGuard, CanActivateGuard],
   },
   {
-    path: 'score/new',
-    component: PatientDetailsComponent,
+    path: PageLinks.NEW_SCORE,
+    loadComponent: () =>
+      import('@features/patient-details/patient-details.component').then(m => m.PatientDetailsComponent),
     data: undefined,
     canActivate: [MsalGuard, CanActivateGuard],
   },
   {
-    path: 'login',
-    component: LoginComponent,
+    path: PageLinks.LOGIN,
+    loadComponent: () => import('@features/login/login.component').then(m => m.LoginComponent),
   },
   {
-    path: 'onboard',
-    component: ProfileComponent,
+    path: PageLinks.ONBOARD,
+    loadComponent: () => import('@features/user-profile/user-profile.component').then(m => m.UserProfileComponent),
   },
   {
-    path: 'score/edit',
-    component: PatientDetailsComponent,
+    path: PageLinks.EDIT_SCORE,
+    loadComponent: () =>
+      import('@features/patient-details/patient-details.component').then(m => m.PatientDetailsComponent),
     data: { name: '', lastName: '', dateOfBirth: '', requestId: '' },
     canActivate: [MsalGuard, CanActivateGuard],
   },
@@ -51,6 +50,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       // Don't perform initial navigation in iframes or popups
       initialNavigation: 'enabledBlocking', // Set to enabledBlocking to use Angular Universal
+      scrollPositionRestoration: 'enabled',
     }),
   ],
   exports: [RouterModule],

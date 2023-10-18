@@ -1,0 +1,11 @@
+<div class="flex w-1/2 min-w-80 flex-col items-start rounded-lg border-2 border-text-red bg-white p-6">
+  <div class="flex items-center gap-2">
+    <img src="../../../assets/warning.svg" alt="Warning icon" />
+    <p class="font-medium uppercase text-text-red">
+      {{ warningHeader }}
+    </p>
+  </div>
+  <div class="p-4">
+    <p *ngFor="let warning of warnings" class="font-medium text-text">{{ warning.message }}</p>
+  </div>
+</div>
