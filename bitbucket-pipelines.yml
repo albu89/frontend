@@ -9,7 +9,7 @@ pipelines:
   branches:
     develop:
       - step:
-          name: Build, publish and deploy
+          name: Build and publish
           script:
             - apt-get update
             - apt-get install zip -y
@@ -17,6 +17,12 @@ pipelines:
             - npm run build:dev
             - cd dist/ce-ui
             - zip -r ../publish.zip .
+          artifacts:
+            - dist/publish.zip
+      - step:
+          name: Deploy
+          deployment: Develop
+          script:
             - pipe: atlassian/azure-web-apps-deploy:1.1.0
               variables:
                 AZURE_APP_ID: $AZURE_APP_ID
@@ -24,10 +30,10 @@ pipelines:
                 AZURE_TENANT_ID: $AZURE_TENANT_ID
                 AZURE_RESOURCE_GROUP: 'cardioexplorer-dev'
                 AZURE_APP_NAME: 'cardioexplorer-dev'
-                ZIP_FILE: '../publish.zip'
+                ZIP_FILE: 'dist/publish.zip'
     staging:
       - step:
-          name: Build, publish and deploy
+          name: Build and publish
           script:
             - apt-get update
             - apt-get install zip -y
@@ -35,6 +41,12 @@ pipelines:
             - npm run build:staging
             - cd dist/ce-ui
             - zip -r ../publish.zip .
+          artifacts:
+            - dist/publish.zip
+      - step:
+          name: Deploy
+          deployment: Staging
+          script:
             - pipe: atlassian/azure-web-apps-deploy:1.1.0
               variables:
                 AZURE_APP_ID: $AZURE_APP_ID
@@ -42,10 +54,10 @@ pipelines:
                 AZURE_TENANT_ID: $AZURE_TENANT_ID
                 AZURE_RESOURCE_GROUP: 'cardioexplorer-staging'
                 AZURE_APP_NAME: 'cardioexplorer-staging'
-                ZIP_FILE: '../publish.zip'
+                ZIP_FILE: 'dist/publish.zip'
     main:
       - step:
-          name: Build, publish and deploy
+          name: Build and publish
           script:
             - apt-get update
             - apt-get install zip -y
@@ -53,6 +65,12 @@ pipelines:
             - npm run build
             - cd dist/ce-ui
             - zip -r ../publish.zip .
+          artifacts:
+            - dist/publish.zip
+      - step:
+          name: Deploy
+          deployment: Production
+          script:
             - pipe: atlassian/azure-web-apps-deploy:1.1.0
               variables:
                 AZURE_APP_ID: $AZURE_APP_ID
@@ -60,7 +78,7 @@ pipelines:
                 AZURE_TENANT_ID: $AZURE_TENANT_ID
                 AZURE_RESOURCE_GROUP: 'cardioexplorer'
                 AZURE_APP_NAME: 'cardioexplorer'
-                ZIP_FILE: '../publish.zip'
+                ZIP_FILE: 'dist/publish.zip'
   pull-requests:
     '**':
       - parallel:
