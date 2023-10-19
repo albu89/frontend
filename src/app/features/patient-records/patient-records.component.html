@@ -47,6 +47,7 @@
           <div class="flex w-28 flex-col p-1">
             <span class="mb-1 h-4"></span>
             <button
+              [disabled]="isLoading$ | async"
               (click)="getSpecificRecords(patientName.value, patientLastName.value, patientBirthdate.valueAsDate)"
               class="action">
               {{ 'search' | translate }}
@@ -54,14 +55,16 @@
           </div>
         </div>
       </form>
-
-      <!-- Record list -->
-      <ce-patient-record-list
-        *ngIf="data.patientRecords && data.searchParameters"
-        [patientRecords]="data.patientRecords"
-        [showDetailsButton]="data.showDetailsButton"
-        (editSpecificScore)="editSpecificScore($event, data.searchParameters)"
-        (openSpecificScore)="openSpecificScore($event, data.searchParameters)"></ce-patient-record-list>
+      <!-- show loading spinner if response is pending -->
+      <ng-container *ngIf="(isLoading$ | async) === false; else loading">
+        <!-- Record list -->
+        <ce-patient-record-list
+          *ngIf="data.patientRecords && data.searchParameters"
+          [patientRecords]="data.patientRecords"
+          [showDetailsButton]="data.showDetailsButton"
+          (editSpecificScore)="editSpecificScore($event, data.searchParameters)"
+          (openSpecificScore)="openSpecificScore($event, data.searchParameters)"></ce-patient-record-list>
+      </ng-container>
     </div>
   </div>
 
@@ -73,3 +76,8 @@
     [lastname]="data.searchParameters.patientLastName!"
     [birthdate]="data.searchParameters.patientBirthdate!"></ce-score>
 </ng-container>
+
+<!-- loading spinner -->
+<ng-template #loading>
+  <ce-loading-indicator class="p-12" />
+</ng-template>

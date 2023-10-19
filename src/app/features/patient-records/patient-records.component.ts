@@ -9,6 +9,7 @@ import { PatientRecord } from '@models/patient/patient-record.model';
 import { SharedModule } from '@shared/shared.module';
 import { filter, tap, takeUntil, Subject, Observable } from 'rxjs';
 import { PageLinks } from '@core/enums/page-links.enum';
+import { LoadingIndicatorComponent } from '@shared/components/loading-indicator/loading-indicator.component';
 
 @Component({
   selector: 'ce-patient-record',
@@ -16,7 +17,14 @@ import { PageLinks } from '@core/enums/page-links.enum';
   styleUrls: ['./patient-records.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [SharedModule, ScoreComponent, RiskLabelComponent, RouterLink, PatientRecordsListComponent],
+  imports: [
+    SharedModule,
+    ScoreComponent,
+    RiskLabelComponent,
+    RouterLink,
+    PatientRecordsListComponent,
+    LoadingIndicatorComponent,
+  ],
   providers: [PatientRecordsStore],
 })
 export class PatientRecordsComponent implements OnInit, OnDestroy {
@@ -61,7 +69,7 @@ export class PatientRecordsComponent implements OnInit, OnDestroy {
     this.store.setSearchParameters(searchParameter);
 
     if (this.areSearchParameterValid(searchParameter)) {
-      this.store.loadSpecificPatientRecords();
+      this.store.loadSpecificPatientRecords(searchParameter);
     } else {
       this.store.loadPatientRecords();
     }

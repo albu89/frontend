@@ -13,6 +13,15 @@ export default {
         '40': '10rem',
         '80': '20rem',
       },
+      keyframes: {
+        'delay-visibility': {
+          '99%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+      },
+      animation: {
+        'fadeIn-500': '500ms delay-visibility forwards',
+      },
       containers: {
         // Use same breakpoints as tailwind for @tailwindcss/container-queries plugin
         sm: '640px',
