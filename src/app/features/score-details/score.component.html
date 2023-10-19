@@ -2,7 +2,7 @@
   <div name="header-div" class="flex flex-row justify-between">
     <h1>Score #{{ score.requestId }}</h1>
     <div>
-      <button type="button" class="action" [routerLink]="PageLinks.NEW_SCORE">{{ 'scorePrint' | translate }}</button>
+      <button type="button" class="action" [routerLink]="PageLinks.NEW_SCORE">{{ 'scores.print' | translate }}</button>
     </div>
   </div>
   <div
@@ -61,18 +61,18 @@
       name="patientInfo"
       class="mb-4 grid grid-cols-4 gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
       <ce-biomarker-info
-        Header="Patient Name"
+        [Header]="'patient.name' | translate"
         Value="{{ firstname }} {{ lastname }}"
         class="col-span-2"></ce-biomarker-info>
       <ce-biomarker-info
-        Header="Birthdate"
+        [Header]="'patient.birthdate' | translate"
         [Value]="birthdate"
-        InfoText="Birthdate of the patient"
+        [InfoText]="'tooltips.patient.birthdate' | translate"
         [isDate]="true"></ce-biomarker-info>
       <ce-biomarker-info
-        Header="Input date"
+        [Header]="'scores.creationDate' | translate"
         [Value]="score.biomarkers.createdOn"
-        InfoText="Date the Scoring request was made"
+        [InfoText]="'tooltips.scores.creationDate'"
         [isDate]="true"></ce-biomarker-info>
     </div>
     <div

@@ -2,7 +2,7 @@
   <h1>Profile</h1>
   <div class="block place-content-center rounded-xl border border-tone-2 bg-background px-[10%] py-[2.5%]">
     <div class="flex flex-col place-content-center">
-      <h3>{{ 'userIdentitySetting' | translate }}</h3>
+      <h3>{{ 'profileSettings.identitySettings' | translate }}</h3>
       <hr class="pb-6 text-primary" />
       <div class="mb-6 grid gap-6 md:grid-cols-2">
         <div name="mail" class="relative">
@@ -16,13 +16,13 @@
           <label
             for="emailAdress"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >{{ 'userEMail' | translate }}</label
-          >
+            >{{ 'profile.eMail' | translate }}
+          </label>
         </div>
       </div>
     </div>
     <div class="flex flex-col place-content-center">
-      <h3>{{ 'userGeneralSetting' | translate }}</h3>
+      <h3>{{ 'profileSettings.generalSettings.caption' | translate }}</h3>
       <hr class="pb-6 text-primary" />
       <div class="mb-6 grid gap-6 md:grid-cols-2">
         <div name="salutation" class="relative">
@@ -33,15 +33,15 @@
             id="salutation"
             formControlName="salutation"
             [(ngModel)]="updatedUserProfile.salutation">
-            <option value="mr">Mr.</option>
-            <option value="ms">Ms.</option>
-            <option value="msr">Msr.</option>
+            <option value="mr">{{ 'profile.salutation.options.mr' | translate }}</option>
+            <option value="ms">{{ 'profile.salutation.options.ms' | translate }}</option>
+            <option value="mrs">{{ 'profile.salutation.options.mrs' | translate }}</option>
           </select>
           <label
             for="salutation"
             class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-            >{{ 'userSalutation' | translate }}</label
-          >
+            >{{ 'profile.salutation.caption' | translate }}
+          </label>
         </div>
         <div name="title" class="relative">
           <input
@@ -54,8 +54,8 @@
           <label
             for="title"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >{{ 'userTitle' | translate }}</label
-          >
+            >{{ 'profile.title' | translate }}
+          </label>
         </div>
         <div name="firstName" class="relative">
           <input
@@ -68,7 +68,7 @@
           <label
             for="firstname"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >{{ 'userFirstName' | translate }}</label
+            >{{ 'profile.firstName' | translate }}</label
           >
         </div>
         <div name="lastName" class="relative">
@@ -82,7 +82,7 @@
           <label
             for="surname"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >{{ 'userLastName' | translate }}</label
+            >{{ 'profile.lastName' | translate }}</label
           >
         </div>
         <div name="professionalSpecialisation" class="relative">
@@ -96,7 +96,7 @@
           <label
             for="professionalspecialisation"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >{{ 'userProfSpec' | translate }}</label
+            >{{ 'profileSettings.generalSettings.profSpec' | translate }}</label
           >
         </div>
         <div name="department" class="relative">
@@ -110,13 +110,13 @@
           <label
             for="department"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >{{ 'userDepartment' | translate }}</label
+            >{{ 'profileSettings.generalSettings.department' | translate }}</label
           >
         </div>
       </div>
     </div>
     <div class="flex flex-col place-content-center">
-      <h3>Contact details</h3>
+      <h3>{{ 'profile.contact.caption' | translate }}</h3>
       <hr class="pb-6 text-primary" />
       <div class="mb-6 grid gap-6 md:grid-cols-2">
         <div name="address" class="relative">
@@ -130,7 +130,7 @@
           <label
             for="address"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >{{ 'userAddress' | translate }}</label
+            >{{ 'profile.contact.address' | translate }}</label
           >
         </div>
         <div name="zip" class="relative">
@@ -144,7 +144,7 @@
           <label
             for="zip"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >{{ 'userZIP' | translate }}</label
+            >{{ 'profile.contact.zip' | translate }}</label
           >
         </div>
         <div name="city" class="relative">
@@ -158,7 +158,7 @@
           <label
             for="city"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >{{ 'userCity' | translate }}</label
+            >{{ 'profile.contact.city' | translate }}</label
           >
         </div>
         <div name="country" class="relative">
@@ -178,7 +178,7 @@
           <label
             for="country"
             class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-            >{{ 'userCountryCode' | translate }}</label
+            >{{ 'profile.contact.countryCode' | translate }}</label
           >
         </div>
         <div name="telephoneNumber" class="relative">
@@ -193,14 +193,13 @@
           <label
             for="telephoneNumber"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >{{ 'userPhoneNumber' | translate }}</label
+            >{{ 'profile.contact.phoneNumber' | translate }}</label
           >
         </div>
       </div>
     </div>
     <div class="flex flex-col place-content-center">
-      <h3>Settings</h3>
-      <!-- TODO: this is not properly translated -->
+      <h3>{{ 'profile.settings' | translate }}</h3>
       <hr class="pb-6 text-primary" />
       <div class="mb-6 grid gap-6 md:grid-cols-2">
         <div name="language" class="relative">
@@ -220,8 +219,8 @@
           <label
             for="language"
             class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-            >Language</label
-          ><!-- TODO: this is not properly translated -->
+            >{{ 'profile.language' | translate }}
+          </label>
         </div>
         <div name="unitLabValues" class="relative">
           <select
@@ -232,15 +231,15 @@
             [value]="updatedUserProfile.unitLabValues"
             formControlName="unitLabValues"
             [(ngModel)]="updatedUserProfile.unitLabValues">
-            <option value="si">SI</option>
-            <option value="conventional">Conventional</option>
-            <!-- TODO: this is not properly translated -->
+            <ng-template ngFor let-type [ngForOf]="biomarkerUnitType">
+              <option [value]="type.toLowerCase()">{{ 'labUnit.options.' + type.toLowerCase() | translate }}</option>
+            </ng-template>
           </select>
           <label
             for="unitLabValues"
             class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-            >Units lab values</label
-          ><!-- TODO: this is not properly translated -->
+            >{{ 'labUnit.caption' | translate }}
+          </label>
         </div>
         <div name="preferredLab" class="relative">
           <input
@@ -253,14 +252,13 @@
           <label
             for="preferredlab"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >{{ 'userPrefLab' | translate }}</label
-          >
+            >{{ 'profile.prefLab' | translate }}
+          </label>
         </div>
       </div>
     </div>
     <div class="flex flex-col place-content-center justify-center">
-      <h3>Clinical Setting</h3>
-      <!-- TODO: this is not properly translated (/!\ The text is different from what was before this commit. Don't translate blindly; please check the text documented in Confluence!) -->
+      <h3>{{ 'clinicalSetting.caption' | translate }}</h3>
       <hr class="pb-6 text-primary" />
       <div class="w-full self-center" data-accordion="collapse">
         <h4>
@@ -270,7 +268,7 @@
             data-accordion-target="#clinical-setting-choose"
             [attr.aria-expanded]="!userExistedPreviously"
             aria-controls="clinical-setting-choose">
-            <span>How to choose?</span>
+            <span>{{ 'clinicalSetting.howChoose' | translate }}</span>
             <svg
               data-accordion-icon
               class="h-3 w-3 shrink-0 rotate-180"
@@ -287,29 +285,11 @@
             </svg>
           </button>
         </h4>
-        <div id="clinical-setting-choose" class="hidden" aria-labelledby="clinical-setting-choose">
-          <p>
-            To ensure accurate risk stratification using the Cardio Explorer, the choice of the appropriate calibration
-            should be tailored to the clinical setting, such as risk stratification or screening in primary care versus
-            evaluation by a cardiologist or in a hospital setting (secondary care).
-          </p>
-          <p>
-            The accuracy of a disease prediction model depends on the prevalence of the disease in the population being
-            tested. Therefore, the cut-off points on the receiver operating characteristic (ROC) curve, which indicate
-            the balance between sensitivity and specificity of the model, need to be adjusted based on the prevalence of
-            the clinical setting where the model is being used. This is typically referred to as calibration. This
-            calibration process ensures that the model's predictions are accurate and reliable in the specific
-            population being tested. By adjusting the cut-off point, the model can maintain an appropriate balance
-            between sensitivity and specificity, which is crucial for accurate disease prediction and diagnosis.
-          </p>
-          <p>
-            For example, in a hospital population with a high prevalence of CAD, a lower cut-off point on the ROC curve
-            is appropriate in order to maximize sensitivity and minimize false negatives. Conversely, in a primary care
-            population with a low prevalence of CAD, a higher cut-off point is needed to maximize specificity and
-            minimize false positives.
-          </p>
-        </div>
-
+        <div
+          id="clinical-setting-choose"
+          class="hidden"
+          aria-labelledby="clinical-setting-choose"
+          [innerHTML]="'clinicalSetting.selectionGuide' | translate"></div>
         <h4 *ngIf="userExistedPreviously">
           <button
             type="button"
@@ -317,7 +297,7 @@
             data-accordion-target="#clinical-setting-change"
             aria-expanded="false"
             aria-controls="clinical-setting-change">
-            <span>How to request a change?</span>
+            <span>{{ 'clinicalSetting.howRequestChange' | translate }}</span>
             <svg
               data-accordion-icon
               class="h-3 w-3 shrink-0 rotate-180"
@@ -335,7 +315,7 @@
           </button>
         </h4>
         <div id="clinical-setting-change" class="hidden" aria-labelledby="clinical-setting-change">
-          <p>TBD</p>
+          <p>{{ 'clinicalSetting.requestChangeGuide' | translate }}</p>
         </div>
       </div>
       <div class="flex h-full w-3/4 flex-row items-center justify-center self-center py-2.5">
@@ -355,8 +335,8 @@
               <label
                 [for]="clinicalSetting.name"
                 class="flex h-36 cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-tone-1 p-6 font-semibold text-text peer-checked:border peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-disabled:cursor-default"
-                >{{ clinicalSetting.descr }}</label
-              >
+                >{{ clinicalSetting.descr | translate }}
+              </label>
             </div>
           </div>
         </ng-template>
@@ -368,12 +348,12 @@
           value=""
           class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500" />
         <label for="clinicalSettingConfirmBox" class="ml-2 font-medium text-gray-900"
-          >I understand that my choice is conclusive.</label
-        >
+          >{{ 'clinicalSetting.confirm' | translate }}
+        </label>
       </div>
     </div>
     <div class="flex flex-row-reverse py-6">
-      <button class="action" type="submit">Update</button>
+      <button class="action" type="submit">{{ 'profile.update' | translate }}</button>
     </div>
   </div>
 </form>

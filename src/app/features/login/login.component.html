@@ -7,8 +7,8 @@
         'justify-center': !requestingAccess || accessRequested,
         'justify-end': requestingAccess && !accessRequested
       }">
-      <h1 class="mb-2" [ngClass]="{ '!visible hidden': requestingAccess }">Login</h1>
-      <button *ngIf="!requestingAccess" class="action" (click)="login()">Login</button>
+      <h1 class="mb-2" [ngClass]="{ '!visible hidden': requestingAccess }">{{ 'section.login' | translate }}</h1>
+      <button *ngIf="!requestingAccess" class="action" (click)="login()">{{ 'section.login' | translate }}</button>
       <form
         name="accessrequest"
         class="flex flex-col gap-y-2"
@@ -26,8 +26,8 @@
           <label
             for="name"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >First Name</label
-          >
+            >{{ 'profile.firstName' | translate }}
+          </label>
         </div>
         <div name="lastname" class="relative">
           <input
@@ -42,7 +42,7 @@
           <label
             for="lastname"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >Last Name</label
+            >{{ 'profile.lastName' | translate }}</label
           >
         </div>
         <div name="email" class="relative">
@@ -58,7 +58,7 @@
           <label
             for="email"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >Email</label
+            >{{ 'profile.eMail' | translate }}</label
           >
         </div>
         <div name="telephone" class="relative">
@@ -74,7 +74,7 @@
           <label
             for="telephone"
             class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-            >Telephone Nr.</label
+            >{{ 'profile.contact.phoneNumber' | translate }}</label
           >
         </div>
         <div name="country" class="relative">
@@ -83,14 +83,14 @@
             #country
             class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
             name="country">
-            <option>Germany</option>
-            <option>United Arab Emirates</option>
-            <option>Switzerland</option>
+            <option>{{ 'country.ger' | translate }}</option>
+            <option>{{ 'country.uae' | translate }}</option>
+            <option>{{ 'country.ch' | translate }}</option>
           </select>
           <label
             for="country"
             class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-            >Country</label
+            >{{ 'country.caption' | translate }}</label
           >
         </div>
         <div name="organization" class="relative">
@@ -99,14 +99,14 @@
             #organization
             class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
             name="organization">
-            <option>No organization</option>
-            <option>Exxeta AG</option>
-            <option>Preventon</option>
+            <option>{{ 'organization.noOrg' | translate }}</option>
+            <option>{{ 'organization.exxeta' | translate }}</option>
+            <option>{{ 'organization.preventon' | translate }}</option>
           </select>
           <label
             for="organization"
             class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-            >Organization</label
+            >{{ 'organization.caption' | translate }}</label
           >
         </div>
         <button
@@ -126,20 +126,22 @@
           (click)="
             sendRequest(name.value, lastname.value, email.value, telephone.value, country.value, organization.value)
           ">
-          Request Access
+          {{ 'login.requestAccess' | translate }}
         </button>
-        <button class="edit" (click)="this.requestingAccess = false">Back</button>
+        <button class="edit" (click)="this.requestingAccess = false">{{ 'navigation.back' | translate }}</button>
       </form>
       <div class="flex flex-col text-center" [ngClass]="{ '!visible hidden': !accessRequested }">
-        <p class="text-2xl font-medium text-primary">Access Requested!</p>
-        <p>One of our employees will get into contact with you.</p>
-        <button class="edit" (click)="this.requestingAccess = false; this.accessRequested = false">Back</button>
+        <p class="text-2xl font-medium text-primary">{{ 'login.requestSuccess' | translate }}</p>
+        <p>{{ 'login.requestSuccessInfo' | translate }}</p>
+        <button class="edit" (click)="this.requestingAccess = false; this.accessRequested = false">
+          {{ 'navigation.back' | translate }}
+        </button>
       </div>
       <button
         class="action enabled:!bg-primary"
         [ngClass]="{ '!visible hidden': requestingAccess }"
         (click)="this.requestingAccess = true">
-        Request Access
+        {{ 'login.requestAccess' | translate }}
       </button>
     </div>
     <ce-footer class="origin-bottom scale-90 p-4"></ce-footer>

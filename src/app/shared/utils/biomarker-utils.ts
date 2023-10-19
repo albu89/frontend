@@ -16,7 +16,7 @@ export function validateBiomarkerEntry(biomarker: Biomarker, translate: Language
         biomarker.color = 'red';
         biomarker.isValid = false;
         translate.translate
-          .get('validationRangeMessage', {
+          .get('biomarker.validationRangeMessage', {
             minimum: biomarker.selectedUnit.minimum,
             maximum: biomarker.selectedUnit.maximum,
           })
@@ -36,7 +36,7 @@ export function validateBiomarkerEntry(biomarker: Biomarker, translate: Language
       } else {
         biomarker.color = 'red';
         biomarker.isValid = false;
-        translate.translate.get('optionSelect').subscribe({
+        translate.translate.get('biomarker.optionSelect').subscribe({
           next: value => (biomarker.errorMessage = value),
           error: () => (biomarker.errorMessage = `Select an option`),
         });
@@ -48,7 +48,7 @@ export function validateBiomarkerEntry(biomarker: Biomarker, translate: Language
       } else {
         biomarker.color = 'red';
         biomarker.isValid = false;
-        translate.translate.get('optionSelect').subscribe({
+        translate.translate.get('biomarker.optionSelect').subscribe({
           next: value => (biomarker.errorMessage = value),
           error: () => (biomarker.errorMessage = `Select an option`),
         });

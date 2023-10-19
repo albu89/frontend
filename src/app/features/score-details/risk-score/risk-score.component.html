@@ -14,11 +14,12 @@
   <div class="flex w-full flex-col gap-2 rounded-lg border border-solid border-tone-1 bg-white p-6 shadow">
     <p class="font-medium uppercase text-label">{{ RecommendationHeader }}</p>
     <p class="font-medium text-text">{{ Recommendation }}</p>
+    <!-- TODO: Recommendation and RecommendationLong don't seem to be properly translated. RecommendationHeader is fine. -->
     <div class="{{ isLongTextVisible ? '' : 'hidden' }} pt-2">
       <p class="text-sm">{{ RecommendationLong }}</p>
     </div>
     <button class="edit self-end" (click)="showLongText()">
-      {{ isLongTextVisible ? 'less' : 'more' }}
+      {{ isLongTextVisible ? ('accordion.less' | translate) : ('accordion.more' | translate) }}
     </button>
   </div>
 </div>

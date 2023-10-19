@@ -80,14 +80,14 @@
                   routerLinkActive="text-secondary"
                   [routerLinkActiveOptions]="{ exact: true }"
                   (click)="userDropdown.hide()"
-                  class="block px-4 py-2 text-gray-700 hover:bg-gray-100 md:hover:text-secondary"
-                  >{{ 'profile' | translate }}</a
-                >
+                  class="block px-4 py-2 text-gray-700 hover:bg-gray-100 md:hover:text-secondary">
+                  {{ 'section.profile' | translate }}
+                </a>
               </li>
             </ul>
             <div class="py-2">
               <button class="block px-4 py-2 text-gray-700 hover:bg-gray-100" (click)="logout()">
-                {{ 'logout' | translate }}
+                {{ 'section.logout' | translate }}
                 <span
                   class="block h-0.5 max-w-0 bg-secondary transition-all duration-500 group-hover:max-w-full"></span>
               </button>
@@ -120,13 +120,13 @@
               ariaCurrentWhenActive="page"
               routerLinkActive="text-secondary"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="group block rounded py-2 pl-3 pr-4 text-gray-900 transition duration-300 md:p-0 md:hover:text-secondary"
-              >{{ 'existingScores' | translate }}
+              class="group block rounded py-2 pl-3 pr-4 text-gray-900 transition duration-300 md:p-0 md:hover:text-secondary">
+              {{ 'section.existingScores' | translate }}
               <span
                 class="block h-0.5 max-w-0 bg-secondary transition-all duration-500 group-hover:max-w-full"
                 routerLinkActive="max-w-full w-1/6"
-                [routerLinkActiveOptions]="{ exact: true }"></span
-            ></a>
+                [routerLinkActiveOptions]="{ exact: true }"></span>
+            </a>
           </li>
           <li>
             <a
@@ -134,13 +134,13 @@
               ariaCurrentWhenActive="page"
               routerLinkActive="text-secondary"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="group block rounded py-2 pl-3 pr-4 text-gray-900 transition duration-300 md:p-0 md:hover:text-secondary"
-              >{{ 'createNewScore' | translate }}
+              class="group block rounded py-2 pl-3 pr-4 text-gray-900 transition duration-300 md:p-0 md:hover:text-secondary">
+              {{ 'section.createNewScore' | translate }}
               <span
                 class="block h-0.5 max-w-0 bg-secondary transition-all duration-500 group-hover:max-w-full"
                 routerLinkActive="max-w-full w-1/6"
-                [routerLinkActiveOptions]="{ exact: true }"></span
-            ></a>
+                [routerLinkActiveOptions]="{ exact: true }"></span>
+            </a>
           </li>
         </ul>
       </div>

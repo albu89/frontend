@@ -7,9 +7,9 @@
   } as data">
   <div *ngIf="!data.currentScore" name="record-container" class="base-view">
     <div name="header-div" class="flex flex-row justify-between">
-      <h1>{{ 'scores' | translate }}</h1>
+      <h1>{{ 'scores.scores' | translate }}</h1>
       <div>
-        <button class="action" [routerLink]="PageLinks.NEW_SCORE">{{ 'createNewScore' | translate }}</button>
+        <button class="action" [routerLink]="PageLinks.NEW_SCORE">{{ 'section.createNewScore' | translate }}</button>
       </div>
     </div>
 
@@ -17,25 +17,25 @@
     <div class="border border-tone-2 bg-[#F6F8FC] shadow-md sm:rounded-lg">
       <form name="patientinfo" class="grid-col m-6 grid grid-cols-6">
         <div class="col-span-2 flex flex-col p-1">
-          <label for="patient-name" class="text-label">{{ 'patientName' | translate }}</label>
+          <label for="patient-name" class="text-label">{{ 'patient.name' | translate }}</label>
           <input
             type="text"
             id="patient-name"
-            placeholder="{{ 'patientNamePlaceholder' | translate }}"
+            placeholder="{{ 'placeholders.patient.name' | translate }}"
             #patientName
             class="basis-1/2 rounded-md border border-tone-2 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary" />
         </div>
         <div class="col-span-2 flex flex-col p-1">
-          <label for="patient-last-name" class="text-label">{{ 'patientLastName' | translate }}</label>
+          <label for="patient-last-name" class="text-label">{{ 'patient.lastName' | translate }}</label>
           <input
             type="text"
             id="patient-last-name"
-            placeholder="{{ 'patientLastNamePlaceholder' | translate }}"
+            placeholder="{{ 'placeholders.patient.name' | translate }}"
             #patientLastName
             class="basis-1/2 rounded-md border border-tone-2 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary" />
         </div>
         <div class="flex flex-col p-1">
-          <label for="patient-birthdate" class="text-label">{{ 'birthdate' | translate }}</label>
+          <label for="patient-birthdate" class="text-label">{{ 'patient.birthdate' | translate }}</label>
           <input
             type="date"
             id="patient-birthdate"
@@ -50,7 +50,7 @@
               [disabled]="isLoading$ | async"
               (click)="getSpecificRecords(patientName.value, patientLastName.value, patientBirthdate.valueAsDate)"
               class="action">
-              {{ 'search' | translate }}
+              {{ 'scores.search' | translate }}
             </button>
           </div>
         </div>

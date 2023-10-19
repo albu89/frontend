@@ -6,10 +6,10 @@ export const DEFAULT_LANGUAGE = 'en-GB';
 export const CLINICAL_SETTINGS: { [key in ClinicalSetting]: ClinicalSettingSpec } = {
   [ClinicalSetting.PrimaryCare]: {
     name: 'PrimaryCare',
-    descr: 'Risk stratification or screening in primary care',
+    descr: 'clinicalSetting.primaryCare',
   },
   [ClinicalSetting.SecondaryCare]: {
     name: 'SecondaryCare',
-    descr: 'Evaluation by a cardiologist or in a hospital setting (secondary care)',
+    descr: 'clinicalSetting.secondaryCare',
   },
 } as const;

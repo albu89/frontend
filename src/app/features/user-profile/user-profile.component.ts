@@ -12,6 +12,7 @@ import { initFlowbite } from 'flowbite';
 import { PageLinks } from '@core/enums/page-links.enum';
 import { environment } from '@env/environment';
 import { CLINICAL_SETTINGS } from '@shared/constants';
+import { BiomarkerUnitType } from '@core/enums/biomarker-unit-type.enum';
 
 @Component({
   selector: 'ce-user-profile',
@@ -22,6 +23,7 @@ import { CLINICAL_SETTINGS } from '@shared/constants';
   standalone: true,
 })
 export class UserProfileComponent implements OnInit, AfterViewInit {
+  public biomarkerUnitType = Object.entries(BiomarkerUnitType).map(([, value]) => value);
   public clinicalSettingsSpecs = Object.entries(CLINICAL_SETTINGS).map(([, value]) => value);
   public updatedUserProfile = new Profile();
   public countryCodes: Country[] = countryData;
