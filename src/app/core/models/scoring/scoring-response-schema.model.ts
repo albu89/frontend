@@ -25,5 +25,5 @@ export interface ScoringResponseSchema {
   recommendationTableHeader: string;
   recommendationScoreRangeHeader: string;
   recommendationCategories: RecommendationCategory[];
-  biomarkers: Biomarker[];
+  biomarkers: Biomarker;
 }

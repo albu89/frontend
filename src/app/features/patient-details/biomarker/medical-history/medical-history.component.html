@@ -1,0 +1,56 @@
+<div class="mb-2 flex flex-row items-end">
+  <p class="block font-medium leading-tight">
+    {{ biomarker.displayName }}
+  </p>
+  <img
+    class="hover:text-primary-600 focus:text-primary-600 active:text-primary-700 pl-1 text-primary transition duration-150 ease-in-out"
+    *ngIf="biomarker.infoText"
+    src="../../../assets/info.svg"
+    [attr.data-tooltip-target]="'biomarker-tooltip-' + biomarker.id"
+    alt="{{ biomarker.infoText }}" />
+  <div
+    [attr.id]="'biomarker-tooltip-' + biomarker.id"
+    role="tooltip"
+    class="tooltip invisible absolute z-10 inline-block max-w-md rounded-lg bg-gray-900 px-3 py-2 font-medium text-white opacity-0 shadow-sm transition-opacity duration-300">
+    {{ biomarker.infoText }}
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
+</div>
+
+<div *ngIf="biomarker.type === 'options' || biomarker.type === 'boolean'" class="grid place-items-baseline">
+  <ul class="flex gap-1">
+    <li *ngFor="let option of biomarker.unit.options">
+      <ng-container *ngIf="!sideEffectMarker || option.sideEffectValue !== sideEffectMarker?.value">
+        <input
+          type="radio"
+          [id]="biomarker.id + '_' + option.displayName"
+          class="peer hidden"
+          [name]="option.displayName"
+          [value]="option.value.toString().toLowerCase()"
+          [(ngModel)]="biomarker.value" />
+        <label
+          [for]="biomarker.id + '_' + option"
+          class="block cursor-pointer select-none rounded-md border border-tone-2 bg-tone-1 p-2 text-text peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white"
+          >{{ option.displayName }}</label
+        ><!-- TODO: Properly handle translation -->
+      </ng-container>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="biomarker.type === 'integer'" class="relative mt-2 rounded-md shadow-sm">
+  <input
+    type="number"
+    [min]="biomarker.unit.minimum!"
+    [max]="biomarker.unit.maximum!"
+    [(ngModel)]="biomarker.value"
+    class="block w-full rounded-md border p-2 placeholder:text-label-2"
+    [placeholder]="0" />
+  <!--  [class]="biomarker.isValid ? 'border-tone-2 focus:ring-primary' : 'border-text-red focus:ring-text-red'"-->
+  <div class="absolute inset-y-0 right-0 flex items-center">
+    <div
+      class="flex h-full items-center justify-center rounded-md py-1 pl-2 pr-2 text-label-2 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
+      <p class="text-center">{{ biomarker.unit.shorthand }}</p>
+    </div>
+  </div>
+</div>

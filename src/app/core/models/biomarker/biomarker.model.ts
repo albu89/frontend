@@ -1,16 +1,9 @@
-import { BiomarkerUnit } from './biomarker-unit.model';
+import { BiomarkerCategories } from '@models/biomarker/biomarker-categories.model';
+import { MedicalHistoryItem } from '@models/biomarker/medical-history/medicalHistory.model';
+import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
 
 export interface Biomarker {
-  id: string;
-  category: string;
-  fieldname: string;
-  units: BiomarkerUnit[];
-  infoText: string;
-  preferredUnit: string;
-  orderNumber: number;
-  value: number | string | boolean;
-  selectedUnit: BiomarkerUnit;
-  color: string;
-  errorMessage: string;
-  isValid: boolean | undefined;
+  categories: BiomarkerCategories;
+  medicalHistory: MedicalHistoryItem[];
+  labResults: LabResultItem[];
 }

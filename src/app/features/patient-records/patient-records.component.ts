@@ -79,9 +79,9 @@ export class PatientRecordsComponent implements OnInit, OnDestroy {
     if (this.areSearchParameterValid(searchParameter)) {
       this.router.navigateByUrl(PageLinks.EDIT_SCORE, {
         state: {
-          name: searchParameter.patientName,
-          lastName: searchParameter.patientLastName,
-          dateOfBirth: searchParameter.patientBirthdate?.toDateString(),
+          patientName: searchParameter.patientName,
+          patientLastName: searchParameter.patientLastName,
+          patientBirthdate: searchParameter.patientBirthdate?.toDateString(),
           requestId: requestId,
         },
       });

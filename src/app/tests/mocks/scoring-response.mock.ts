@@ -1,19 +1,19 @@
-import { Prevalence } from '@core/enums/scoring-prevalence.enum';
 import { ScoringResponse } from '@models/scoring/scoring-response.model';
 import { BiomarkersInfoMock } from './biomarkers-info.mock';
 import { WarningMock } from './warning.mock';
-export class ScoringResponseMock implements ScoringResponse {
-  public classifierClass = 1;
-  public classifierScore = 0.23;
-  public classifierSign = 0;
-  public requestId = '123ADE';
-  public riskValue = '<5%';
-  public riskClass = 1;
-  public warnings = [new WarningMock()];
-  public recommendationSummary = 'No diagnostic testing mandated.';
-  public recommendationLongText =
-    'This is additional Text that explains the Recommendation in more detail. The more detailed this information is, the more space it is going to take up. This is an extreme example to show what would happen with very long texts that explain a lot of detail. Eiusmod nulla reprehenderit ea reprehenderit consequat elit ex esse sint eiusmod non id consequat. Pariatur proident adipisicing laborum velit officia ea fugiat. Ipsum tempor ipsum sit duis. Labore labore veniam officia proident cupidatat officia proident fugiat. Proident sit tempor in aliqua anim culpa nulla dolore sint quis. Eiusmod excepteur mollit mollit eiusmod ad est excepteur nisi ullamco qui. Enim sit ut irure magna officia velit velit. Laborum aute anim laborum nisi. Fugiat sit ad esse reprehenderit est ea pariatur ea dolor minim qui commodo. Ullamco cupidatat esse sint tempor ut enim Lorem nisi exercitation quis velit. Lorem irure cupidatat ullamco adipisicing aliquip eiusmod pariatur magna velit fugiat et deserunt duis laborum.Ea dolore ea irure nostrud eiusmod aute magna anim nostrud velit proident est elit incididunt. Enim voluptate sint ea enim incididunt. Minim duis do dolore irure cillum enim ea.';
-  public biomarkers = new BiomarkersInfoMock();
-  public prevalence: Prevalence = Prevalence.Secondary;
-  public canEdit = false;
-}
+import { Prevalence } from '@core/enums/scoring-prevalence.enum';
+
+export const ScoringResponseMock: ScoringResponse = {
+  classifier_score: 0.7412359714508057,
+  requestId: 'fddfd08b-0df2-4573-c9e1-08dbd47700ef',
+  riskValue: '20%',
+  riskClass: 2,
+  warnings: [WarningMock],
+  recommendationSummary: 'Anatomical non-invasive evaluation (e.g., coronary CT angiography (CTA)).',
+  recommendationLongText:
+    'Choice of the test based on clinical likelihood, patient characteristics and preference, availability, as well as local expertise. Anatomical non-invasive evaluation, by visualizing the coronary arterylumen and wall using an intravenous contrast agent, can be performed with coronary CTA, which provides high accuracy for the detection of obstructive coronary stenoses defined by ICA, because both tests are based on anatomy. However, stenoses estimated to be 50-90% by visual inspection are not necessarily functionally significant, i.e. they do not always induce myocardial ischaemia. Therefore, either non-invasive or invasive functional testing is recommended for further evaluation of angiographic stenosis detected by coronary CTA invasive angiography, unless a very high-grade (>90% diameter stenosis) stenosis is detected via invasive angiography. The presence or absence of non-obstructive coronary atherosclerosis on coronary CTA provides prognostic information, and can be used to guide preventive therapy.',
+  prevalence: Prevalence.Primary,
+  biomarkers: BiomarkersInfoMock,
+  canEdit: true,
+  isDraft: false,
+};

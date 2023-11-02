@@ -1,18 +1,17 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { BiomarkerComponent } from '@features/patient-details/biomarker/biomarker.component';
-import { Biomarker } from '@models/biomarker/biomarker.model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
+import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
+import { LabResultComponent } from '@features/patient-details/biomarker/lab-result/lab-result.component';
 
 @Component({
   selector: 'ce-category-list-flexible',
   templateUrl: './list-flexible.component.html',
   styleUrls: ['./list-flexible.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SharedModule, BiomarkerComponent],
+  imports: [SharedModule, LabResultComponent],
   standalone: true,
 })
 export class CategoryListFlexibleComponent {
-  @Input() public biomarkers!: Biomarker[];
+  @Input() public biomarkers!: LabResultItem[];
   @Output() public isEditingEnabled = new EventEmitter<boolean>();
 
   protected enableEditMode(): void {

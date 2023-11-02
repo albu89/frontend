@@ -11,9 +11,9 @@ import { SharedModule } from '@shared/shared.module';
 })
 export class BiomarkerInfoComponent implements OnInit {
   @Input() public Header = '';
-  @Input() public Value?: number | Date | boolean | string;
+  @Input() public Value?: number | Date | boolean | string | null;
   @Input() public InfoText = '';
-  @Input() public Unit = '';
+  @Input() public Unit? = '';
   @Input() public isDate = false;
 
   public DateValue: number | null = null;

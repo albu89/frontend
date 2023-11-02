@@ -1,61 +1,8 @@
-import { ClinicalSetting } from '@core/enums/clinical-setting.enum';
 import { BiomarkersInfo } from '@models/biomarker/biomarkers-info.model';
-export class BiomarkersInfoMock implements BiomarkersInfo {
-  public id = '12334';
-  public requestId = '123345678';
-  public clinicalSetting: ClinicalSetting = ClinicalSetting.PrimaryCare;
-  public priorCAD = false;
-  public age = 30;
-  public ageUnit = 'SI';
-  public sex = 'Male';
-  public height = 175;
-  public heightUnit = 'SI';
-  public weight = 80;
-  public weightUnit = 'SI';
-  public chestpain = 'No';
-  public nicotine = 'Yes';
-  public diabetes = 'NidDM';
-  public statin = true;
-  public tcagginhibitor = false;
-  public aceinhibitor = true;
-  public calciumant = false;
-  public betablocker = true;
-  public diuretic = false;
-  public nitrate = true;
-  public systolicbp = 120;
-  public systolicbpUnit = 'SI';
-  public diastolicbp = 70;
-  public diastolicbpUnit = 'SI';
-  public qwave = 'Screening';
-  public amylasep = 50;
-  public amylasepUnit = 'SI';
-  public alkaline = 50;
-  public alkalineUnit = 'SI';
-  public hstroponint = 20;
-  public hstroponintUnit = 'SI';
-  public alat = 25;
-  public alatUnit = 'SI';
-  public glucose = 23;
-  public glucoseUnit = 'SI';
-  public bilirubin = 24;
-  public bilirubinUnit = 'SI';
-  public urea = 55;
-  public ureaUnit = 'SI';
-  public uricacid = 75;
-  public uricacidUnit = 'SI';
-  public cholesterol = 60;
-  public cholesterolUnit = 'SI';
-  public hdl = 89;
-  public hdlUnit = 'SI';
-  public ldl = 55;
-  public ldlUnit = 'SI';
-  public protein = 75;
-  public proteinUnit = 'SI';
-  public albumin = 8;
-  public albuminUnit = 'SI';
-  public leukocyte = 45;
-  public leukocyteUnit = 'SI';
-  public mchc = 16;
-  public mchcUnit = 'SI';
-  public createdOn = new Date('2020-10-10');
-}
+import { BiomarkersInfoValues } from './biomarkers-info-values.mock';
+export const BiomarkersInfoMock: BiomarkersInfo = {
+  createdOn: '2023-10-24T09:52:59.1433333+00:00',
+  requestId: 'fddfd08b-0df2-4573-c9e1-08dbd47700ef',
+  id: '6cfd55b3-8c67-43a3-2747-08dbd4770130',
+  values: BiomarkersInfoValues,
+};

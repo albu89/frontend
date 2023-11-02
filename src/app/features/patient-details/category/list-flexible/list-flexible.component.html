@@ -2,7 +2,7 @@
 <div class="align-items-end grid gap-4 md:grid-cols-4 lg:grid-cols-5">
   <span *ngFor="let biomarker of biomarkers">
     <!-- biomarker form -->
-    <ce-biomarker [biomarker]="biomarker" [sideEffectMarkers]="biomarkers" [unitTypeEditable]="false" />
+    <ce-biomarker-lab-result [biomarker]="biomarker" [unitTypeEditable]="false" />
   </span>
   <!-- Save and edit button -->
   <div class="col-start-1 col-end-6 flex flex-row-reverse">

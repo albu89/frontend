@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { BiomarkerComponent } from '@features/patient-details/biomarker/biomarker.component';
 import { BiomarkerDragItem } from '@models/biomarker/biomarker-drag-item.model';
-import { Biomarker } from '@models/biomarker/biomarker.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SharedModule } from '@shared/shared.module';
+import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
+import { LabResultComponent } from '@features/patient-details/biomarker/lab-result/lab-result.component';
 
 @Component({
   selector: 'ce-category-list-flexible-edit',
   templateUrl: './list-flexible-edit.component.html',
   styleUrls: ['./list-flexible-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SharedModule, BiomarkerComponent],
+  imports: [SharedModule, LabResultComponent],
   standalone: true,
 })
 export class CategoryListFlexibleEditComponent {
-  @Input() public biomarkers!: Biomarker[];
+  @Input() public biomarkers!: LabResultItem[];
   @Output() public saveChanges = new EventEmitter<boolean>();
 
   protected dropItem(event: CdkDragDrop<BiomarkerDragItem>): void {

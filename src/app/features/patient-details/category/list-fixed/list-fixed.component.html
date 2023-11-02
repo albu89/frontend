@@ -1,19 +1,19 @@
 <!-- Fixed biomarkers -->
-<ng-container *ngFor="let category of categories">
-  <ng-container *ngIf="category !== ''">
-    <h4 class="mt-4 first-of-type:mt-0">{{ category }}</h4>
+<ng-container *ngFor="let category of categories | keyvalue">
+  <ng-container *ngIf="category">
+    <h4 class="mt-4 first-of-type:mt-0">{{ category.value }}</h4>
     <hr class="pb-2 text-primary" />
   </ng-container>
   <div class="flex flex-wrap gap-x-8 gap-y-4">
     <span
-      *ngFor="let biomarker of categorizedBiomarkers(category)"
+      *ngFor="let biomarker of categorizedBiomarkers(category.key)"
       class="flex min-w-40 flex-col justify-end"
       [class.col-span-2]="EXTRA_WIDTH_CATEGORIES.includes(biomarker.id)">
       <!-- biomarker form -->
-      <ce-biomarker
+      <ce-biomarker-medical-history
         *ngIf="biomarker"
         [biomarker]="biomarker"
-        [sideEffectMarkers]="biomarkers"
+        [sideEffectMarker]="findSideEffectMarker(biomarker)"
         [unitTypeEditable]="false" />
     </span>
   </div>

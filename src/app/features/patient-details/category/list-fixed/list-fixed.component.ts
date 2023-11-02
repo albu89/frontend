@@ -1,29 +1,32 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { BiomarkerComponent } from '@features/patient-details/biomarker/biomarker.component';
-import { Biomarker } from '@models/biomarker/biomarker.model';
+import { Component, Input } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
+import { MedicalHistoryItem } from '@models/biomarker/medical-history/medicalHistory.model';
 import { EXTRA_WIDTH_CATEGORIES } from '@features/patient-details/constants';
+import { MedicalHistoryComponent } from '@features/patient-details/biomarker/medical-history/medical-history.component';
+import { MedicalHistoryCategory } from '@models/biomarker/medical-history/medical-history-category.model';
 
 @Component({
   selector: 'ce-category-list-fixed',
   templateUrl: './list-fixed.component.html',
   styleUrls: ['./list-fixed.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SharedModule, BiomarkerComponent],
+  imports: [SharedModule, MedicalHistoryComponent],
   standalone: true,
 })
-export class CategoryListFixedComponent implements OnInit {
-  @Input() public biomarkers!: Biomarker[];
+export class CategoryListFixedComponent {
+  @Input() public biomarkers!: MedicalHistoryItem[];
+  @Input() public categories!: MedicalHistoryCategory;
 
-  public categories: string[] = [];
-
+  //TODO: calculate width
   protected readonly EXTRA_WIDTH_CATEGORIES = EXTRA_WIDTH_CATEGORIES;
 
-  public ngOnInit() {
-    this.categories = [...new Set(this.biomarkers.map(b => b.category))];
+  //TODO: move to store ?
+  public categorizedBiomarkers(category: string): MedicalHistoryItem[] {
+    return this.biomarkers.filter(b => b.categoryId === category);
   }
 
-  public categorizedBiomarkers(category: string): Biomarker[] {
-    return this.biomarkers.filter(b => b.category === category);
+  public findSideEffectMarker(m: MedicalHistoryItem) {
+    const sideEffectId = m.unit.options?.find(i => i.sideEffectId)?.sideEffectId;
+    if (!sideEffectId) return undefined;
+    return this.biomarkers.find(marker => marker.id === sideEffectId);
   }
 }

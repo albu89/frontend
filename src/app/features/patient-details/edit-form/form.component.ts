@@ -14,8 +14,8 @@ import { initFlowbite } from 'flowbite';
 })
 export class PatientDataFormComponent implements AfterViewInit {
   @Input() public uniqueCategories: string[] = [];
-  @Input() public biomarkers: Biomarker[] = [];
-  @Input() public patient: Partial<Patient> = {};
+  @Input() public biomarkers!: Biomarker;
+  @Input() public patient!: Patient;
   @Input() public canEdit = true;
 
   public ngAfterViewInit() {

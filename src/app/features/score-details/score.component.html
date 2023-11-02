@@ -15,7 +15,7 @@
         [RiskClass]="score.riskClass"
         [RiskHeader]="schema.riskHeader"
         [ScoreHeader]="schema.scoreHeader"
-        [ScoreValue]="score.classifierScore"
+        [ScoreValue]="score.classifier_score"
         [RecommendationHeader]="schema.recommendationHeader"
         [Recommendation]="score.recommendationSummary"
         [RecommendationLong]="score.recommendationLongText" />
@@ -80,30 +80,32 @@
       class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
       <ce-biomarker-info
         *ngFor="let biomarker of anamnesisMarkers"
-        [Header]="biomarker.fieldname"
+        [Header]="biomarker.displayName"
         [InfoText]="biomarker.infoText"
-        [Value]="this.getBiomarkerValue(biomarker.id)"
-        [Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"></ce-biomarker-info>
+        [Value]="this.getBiomarkersInfoById(biomarker.id)?.value"
+        [Unit]="this.getMedBiomarkerUnit(biomarker.id)?.shorthand"></ce-biomarker-info>
     </div>
     <div
       name="baseInfo"
       class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
       <ce-biomarker-info
         *ngFor="let biomarker of medicationMarkers"
-        [Header]="biomarker.fieldname"
+        [Header]="biomarker.displayName"
         [InfoText]="biomarker.infoText"
-        [Value]="this.getBiomarkerValue(biomarker.id)"
-        [Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"></ce-biomarker-info>
+        [Value]="this.getBiomarkersInfoById(biomarker.id)?.value"
+        [Unit]="this.getMedBiomarkerUnit(biomarker.id)?.shorthand">
+      </ce-biomarker-info>
     </div>
     <div
       name="baseInfo"
       class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
       <ce-biomarker-info
         *ngFor="let biomarker of valueMarkers"
-        [Header]="biomarker.fieldname"
+        [Header]="biomarker.displayName"
         [InfoText]="biomarker.infoText"
-        [Value]="this.getBiomarkerValue(biomarker.id)"
-        [Unit]="this.getBiomarkerUnit(biomarker.id)?.name ?? ''"></ce-biomarker-info>
+        [Value]="this.getBiomarkersInfoById(biomarker.id)?.value"
+        [Unit]="this.getLabBiomarkerUnit(biomarker.id)?.shorthand">
+      </ce-biomarker-info>
     </div>
   </div>
 </div>

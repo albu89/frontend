@@ -17,8 +17,8 @@ export class SchemasService {
     private readonly languageService: LanguageService
   ) {}
 
-  public getBiomarkers(): Observable<Biomarker[]> {
-    return this.http.get<Biomarker[]>(this.baseUrl + '/biomarkers', this.createLanguageParams());
+  public getBiomarkers(): Observable<Biomarker> {
+    return this.http.get<Biomarker>(this.baseUrl + '/biomarkers', this.createLanguageParams());
   }
 
   public getResponseSchema(): Observable<ScoringResponseSchema> {

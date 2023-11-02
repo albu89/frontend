@@ -3,9 +3,7 @@ import { BiomarkersInfo } from '../biomarker/biomarkers-info.model';
 import { Warning } from './scoring-warning.model';
 
 export interface ScoringResponse {
-  classifierClass: number;
-  classifierScore: number;
-  classifierSign: number;
+  classifier_score: number;
   requestId: string;
   riskValue: string;
   riskClass: number;
@@ -15,4 +13,5 @@ export interface ScoringResponse {
   biomarkers: BiomarkersInfo;
   prevalence: Prevalence;
   canEdit: boolean;
+  isDraft: boolean;
 }

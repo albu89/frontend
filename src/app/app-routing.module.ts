@@ -25,7 +25,6 @@ const routes: Routes = [
     path: PageLinks.NEW_SCORE,
     loadComponent: () =>
       import('@features/patient-details/patient-details.component').then(m => m.PatientDetailsComponent),
-    data: undefined,
     canActivate: [MsalGuard, CanActivateGuard],
   },
   {
@@ -40,7 +39,6 @@ const routes: Routes = [
     path: PageLinks.EDIT_SCORE,
     loadComponent: () =>
       import('@features/patient-details/patient-details.component').then(m => m.PatientDetailsComponent),
-    data: { name: '', lastName: '', dateOfBirth: '', requestId: '' },
     canActivate: [MsalGuard, CanActivateGuard],
   },
 ];
