@@ -1,0 +1,20 @@
+input {
+  @apply w-full rounded-md border border-tone-2 py-1.5 pl-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary disabled:bg-gray-200;
+  .valid {
+    @apply border-green-500 bg-green-50 text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500;
+  }
+  .invalid {
+    @apply border-red-500 bg-red-50 p-2.5 text-sm text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500;
+  }
+}
+
+label {
+  .valid {
+    @apply mb-2 block text-sm font-medium text-green-700 text-label dark:text-green-500;
+  }
+  .invalid {
+    @apply mb-2 block text-sm font-medium text-red-700 dark:text-red-500;
+  }
+}
+
+//w-full rounded-md border border-tone-2 py-1.5 pl-2 pr-2 text-label-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary

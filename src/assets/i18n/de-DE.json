@@ -24,7 +24,12 @@
   "patient": {
     "name": "Patient Name",
     "lastName": "Patient Nachname",
-    "birthdate": "Geburtsdatum"
+    "birthdate": "Geburtsdatum",
+    "errors": {
+      "name": "Name des Patienten muss ausgefüllt sein.",
+      "lastName": "Nachname des Patienten muss ausgefüllt sein.",
+      "birthdate": "Geburtsdatum des Patienten muss ausgefüllt sein."
+    }
   },
   "category": {
     "noContent": "Keine Biomarker gefunden.",
@@ -36,7 +41,7 @@
     "more": "mehr"
   },
   "biomarker": {
-    "validationRangeMessage": "Der Wert muss zwischen {{minimum}} und {{maximum}} liegen.",
+    "validationRangeMessage": "Der Wert muss zwischen {{min}} und {{max}} liegen.",
     "optionSelect": "Wählen Sie eine Option"
   },
   "profile": {

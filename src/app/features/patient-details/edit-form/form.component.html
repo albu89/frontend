@@ -1,77 +1,103 @@
-<div
-  class="mb-4 grid grid-cols-3 gap-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6 focus:border-2">
-  <div>
-    <div class="flex flex-row">
-      <label class="text-label" for="patient-name">{{ 'patient.name' | translate }}</label>
-      <img
-        class="hover:text-primary-600 focus:text-primary-600 active:text-primary-700 pl-1 text-primary transition duration-150 ease-in-out"
-        src="../../../assets/info.svg"
-        data-tooltip-target="patient-first-name-tooltip"
-        alt="{{ 'tooltips.patient.name' | translate }}" />
-      <div
-        id="patient-first-name-tooltip"
-        role="tooltip"
-        class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 font-medium text-white opacity-0 shadow-sm transition-opacity duration-300">
-        {{ 'tooltips.patient.name' | translate }}
-        <div class="tooltip-arrow" data-popper-arrow></div>
+<form [formGroup]="formGroup" (ngSubmit)="saveForm()">
+  <div
+    class="mb-4 grid grid-cols-3 gap-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6 focus:border-2">
+    <div>
+      <div class="flex flex-row">
+        <label for="patient-name" [ngClass]="isFieldInvalid('firstname') ? 'valid' : 'invalid'">{{
+          'patient.name' | translate
+        }}</label>
+        <img
+          class="hover:text-primary-600 focus:text-primary-600 active:text-primary-700 pl-1 text-primary transition duration-150 ease-in-out"
+          src="../../../assets/info.svg"
+          data-tooltip-target="patient-first-name-tooltip"
+          alt="{{ 'tooltips.patient.name' | translate }}" />
+        <div
+          id="patient-first-name-tooltip"
+          role="tooltip"
+          class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 font-medium text-white opacity-0 shadow-sm transition-opacity duration-300">
+          {{ 'tooltips.patient.name' | translate }}
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+      </div>
+      <div class="mb-6">
+        <input
+          type="text"
+          id="patient-name"
+          placeholder="{{ 'placeholders.patient.name' | translate }}"
+          formControlName="firstname"
+          [ngClass]="isFieldInvalid('firstname') ? 'valid' : 'invalid'" />
+        <p
+          *ngIf="isFieldInvalid('firstname') && hasError('firstname', 'required')"
+          class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span class="font-medium">{{ 'patient.errors.name' | translate }}</span>
+        </p>
       </div>
     </div>
-    <input
-      type="text"
-      id="patient-name"
-      [(ngModel)]="patient.firstname"
-      placeholder="{{ 'placeholders.patient.name' | translate }}"
-      class="w-full rounded-md border border-tone-2 py-1.5 pl-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary"
-      [disabled]="!canEdit" />
-  </div>
-  <div>
-    <div class="flex flex-row">
-      <label class="text-label" for="patient-last-name">{{ 'patient.lastName' | translate }}</label>
-      <img
-        class="hover:text-primary-600 focus:text-primary-600 active:text-primary-700 pl-1 text-primary transition duration-150 ease-in-out"
-        src="../../../assets/info.svg"
-        data-tooltip-target="patient-last-name-tooltip"
-        alt="{{ 'tooltips.patient.lastName' | translate }}" />
-      <div
-        id="patient-last-name-tooltip"
-        role="tooltip"
-        class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 font-medium text-white opacity-0 shadow-sm transition-opacity duration-300">
-        {{ 'tooltips.patient.lastName' | translate }}
-        <div class="tooltip-arrow" data-popper-arrow></div>
+    <div>
+      <div class="flex flex-row">
+        <label for="patient-lastname" [ngClass]="isFieldInvalid('lastname') ? 'valid' : 'invalid'">{{
+          'patient.lastName' | translate
+        }}</label>
+        <img
+          class="hover:text-primary-600 focus:text-primary-600 active:text-primary-700 pl-1 text-primary transition duration-150 ease-in-out"
+          src="../../../assets/info.svg"
+          data-tooltip-target="patient-last-name-tooltip"
+          alt="{{ 'tooltips.patient.lastName' | translate }}" />
+        <div
+          id="patient-last-name-tooltip"
+          role="tooltip"
+          class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 font-medium text-white opacity-0 shadow-sm transition-opacity duration-300">
+          {{ 'tooltips.patient.lastName' | translate }}
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
       </div>
+      <input
+        type="text"
+        id="patient-lastname"
+        placeholder="{{ 'placeholders.patient.lastName' | translate }}"
+        formControlName="lastname"
+        [ngClass]="isFieldInvalid('lastname') ? 'valid' : 'invalid'" />
+      <p
+        *ngIf="isFieldInvalid('lastname') && hasError('lastname', 'required')"
+        class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span class="font-medium">{{ 'patient.errors.lastName' | translate }}</span>
+      </p>
     </div>
-    <input
-      type="text"
-      id="patient-last-name"
-      placeholder="{{ 'placeholders.patient.name' | translate }}"
-      [(ngModel)]="patient.lastname"
-      class="w-full rounded-md border border-tone-2 py-1.5 pl-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary"
-      [disabled]="!canEdit" />
-  </div>
-  <div>
-    <div class="flex flex-row">
-      <label class="text-label" for="patient-birthdate">{{ 'patient.birthdate' | translate }}</label>
-      <img
-        class="hover:text-primary-600 focus:text-primary-600 active:text-primary-700 pl-1 text-primary transition duration-150 ease-in-out"
-        src="../../../assets/info.svg"
-        data-tooltip-target="patient-birthdate-tooltip"
-        alt="{{ 'tooltips.patient.birthdate' | translate }}" />
-      <div
-        id="patient-birthdate-tooltip"
-        role="tooltip"
-        class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 font-medium text-white opacity-0 shadow-sm transition-opacity duration-300">
-        {{ 'tooltips.patient.birthdate' | translate }}
-        <div class="tooltip-arrow" data-popper-arrow></div>
+    <div>
+      <div class="flex flex-row">
+        <label for="patient-birthdate" [ngClass]="isFieldInvalid('birthdate') ? 'valid' : 'invalid'">{{
+          'patient.birthdate' | translate
+        }}</label>
+        <img
+          class="hover:text-primary-600 focus:text-primary-600 active:text-primary-700 pl-1 text-primary transition duration-150 ease-in-out"
+          src="../../../assets/info.svg"
+          data-tooltip-target="patient-birthdate-tooltip"
+          alt="{{ 'tooltips.patient.birthdate' | translate }}" />
+        <div
+          id="patient-birthdate-tooltip"
+          role="tooltip"
+          class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 font-medium text-white opacity-0 shadow-sm transition-opacity duration-300">
+          {{ 'tooltips.patient.birthdate' | translate }}
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
       </div>
+      <input
+        type="date"
+        id="patient-birthdate"
+        max="2999-12-31"
+        formControlName="birthdate"
+        [ngClass]="isFieldInvalid('birthdate') ? 'valid' : 'invalid'" />
+      <p
+        *ngIf="isFieldInvalid('birthdate') && hasError('birthdate', 'required')"
+        class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span class="font-medium">{{ 'patient.errors.birthdate' | translate }}</span>
+      </p>
     </div>
-    <input
-      type="date"
-      id="patient-birthdate"
-      [ngModel]="patient.dateOfBirth | date: 'yyyy-MM-dd'"
-      (ngModelChange)="setDateOfBirth($event)"
-      class="w-full rounded-md border border-tone-2 py-1.5 pl-2 pr-2 text-label-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary"
-      max="2999-12-31"
-      [disabled]="!canEdit" />
   </div>
-</div>
-<ce-category [biomarkers]="biomarkers" class="flex flex-col" />
+  <ce-category [biomarkers]="biomarkers" [formGroup]="formGroup" class="flex flex-col" />
+  <div class="mt-6 flex flex-row-reverse">
+    <button class="action mb-10" type="submit" [disabled]="formGroup.invalid">
+      {{ 'scores.calculate' | translate }}
+    </button>
+  </div>
+</form>

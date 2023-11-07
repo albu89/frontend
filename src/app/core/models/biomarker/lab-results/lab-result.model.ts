@@ -12,6 +12,4 @@ export interface LabResultItem {
   infoText: string;
   type: BiomarkerInputType;
   displayName: string;
-  //TODO: extra für die forms ... ?
-  value?: string | number | Date | null | boolean;
 }

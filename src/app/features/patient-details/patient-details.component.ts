@@ -6,6 +6,8 @@ import { PatientDetailsStore } from '@features/patient-details/_store/patient-de
 import { Router } from '@angular/router';
 import { ScoreRequest } from '@models/requests/score-request.model';
 import { Location } from '@angular/common';
+import { FormMode } from '@features/patient-details/_models/form-mode';
+import { PageLinks } from '@core/enums/page-links.enum';
 
 @Component({
   selector: 'ce-patient-details',
@@ -20,9 +22,11 @@ export class PatientDetailsComponent implements OnInit {
   // protected isLoading$ = this.store.isLoading$;
   protected currentScore$ = this.store.currentScore$;
   protected patient$ = this.store.patient$;
-  // protected calculationSubmitted$ = this.store.calculationSubmitted$;
-  protected canEditPatientData$ = this.store.canEditPatientData$;
-  protected biomarkerTemplate$ = this.store.biomarkerWithData$;
+  protected biomarkerTemplate$ = this.store.biomarkerTemplate$;
+  protected patientData$ = this.store.patientData$;
+  protected formMode$ = this.store.formMode$;
+
+  protected readonly FormMode = FormMode;
 
   public constructor(
     private readonly store: PatientDetailsStore,
@@ -32,14 +36,13 @@ export class PatientDetailsComponent implements OnInit {
 
   public ngOnInit() {
     this.store.loadBiomarkerSchema();
-    if (this.router.url.includes('edit')) {
+    //TODO: check if backnavigation works like before ... (currently patient edit page will open again)
+    if (this.router.url.includes(PageLinks.EDIT_SCORE)) {
       const patientData: ScoreRequest = this.location.getState() as ScoreRequest;
       this.store.loadPatientDetails(patientData);
+      this.store.setFormMode(FormMode.edit);
+    } else {
+      this.store.setFormMode(FormMode.add);
     }
-  }
-
-  public submit() {
-    //eslint-disable-next-line no-console
-    console.warn('NOT IMPLEMENTED YET');
   }
 }

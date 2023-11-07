@@ -2,21 +2,18 @@
   *ngrxLet="{
     currentScore: currentScore$,
     biomarkerTemplate: biomarkerTemplate$,
-    canEditPatientData: canEditPatientData$,
-    patient: patient$
+    formMode: formMode$,
+    patient: patient$,
+    patientData: patientData$
   } as data">
   <div *ngIf="!data.currentScore" class="base-view">
-    <h1>{{ data.canEditPatientData ? ('section.createNewScore' | translate) : ('section.editScore' | translate) }}</h1>
+    <h1>
+      {{ data.formMode === FormMode.add ? ('section.createNewScore' | translate) : ('section.editScore' | translate) }}
+    </h1>
     <ce-patient-data-form
       *ngIf="data.biomarkerTemplate"
-      [biomarkers]="data.biomarkerTemplate!"
       [patient]="data.patient!"
-      [canEdit]="data.canEditPatientData"></ce-patient-data-form>
-    <div class="mt-6 flex flex-row-reverse">
-      <button class="action mb-10" (click)="submit()">
-        {{ 'scores.calculate' | translate }}
-      </button>
-    </div>
+      [formMode]="data.formMode"></ce-patient-data-form>
   </div>
   <ce-score
     *ngIf="data.currentScore"

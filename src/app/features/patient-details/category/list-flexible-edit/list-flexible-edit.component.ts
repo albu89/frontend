@@ -4,6 +4,8 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SharedModule } from '@shared/shared.module';
 import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
 import { LabResultComponent } from '@features/patient-details/biomarker/lab-result/lab-result.component';
+import { FormGroup } from '@angular/forms';
+import { FormModel } from '@features/patient-details/_models/form.model';
 
 @Component({
   selector: 'ce-category-list-flexible-edit',
@@ -15,7 +17,16 @@ import { LabResultComponent } from '@features/patient-details/biomarker/lab-resu
 })
 export class CategoryListFlexibleEditComponent {
   @Input() public biomarkers!: LabResultItem[];
+  @Input() public formGroup!: FormGroup<FormModel>;
   @Output() public saveChanges = new EventEmitter<boolean>();
+
+  private get labBiomarkerControls(): FormGroup[] | undefined {
+    return this.formGroup.controls.biomarkerValues?.controls ?? undefined;
+  }
+
+  public findLabBiomarkerControlById(id: string): FormGroup | undefined {
+    return this.labBiomarkerControls?.find(i => i.getRawValue().name === id);
+  }
 
   protected dropItem(event: CdkDragDrop<BiomarkerDragItem>): void {
     // update array of biomarkers with the order of the item dragged

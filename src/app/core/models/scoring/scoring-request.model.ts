@@ -1,9 +1,6 @@
 import { ScoringRequestValue } from './scoring-request-value.model';
 
 export interface ScoringRequest {
-  inputDate: ScoringRequestValue;
-  clinicalSetting: ScoringRequestValue;
-  patient_id: ScoringRequestValue;
   prior_CAD: ScoringRequestValue;
   age: ScoringRequestValue;
   sex: ScoringRequestValue;

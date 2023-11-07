@@ -1,13 +1,18 @@
 <!-- Flexible biomarkers -->
-<div class="align-items-end grid gap-4 md:grid-cols-4 lg:grid-cols-5">
-  <span *ngFor="let biomarker of biomarkers">
-    <!-- biomarker form -->
-    <ce-biomarker-lab-result [biomarker]="biomarker" [unitTypeEditable]="false" />
-  </span>
-  <!-- Save and edit button -->
-  <div class="col-start-1 col-end-6 flex flex-row-reverse">
-    <button (click)="enableEditMode()" class="edit self-end">
-      {{ 'category.edit' | translate }}
-    </button>
+<ng-container [formGroup]="formGroup">
+  <div class="align-items-end grid gap-4 md:grid-cols-4 lg:grid-cols-5" formArrayName="biomarkerValues">
+    <span *ngFor="let biomarker of biomarkers">
+      <!-- biomarker form -->
+      <ce-biomarker-lab-result
+        [biomarker]="biomarker"
+        [formGroup]="findLabBiomarkerControlById(biomarker.id)!"
+        [unitTypeEditable]="false" />
+    </span>
+    <!-- Save and edit button -->
+    <div class="col-start-1 col-end-6 flex flex-row-reverse">
+      <button (click)="enableEditMode()" class="edit self-end">
+        {{ 'category.edit' | translate }}
+      </button>
+    </div>
   </div>
-</div>
+</ng-container>

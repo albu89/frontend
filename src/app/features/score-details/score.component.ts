@@ -35,6 +35,7 @@ import { MedicalHistoryCategoryIds } from '@core/enums/biomarker-medicalhistory-
     WarningComponent,
     RouterLink,
   ],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class ScoreComponent implements OnInit {

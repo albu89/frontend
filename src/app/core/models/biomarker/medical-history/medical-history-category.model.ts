@@ -1,6 +1,5 @@
-//use type here because iteration over interface won't work
-export type MedicalHistoryCategory = {
+export interface MedicalHistoryCategory {
   anamnesis: string;
   medication: string;
   clinicalfindings: string;
-};
+}

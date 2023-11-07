@@ -1,13 +1,13 @@
 import { Patient } from '@models/patient/patient.model';
 import { ScoringResponse } from '@models/scoring/scoring-response.model';
 import { Biomarker } from '@models/biomarker/biomarker.model';
+import { FormMode } from '@features/patient-details/_models/form-mode';
 
 export interface PatientDetailsState {
   isLoading: boolean;
   currentScore?: ScoringResponse;
   patient?: Patient;
-  // calculationSubmitted: boolean;
-  canEditPatientData: boolean;
   biomarkerTemplate?: Biomarker;
   patientData?: ScoringResponse;
+  formMode: FormMode;
 }

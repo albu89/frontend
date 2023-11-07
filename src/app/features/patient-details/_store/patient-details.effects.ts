@@ -4,6 +4,9 @@ import { tapResponse } from '@ngrx/component-store';
 import { switchMap, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
+import { FormMode } from '@features/patient-details/_models/form-mode';
+import { ScoringRequestWithPatientData } from '@models/scoring/scoring-request-with-patient.model';
+import { ScoringResponse } from '@models/scoring/scoring-response.model';
 
 export const loadBiomarkerSchema = (store: PatientDetailsStore) => (source$: Observable<void>) =>
   source$.pipe(
@@ -23,47 +26,47 @@ export const loadBiomarkerSchema = (store: PatientDetailsStore) => (source$: Obs
     )
   );
 
-// export const savePatientDetails =
-//   (store: PatientDetailsStore) => (source$: Observable<ScoringRequestWithPatientData>) =>
-//     source$.pipe(
-//       tap(() => store.patchState({ isLoading: true })),
-//       switchMap(request =>
-//         store.biomarkerService.sendRequest(request).pipe(
-//           tapResponse(
-//             (response: ScoringResponse) => {
-//               store.patchState({ currentScore: response, isLoading: false });
-//             },
-//             (error: HttpErrorResponse) => {
-//               store.patchState({ isLoading: false });
-//               // Todo show error message
-//               //eslint-disable-next-line no-console
-//               console.log(error);
-//             }
-//           )
-//         )
-//       )
-//     );
-//
-// export const editPatientDetails =
-//   (store: PatientDetailsStore) => (source$: Observable<ScoringRequestWithPatientData>, id: string) =>
-//     source$.pipe(
-//       tap(() => store.patchState({ isLoading: true })),
-//       switchMap(request =>
-//         store.biomarkerService.editRequest(request, id).pipe(
-//           tapResponse(
-//             (response: ScoringResponse) => {
-//               store.patchState({ currentScore: response, isLoading: false });
-//             },
-//             (error: HttpErrorResponse) => {
-//               store.patchState({ isLoading: false });
-//               // Todo show error message
-//               //eslint-disable-next-line no-console
-//               console.log(error);
-//             }
-//           )
-//         )
-//       )
-//     );
+export const savePatientDetails =
+  (store: PatientDetailsStore) => (source$: Observable<ScoringRequestWithPatientData>) =>
+    source$.pipe(
+      tap(() => store.patchState({ isLoading: true })),
+      switchMap(request =>
+        store.biomarkerService.sendRequest(request).pipe(
+          tapResponse(
+            (response: ScoringResponse) => {
+              store.patchState({ currentScore: response, isLoading: false });
+            },
+            (error: HttpErrorResponse) => {
+              store.patchState({ isLoading: false });
+              // Todo show error message
+              //eslint-disable-next-line no-console
+              console.log(error);
+            }
+          )
+        )
+      )
+    );
+
+export const editPatientDetails =
+  (store: PatientDetailsStore) => (source$: Observable<ScoringRequestWithPatientData>) =>
+    source$.pipe(
+      tap(() => store.patchState({ isLoading: true })),
+      switchMap(request =>
+        store.biomarkerService.editRequest(request, request.id).pipe(
+          tapResponse(
+            (response: ScoringResponse) => {
+              store.patchState({ currentScore: response, isLoading: false });
+            },
+            (error: HttpErrorResponse) => {
+              store.patchState({ isLoading: false });
+              // Todo show error message
+              //eslint-disable-next-line no-console
+              console.log(error);
+            }
+          )
+        )
+      )
+    );
 
 export const loadPatientDetails = (store: PatientDetailsStore) => (source$: Observable<ScoreRequest>) =>
   source$.pipe(
@@ -83,6 +86,7 @@ export const loadPatientDetails = (store: PatientDetailsStore) => (source$: Obse
                 lastname: request.patientLastName,
                 firstname: request.patientName,
                 dateOfBirth: new Date(request.patientBirthdate),
+                requestId: request.requestId,
               };
               store.patchState({ patientData: score, isLoading: false, patient: patient });
               const canEditPatient = !!(
@@ -92,7 +96,7 @@ export const loadPatientDetails = (store: PatientDetailsStore) => (source$: Obse
                 patient.dateOfBirth &&
                 request.requestId
               );
-              store.patchState({ canEditPatientData: canEditPatient });
+              store.patchState({ formMode: canEditPatient ? FormMode.edit : FormMode.add });
             },
             (error: HttpErrorResponse) => {
               store.patchState({ isLoading: false });

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { PatientRecordsSearchParameter } from '@features/patient-records/_models/patient-records-search.model';
 import { PatientRecordsStore } from '@features/patient-records/_store/patient-records.store';
 import { PatientRecordsListComponent } from '@features/patient-records/list/list.component';
@@ -15,7 +15,7 @@ import { LoadingIndicatorComponent } from '@shared/components/loading-indicator/
   selector: 'ce-patient-record',
   templateUrl: './patient-records.component.html',
   styleUrls: ['./patient-records.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     SharedModule,
