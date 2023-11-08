@@ -62,9 +62,18 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
 
     const biomarkerObj: { [key: string]: ScoringRequestValue } = {};
 
-    formData.biomarkerValues?.forEach(
-      i => (biomarkerObj[i.name] = { value: this.mapValue(i.value), unitType: i.unitType })
-    );
+    formData.biomarkerValues?.forEach(formGroup => {
+      //get display Value from Biomarker Schema
+      const displayValueMed = this.biomarkers.medicalHistory.find(medMarker => medMarker.id === formGroup.name);
+      const selectedDisplayValue = displayValueMed?.unit?.options?.find(
+        o => o.value?.toString().toLowerCase() === formGroup.value
+      )?.displayName;
+      biomarkerObj[formGroup.name] = {
+        value: this.mapValue(formGroup.value),
+        unitType: formGroup.unitType,
+        displayValue: selectedDisplayValue ?? formGroup.value?.toString() ?? '',
+      };
+    });
 
     const biomarkers = biomarkerObj as unknown as ScoringRequest;
 
