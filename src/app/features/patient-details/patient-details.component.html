@@ -13,7 +13,9 @@
     <ce-patient-data-form
       *ngIf="data.biomarkerTemplate"
       [patient]="data.patient!"
-      [formMode]="data.formMode"></ce-patient-data-form>
+      [formMode]="data.formMode"
+      [data]="data.patientData"
+      [biomarkers]="data.biomarkerTemplate"></ce-patient-data-form>
   </div>
   <ce-score
     *ngIf="data.currentScore"

@@ -17,7 +17,6 @@ import { MedicalHistoryItem } from '@models/biomarker/medical-history/medicalHis
 import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
 import { MedicalHistoryItemUnit } from '@models/biomarker/medical-history/medical-history-item-unit.model';
 import { LabResultUnit } from '@models/biomarker/lab-results/lab-result-units.model';
-import { ScoringResponseSchemaMock } from '../../tests/mocks/scoring-response-schema.mock';
 import { BiomarkersInfoValue } from '@models/biomarker/biomarkers-info-values.model';
 import { BiomarkerUnitType } from '@core/enums/biomarker-unit-type.enum';
 import { MedicalHistoryCategoryIds } from '@core/enums/biomarker-medicalhistory-categories.enum';
@@ -44,7 +43,7 @@ export class ScoreComponent implements OnInit {
   @Input() public lastname?: string;
   @Input() public birthdate?: Date | null;
   @Input() public biomarker!: Biomarker;
-  public schema: ScoringResponseSchema | undefined;
+  public schema: ScoringResponseSchema | undefined = {} as ScoringResponseSchema;
   public abbreviationKeys: string[] = [];
 
   public anamnesisMarkers: MedicalHistoryItem[] = [];
@@ -63,10 +62,7 @@ export class ScoreComponent implements OnInit {
   public ngOnInit() {
     this.schemaService.getResponseSchema().subscribe({
       next: response => {
-        // this.schema = response;
-        //eslint-disable-next-line no-console
-        console.log(response);
-        this.schema = ScoringResponseSchemaMock;
+        this.schema = response;
         this.abbreviationKeys = Object.keys(this.schema.abbreviations);
         this.anamnesisMarkers = this.schema.biomarkers.medicalHistory.filter(x => {
           return x.categoryId === MedicalHistoryCategoryIds.anamnesis;

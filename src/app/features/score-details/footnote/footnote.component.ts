@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 
 @Component({
@@ -6,7 +6,7 @@ import { SharedModule } from '@shared/shared.module';
   selector: 'tr[ce-footnote]',
   templateUrl: './footnote.component.html',
   styleUrls: ['./footnote.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule],
   standalone: true,
 })

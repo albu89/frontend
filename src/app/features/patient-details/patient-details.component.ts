@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PatientDataFormComponent } from '@features/patient-details/edit-form/form.component';
 import { ScoreComponent } from '@features/score-details/score.component';
 import { SharedModule } from '@shared/shared.module';
@@ -16,7 +16,7 @@ import { PageLinks } from '@core/enums/page-links.enum';
   imports: [SharedModule, PatientDataFormComponent, ScoreComponent],
   standalone: true,
   providers: [PatientDetailsStore],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PatientDetailsComponent implements OnInit {
   // protected isLoading$ = this.store.isLoading$;

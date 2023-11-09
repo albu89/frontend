@@ -10,8 +10,6 @@ import { Patient } from '@models/patient/patient.model';
 import { FormMode } from '@features/patient-details/_models/form-mode';
 import { BiomarkerUnitType } from '@core/enums/biomarker-unit-type.enum';
 import { ScoringResponse } from '@models/scoring/scoring-response.model';
-import { ScoringResponseMock } from '../../../tests/mocks/scoring-response.mock';
-import { BiomarkersMock } from '../../../tests/mocks/biomarker-data.mock';
 import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
 import { ScoringRequestWithPatientData } from '@models/scoring/scoring-request-with-patient.model';
 import { ScoringRequest } from '@models/scoring/scoring-request.model';
@@ -53,6 +51,9 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
     if (changes['patient'] && this.patient) {
       this.initForm();
     }
+    if (changes['biomarkers'] && this.biomarkers) {
+      this.createBiomarkerForms();
+    }
   }
 
   public saveForm() {
@@ -64,7 +65,7 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
 
     formData.biomarkerValues?.forEach(formGroup => {
       //get display Value from Biomarker Schema
-      const displayValueMed = this.biomarkers.medicalHistory.find(medMarker => medMarker.id === formGroup.name);
+      const displayValueMed = this.biomarkers?.medicalHistory.find(medMarker => medMarker.id === formGroup.name);
       const selectedDisplayValue = displayValueMed?.unit?.options?.find(
         o => o.value?.toString().toLowerCase() === formGroup.value
       )?.displayName;
@@ -109,26 +110,22 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
   }
 
   private createBiomarkerForms(): void {
-    //TODO: remove mockdata after backend is up-to-date
-    this.data = ScoringResponseMock;
-    this.biomarkers = BiomarkersMock;
-
     const biomarkerForms: FormGroup<BiomarkerFormModel>[] = [];
     //fixed biomarkers
-    this.biomarkers.medicalHistory.forEach(biomarker => {
+    this.biomarkers?.medicalHistory.forEach(biomarker => {
       const scoringValues = this.data?.biomarkers.values.find(data => data.id === biomarker.id);
       const formGroup = this.createBiomarkerFormGroup(biomarker.unit);
       this.patchBiomarkerValues(
         formGroup,
         biomarker.id,
         scoringValues?.unit ?? BiomarkerUnitType.SI,
-        scoringValues?.value.toString().toLowerCase()
+        scoringValues?.value.toString().toLowerCase() ?? ''
       );
       biomarkerForms.push(formGroup);
     });
 
     //flexible biomarkers
-    this.biomarkers.labResults.forEach(biomarker => {
+    this.biomarkers?.labResults.forEach(biomarker => {
       const values = this.data?.biomarkers.values.find(data => data.id === biomarker.id);
       const currentUnit = values?.unit ?? biomarker.preferredUnit ?? BiomarkerUnitType.SI;
       const biomarkerUnit = biomarker.units.find(u => u.unitType === currentUnit);
@@ -162,7 +159,7 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
     unitType: BiomarkerUnitType,
     value?: string | Date | null | boolean | number
   ) {
-    if (!value) return;
+    if (!name) return;
     formGroup.patchValue({
       name,
       value,

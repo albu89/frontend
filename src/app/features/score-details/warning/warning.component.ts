@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Warning } from '@models/scoring/scoring-warning.model';
 import { SharedModule } from '@shared/shared.module';
 
@@ -6,7 +6,7 @@ import { SharedModule } from '@shared/shared.module';
   selector: 'ce-warning',
   templateUrl: './warning.component.html',
   styleUrls: ['./warning.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule],
   standalone: true,
 })

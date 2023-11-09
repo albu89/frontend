@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RecommendationCategory } from '@models/scoring/scoring-recommendation-category.model';
 import { SharedModule } from '@shared/shared.module';
 
@@ -7,7 +7,7 @@ import { SharedModule } from '@shared/shared.module';
   selector: 'tr[ce-row]',
   templateUrl: './row.component.html',
   styleUrls: ['./row.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule],
   standalone: true,
 })

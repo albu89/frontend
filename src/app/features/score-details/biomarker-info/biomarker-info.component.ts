@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'ce-biomarker-info',
   templateUrl: './biomarker-info.component.html',
   styleUrls: ['./biomarker-info.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule],
   standalone: true,
 })

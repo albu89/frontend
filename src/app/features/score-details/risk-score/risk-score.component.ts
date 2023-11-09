@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'ce-risk-score',
   templateUrl: './risk-score.component.html',
   styleUrls: ['./risk-score.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule],
   standalone: true,
 })

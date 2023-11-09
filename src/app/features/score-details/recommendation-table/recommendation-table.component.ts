@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RowComponent } from '@features/score-details/recommendation-table/row/row.component';
 import { RecommendationCategory } from '@models/scoring/scoring-recommendation-category.model';
 import { SharedModule } from '@shared/shared.module';
@@ -7,7 +7,7 @@ import { SharedModule } from '@shared/shared.module';
   selector: 'ce-recommendation-table',
   templateUrl: './recommendation-table.component.html',
   styleUrls: ['./recommendation-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, RowComponent],
   standalone: true,
 })

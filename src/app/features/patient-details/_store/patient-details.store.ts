@@ -11,7 +11,6 @@ import {
 import { SchemasService } from '@services/schemas.service';
 import { FormMode } from '@features/patient-details/_models/form-mode';
 import { BiomarkerService } from '@services/biomarker.service';
-import { BiomarkersMock } from '../../../tests/mocks/biomarker-data.mock';
 import { MedicalHistoryBiomarkerFiltered } from '@features/patient-details/_models/medical-history-biomarker-filtered.model';
 
 @Injectable()
@@ -44,8 +43,6 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
     return state.biomarkerTemplate;
   });
   public readonly fixedBiomarkersByCategory$ = this.select(this.biomarkerTemplate$, template => {
-    //TODO: remove mock data as soon as backend is up-to-date
-    template = BiomarkersMock;
     if (!template) return [];
     const filteredList: MedicalHistoryBiomarkerFiltered[] = [];
     Object.entries(template.categories.medicalHistory).forEach(([categoryKey, categoryName]) => {
