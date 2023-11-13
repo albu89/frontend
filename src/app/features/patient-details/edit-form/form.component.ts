@@ -102,10 +102,10 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
   }
 
   //map values back to booleans and numbers
-  private mapValue(value: any) {
-    if (value == 'true') return true;
-    if (value == 'false') return false;
-    if (!isNaN(value)) return parseInt(value);
+  private mapValue(value: string | number | boolean | Date | null | undefined) {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    if (!isNaN(value as number) && typeof value === 'string') return parseInt(value);
     return value;
   }
 
@@ -121,6 +121,7 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
         scoringValues?.unit ?? BiomarkerUnitType.SI,
         scoringValues?.value.toString().toLowerCase() ?? ''
       );
+
       biomarkerForms.push(formGroup);
     });
 

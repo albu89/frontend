@@ -17,7 +17,7 @@ import { isFormFieldInvalid } from '@shared/utils/form-utils';
 export class MedicalHistoryComponent {
   @Input() public biomarker!: MedicalHistoryItem;
   @Input() public formGroup!: FormGroup<BiomarkerFormModel>;
-  @Input() public sideEffectMarker?: MedicalHistoryItem;
+  @Input() public sideEffectMarker?: FormGroup<BiomarkerFormModel>;
 
   public isFieldInvalid(name: string) {
     return isFormFieldInvalid(name, this.formGroup);

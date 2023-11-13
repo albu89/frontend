@@ -79,10 +79,12 @@ export class CategoryComponent implements OnChanges, OnDestroy {
       )
       .subscribe();
     this.isEditingEnabled = false;
+    this.formGroup.updateValueAndValidity();
   }
 
   protected enableEditMode() {
     // enable editing
     this.isEditingEnabled = true;
+    this.formGroup.updateValueAndValidity();
   }
 }

@@ -3,9 +3,7 @@
     class="mb-4 grid grid-cols-3 gap-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6 focus:border-2">
     <div>
       <div class="flex flex-row">
-        <label for="patient-name" [ngClass]="isFieldInvalid('firstname') ? 'valid' : 'invalid'">{{
-          'patient.name' | translate
-        }}</label>
+        <label for="patient-name">{{ 'patient.name' | translate }}</label>
         <img
           class="hover:text-primary-600 focus:text-primary-600 active:text-primary-700 pl-1 text-primary transition duration-150 ease-in-out"
           src="../../../assets/info.svg"
@@ -19,25 +17,22 @@
           <div class="tooltip-arrow" data-popper-arrow></div>
         </div>
       </div>
-      <div class="mb-6">
-        <input
-          type="text"
-          id="patient-name"
-          placeholder="{{ 'placeholders.patient.name' | translate }}"
-          formControlName="firstname"
-          [ngClass]="isFieldInvalid('firstname') ? 'valid' : 'invalid'" />
-        <p
-          *ngIf="isFieldInvalid('firstname') && hasError('firstname', 'required')"
-          class="mt-2 text-sm text-red-600 dark:text-red-500">
-          <span class="font-medium">{{ 'patient.errors.name' | translate }}</span>
-        </p>
-      </div>
+
+      <input
+        type="text"
+        id="patient-name"
+        placeholder="{{ 'placeholders.patient.name' | translate }}"
+        formControlName="firstname"
+        [ngClass]="isFieldInvalid('firstname') ? 'invalid' : 'valid'" />
+      <p
+        *ngIf="isFieldInvalid('firstname') && hasError('firstname', 'required')"
+        class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span class="font-medium">{{ 'patient.errors.name' | translate }}</span>
+      </p>
     </div>
     <div>
       <div class="flex flex-row">
-        <label for="patient-lastname" [ngClass]="isFieldInvalid('lastname') ? 'valid' : 'invalid'">{{
-          'patient.lastName' | translate
-        }}</label>
+        <label for="patient-lastname">{{ 'patient.lastName' | translate }}</label>
         <img
           class="hover:text-primary-600 focus:text-primary-600 active:text-primary-700 pl-1 text-primary transition duration-150 ease-in-out"
           src="../../../assets/info.svg"
@@ -56,7 +51,7 @@
         id="patient-lastname"
         placeholder="{{ 'placeholders.patient.lastName' | translate }}"
         formControlName="lastname"
-        [ngClass]="isFieldInvalid('lastname') ? 'valid' : 'invalid'" />
+        [ngClass]="isFieldInvalid('lastname') ? 'invalid' : 'valid'" />
       <p
         *ngIf="isFieldInvalid('lastname') && hasError('lastname', 'required')"
         class="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -65,9 +60,7 @@
     </div>
     <div>
       <div class="flex flex-row">
-        <label for="patient-birthdate" [ngClass]="isFieldInvalid('birthdate') ? 'valid' : 'invalid'">{{
-          'patient.birthdate' | translate
-        }}</label>
+        <label for="patient-birthdate">{{ 'patient.birthdate' | translate }}</label>
         <img
           class="hover:text-primary-600 focus:text-primary-600 active:text-primary-700 pl-1 text-primary transition duration-150 ease-in-out"
           src="../../../assets/info.svg"
@@ -86,7 +79,7 @@
         id="patient-birthdate"
         max="2999-12-31"
         formControlName="birthdate"
-        [ngClass]="isFieldInvalid('birthdate') ? 'valid' : 'invalid'" />
+        [ngClass]="isFieldInvalid('birthdate') ? 'invalid' : 'valid'" />
       <p
         *ngIf="isFieldInvalid('birthdate') && hasError('birthdate', 'required')"
         class="mt-2 text-sm text-red-600 dark:text-red-500">

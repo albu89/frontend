@@ -1,0 +1,8 @@
+input {
+  @apply w-full rounded-md border border-tone-2 py-1.5 pl-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary disabled:bg-gray-200;
+  &.valid {
+  }
+  &.invalid {
+    @apply border-red-500 border-red-500 bg-red-50 text-sm text-red-900 placeholder-red-700 ring-red-500;
+  }
+}

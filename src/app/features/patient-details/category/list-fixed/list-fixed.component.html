@@ -5,7 +5,7 @@
       <h4 class="mt-4 first-of-type:mt-0">{{ category.name }}</h4>
       <hr class="pb-2 text-primary" />
     </ng-container>
-    <div class="flex flex-wrap gap-x-8 gap-y-4" formArrayName="biomarkerValues">
+    <div class="flex flex-wrap items-baseline gap-x-8 gap-y-4" formArrayName="biomarkerValues">
       <ng-container *ngFor="let biomarker of category.list">
         <span
           class="flex min-w-40 flex-col justify-end"

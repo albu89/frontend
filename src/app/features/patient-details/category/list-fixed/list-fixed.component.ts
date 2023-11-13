@@ -38,6 +38,9 @@ export class CategoryListFixedComponent {
   public findSideEffectMarker(m: MedicalHistoryItem) {
     const sideEffectId = m.unit.options?.find(i => i.sideEffectId)?.sideEffectId;
     if (!sideEffectId) return undefined;
-    return this.biomarkers.find(marker => marker.id === sideEffectId);
+    const x = this.formGroup.controls.biomarkerValues?.controls.find(
+      fg => fg.controls.name.getRawValue() === sideEffectId
+    );
+    return x;
   }
 }

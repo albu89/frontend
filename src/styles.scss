@@ -60,6 +60,6 @@
     @apply px-6 py-2 text-text;
   }
   label {
-    @apply text-label;
+    @apply whitespace-nowrap text-label;
   }
 }
