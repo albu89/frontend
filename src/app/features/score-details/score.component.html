@@ -46,13 +46,15 @@
     <div *ngIf="score.warnings?.length" name="warnings">
       <ce-warning [warningHeader]="schema.warningHeader" [warnings]="score.warnings"></ce-warning>
     </div>
-    <table name="footnotes" class="border-separate border-spacing-3 pt-4 text-xs text-label">
-      <tbody class="align-top">
-        <tr ce-footnote [header]="schema.cadDefinitionHeader" [text]="schema.cadDefinition"></tr>
-        <tr ce-footnote [header]="schema.footnoteHeader" [text]="schema.footnote"></tr>
-        <tr ce-footnote [header]="schema.intendedUseHeader" [text]="schema.intendedUse"></tr>
-      </tbody>
-    </table>
+
+    <!-- Footnotes -->
+    <div class="border-separate border-spacing-3 pt-4 text-xs text-label">
+      <p>
+        {{ schema.intendedUse }}
+        {{ schema.cadDefinition }}
+        {{ schema.footnote }}
+      </p>
+    </div>
   </div>
   <div
     name="values"

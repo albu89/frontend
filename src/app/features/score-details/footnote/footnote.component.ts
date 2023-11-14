@@ -11,6 +11,5 @@ import { SharedModule } from '@shared/shared.module';
   standalone: true,
 })
 export class FootnoteComponent {
-  @Input() public header = '';
   @Input() public text = '';
 }
