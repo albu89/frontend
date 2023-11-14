@@ -14,8 +14,7 @@
           <ce-biomarker-medical-history
             *ngIf="biomarker"
             [biomarker]="biomarker"
-            [formGroup]="findMedicalBiomarkerControlById(biomarker.id)!"
-            [sideEffectMarker]="findSideEffectMarker(biomarker)" />
+            [formGroup]="findMedicalBiomarkerControlById(biomarker.id)!" />
         </span>
       </ng-container>
     </div>

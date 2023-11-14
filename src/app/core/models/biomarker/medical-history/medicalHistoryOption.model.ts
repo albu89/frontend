@@ -3,4 +3,5 @@ export interface MedicalHistoryOption {
   displayName: string;
   sideEffectId: string | null;
   sideEffectValue?: string | null;
+  isDisabled?: boolean;
 }

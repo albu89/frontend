@@ -9,17 +9,28 @@
   <div *ngIf="biomarker.type === 'options' || biomarker.type === 'boolean'" class="grid place-items-baseline">
     <ul class="flex gap-1">
       <li *ngFor="let option of biomarker.unit.options">
-        <input
-          type="radio"
-          [id]="biomarker.id + '_' + option.displayName"
-          class="peer hidden"
-          [value]="option.value?.toString()?.toLowerCase()"
-          formControlName="value" />
+        <ng-container *ngIf="!option.isDisabled; else disabled">
+          <input
+            type="radio"
+            [id]="biomarker.id + '_' + option.displayName"
+            class="peer hidden"
+            [value]="option.value?.toString()?.toLowerCase()"
+            formControlName="value" />
+        </ng-container>
         <label
           [for]="biomarker.id + '_' + option.displayName"
           class="block cursor-pointer select-none rounded-md border border-tone-2 bg-tone-1 p-2 text-text peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white"
           >{{ option.displayName }}</label
         ><!-- TODO: Properly handle translation -->
+        <!-- Disable effected Marker marker -->
+        <ng-template #disabled>
+          <input
+            type="radio"
+            [id]="biomarker.id + '_' + option.displayName"
+            class="peer hidden"
+            [value]="option.value?.toString()?.toLowerCase()"
+            disabled />
+        </ng-template>
       </li>
     </ul>
   </div>

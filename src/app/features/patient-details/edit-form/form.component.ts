@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges } from '@angular/core';
 import { CategoryComponent } from '@features/patient-details/category/category.component';
 import { Biomarker } from '@models/biomarker/biomarker.model';
 import { SharedModule } from '@shared/shared.module';
@@ -41,19 +41,19 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
 
   public constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly store: PatientDetailsStore
+    private readonly store: PatientDetailsStore,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   public ngAfterViewInit() {
     initFlowbite();
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
-    if (changes['patient'] && this.patient) {
+  public ngOnChanges() {
+    if (this.patient && this.biomarkers) {
       this.initForm();
-    }
-    if (changes['biomarkers'] && this.biomarkers) {
-      this.createBiomarkerForms();
+      this.trackChanges();
+      this.changeDetectorRef.detectChanges();
     }
   }
 
@@ -108,6 +108,27 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
     if (value === 'false') return false;
     if (!isNaN(value as number) && typeof value === 'string') return parseInt(value);
     return value;
+  }
+
+  private trackChanges() {
+    this.formGroup.controls.biomarkerValues?.valueChanges.subscribe(formGroups => {
+      formGroups.forEach(valueChangedFormGroup => {
+        if (valueChangedFormGroup.value) {
+          const matchingItemValue = this.biomarkers.medicalHistory.find(
+            item => item.id === valueChangedFormGroup.name
+          )!;
+          if (!matchingItemValue) return;
+          this.biomarkers.medicalHistory.forEach(item => {
+            const matchingOptions = item.unit.options?.filter(o => o.sideEffectId === matchingItemValue.id);
+            matchingOptions?.forEach(mo => {
+              if (mo.sideEffectValue === valueChangedFormGroup.value) {
+                mo.isDisabled = true;
+              } else mo.isDisabled = false;
+            });
+          });
+        }
+      });
+    });
   }
 
   private createBiomarkerForms(): void {

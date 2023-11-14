@@ -34,13 +34,4 @@ export class CategoryListFixedComponent {
   public findMedicalBiomarkerControlById(id: string): FormGroup | undefined {
     return this.medicalBiomarkerControls?.find(i => i.getRawValue().name === id);
   }
-
-  public findSideEffectMarker(m: MedicalHistoryItem) {
-    const sideEffectId = m.unit.options?.find(i => i.sideEffectId)?.sideEffectId;
-    if (!sideEffectId) return undefined;
-    const x = this.formGroup.controls.biomarkerValues?.controls.find(
-      fg => fg.controls.name.getRawValue() === sideEffectId
-    );
-    return x;
-  }
 }
