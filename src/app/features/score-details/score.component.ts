@@ -20,6 +20,7 @@ import { LabResultUnit } from '@models/biomarker/lab-results/lab-result-units.mo
 import { BiomarkersInfoValue } from '@models/biomarker/biomarkers-info-values.model';
 import { BiomarkerUnitType } from '@core/enums/biomarker-unit-type.enum';
 import { MedicalHistoryCategoryIds } from '@core/enums/biomarker-medicalhistory-categories.enum';
+import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
 
 @Component({
   selector: 'ce-score',
@@ -33,6 +34,7 @@ import { MedicalHistoryCategoryIds } from '@core/enums/biomarker-medicalhistory-
     SharedModule,
     WarningComponent,
     RouterLink,
+    TooltipComponent,
   ],
   // changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,

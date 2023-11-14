@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
+import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
 
 @Component({
   selector: 'ce-biomarker-info',
   templateUrl: './biomarker-info.component.html',
   styleUrls: ['./biomarker-info.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SharedModule],
+  imports: [SharedModule, TooltipComponent],
   standalone: true,
 })
 export class BiomarkerInfoComponent implements OnInit {

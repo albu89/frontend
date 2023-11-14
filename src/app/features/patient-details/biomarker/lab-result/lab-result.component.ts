@@ -6,11 +6,12 @@ import { FormGroup } from '@angular/forms';
 import { BiomarkerFormModel } from '@features/patient-details/_models/form.model';
 import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
 import { isFormFieldInvalid } from '@shared/utils/form-utils';
+import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
 
 @Component({
   selector: 'ce-biomarker-lab-result',
   standalone: true,
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, TooltipComponent],
   templateUrl: './lab-result.component.html',
   styleUrls: ['./lab-result.component.scss'],
 })

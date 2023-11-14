@@ -16,12 +16,13 @@ import { ScoringRequest } from '@models/scoring/scoring-request.model';
 import { ScoringRequestValue } from '@models/scoring/scoring-request-value.model';
 import { LabResultUnit } from '@models/biomarker/lab-results/lab-result-units.model';
 import { MedicalHistoryItemUnit } from '@models/biomarker/medical-history/medical-history-item-unit.model';
+import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
 
 @Component({
   selector: 'ce-patient-data-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  imports: [SharedModule, CategoryComponent],
+  imports: [SharedModule, CategoryComponent, TooltipComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
