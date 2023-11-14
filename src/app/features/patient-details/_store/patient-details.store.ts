@@ -38,8 +38,8 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
   public readonly patient$ = this.select(state => state.patient);
   //TODO: check if sorting works properly after backend is up-to-date
   public readonly biomarkerTemplate$ = this.select(state => {
-    state.biomarkerTemplate?.labResults.sort((a, b) => b.orderIndex - a.orderIndex);
-    state.biomarkerTemplate?.medicalHistory.sort((a, b) => b.orderIndex - a.orderIndex);
+    state.biomarkerTemplate?.labResults.sort((a, b) => a.orderIndex - b.orderIndex);
+    state.biomarkerTemplate?.medicalHistory.sort((a, b) => a.orderIndex - b.orderIndex);
     return state.biomarkerTemplate;
   });
   public readonly fixedBiomarkersByCategory$ = this.select(this.biomarkerTemplate$, template => {
