@@ -12,7 +12,7 @@
   <!-- Flexible biomarkers -->
   <!-- non-edit-mode -->
   <ce-category-list-flexible
-    *ngIf="!isEditingEnabled && biomarkers.labResults"
+    *ngIf="(isEditingEnabled$ | async) === false && biomarkers.labResults"
     class="mb-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6"
     [biomarkers]="biomarkers.labResults"
     [formGroup]="formGroup"
@@ -21,7 +21,7 @@
 
   <!-- edit-mode -->
   <ce-category-list-flexible-edit
-    *ngIf="isEditingEnabled && biomarkers.labResults"
+    *ngIf="(isEditingEnabled$ | async) && biomarkers.labResults"
     class="mb-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6"
     [biomarkers]="biomarkers.labResults"
     [formGroup]="formGroup"

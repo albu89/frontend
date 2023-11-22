@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup" (ngSubmit)="saveForm()">
+<form [formGroup]="formGroup" (keydown.enter)="$event.preventDefault()">
   <div
     class="mb-4 grid grid-cols-3 gap-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6 focus:border-2">
     <div>
@@ -20,7 +20,7 @@
       <p
         *ngIf="isFieldInvalid('firstname') && hasError('firstname', 'required')"
         class="mt-2 text-sm text-red-600 dark:text-red-500">
-        <span class="font-medium">{{ 'patient.errors.name' | translate }}</span>
+        <span class="font-medium">{{ 'patient.validation.name' | translate }}</span>
       </p>
     </div>
     <div>
@@ -41,7 +41,7 @@
       <p
         *ngIf="isFieldInvalid('lastname') && hasError('lastname', 'required')"
         class="mt-2 text-sm text-red-600 dark:text-red-500">
-        <span class="font-medium">{{ 'patient.errors.lastName' | translate }}</span>
+        <span class="font-medium">{{ 'patient.validation.lastName' | translate }}</span>
       </p>
     </div>
     <div>
@@ -62,13 +62,13 @@
       <p
         *ngIf="isFieldInvalid('birthdate') && hasError('birthdate', 'required')"
         class="mt-2 text-sm text-red-600 dark:text-red-500">
-        <span class="font-medium">{{ 'patient.errors.birthdate' | translate }}</span>
+        <span class="font-medium">{{ 'patient.validation.birthdate' | translate }}</span>
       </p>
     </div>
   </div>
   <ce-category [biomarkers]="biomarkers" [formGroup]="formGroup" class="flex flex-col" />
   <div class="mt-6 flex flex-row-reverse">
-    <button class="action mb-10" type="submit" [disabled]="formGroup.invalid">
+    <button class="action mb-10" type="submit" (click)="saveForm()" [disabled]="formGroup.invalid">
       {{ 'scores.calculate' | translate }}
     </button>
   </div>

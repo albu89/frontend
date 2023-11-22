@@ -15,9 +15,7 @@ export const loadPatientRecords = (store: PatientRecordsStore) => (source$: Obse
           records => store.patchState({ patientRecords: records, isLoading: false, showDetailsButton: false }),
           (error: HttpErrorResponse) => {
             store.patchState({ patientRecords: undefined, isLoading: false });
-            // Todo show error message
-            //eslint-disable-next-line no-console
-            console.log(error);
+            store.messageService.showLoadPatientRecordsHttpError(error);
           }
         )
       )
@@ -47,9 +45,7 @@ export const loadSpecificPatientRecords =
               },
               (error: HttpErrorResponse) => {
                 store.patchState({ patientRecords: undefined, isLoading: false, showDetailsButton: false });
-                // Todo show error message
-                //eslint-disable-next-line no-console
-                console.log(error);
+                store.messageService.showLoadSpecificPatientRecordsHttpError(error);
               }
             )
           )
@@ -72,9 +68,7 @@ export const loadSpecificScore = (store: PatientRecordsStore) => (source$: Obser
             score => store.patchState({ currentScore: score, isLoading: false }),
             (error: HttpErrorResponse) => {
               store.patchState({ patientRecords: undefined, isLoading: false });
-              // Todo show error message
-              //eslint-disable-next-line no-console
-              console.log(error);
+              store.messageService.showLoadSpecificScoreHttpError(error);
             }
           )
         )

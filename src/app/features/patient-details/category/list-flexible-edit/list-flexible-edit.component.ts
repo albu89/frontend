@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BiomarkerDragItem } from '@models/biomarker/biomarker-drag-item.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SharedModule } from '@shared/shared.module';
@@ -11,7 +11,6 @@ import { FormModel } from '@features/patient-details/_models/form.model';
   selector: 'ce-category-list-flexible-edit',
   templateUrl: './list-flexible-edit.component.html',
   styleUrls: ['./list-flexible-edit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, LabResultComponent],
   standalone: true,
 })

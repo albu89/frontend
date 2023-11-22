@@ -28,7 +28,7 @@ export class LabResultComponent implements OnChanges {
   }
 
   public setCurrentUnit() {
-    this.currentUnit = this.biomarker.units.find(i => i.unitType === this.formGroup.getRawValue().unitType);
+    this.currentUnit = this.biomarker.units.find(i => i.unitType === this.formGroup?.getRawValue()?.unitType);
   }
 
   public isFieldInvalid(name: string) {

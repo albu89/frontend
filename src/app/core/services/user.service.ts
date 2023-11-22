@@ -62,6 +62,11 @@ export class UserService {
     return this.http.post(url, request);
   }
 
+  public updateUserPreferences(preferences: UserPreferences): Observable<Object> {
+    const url = this.baseUrl + '/preferences';
+    return this.http.patch(url, preferences);
+  }
+
   private setAuth(user: Profile): void {
     this.currentUserSubject.next(user);
     const selectedLanguage = user.language === 'deutsch' ? 'de-DE' : 'en-GB';
@@ -70,12 +75,5 @@ export class UserService {
 
   private purgeAuth(): void {
     this.currentUserSubject.next(null);
-  }
-
-  //todo clarify what to do with Observable<any> type and enable eslint again
-  /* eslint-disable */
-  public updateUserPreferences(preferences: UserPreferences): Observable<any> {
-    const url = this.baseUrl + '/preferences';
-    return this.http.patch(url, preferences); //todo errorhandling
   }
 }

@@ -5,6 +5,7 @@ import { FooterComponent } from '@layout/footer/footer.component';
 import { SharedModule } from '@shared/shared.module';
 import { UserService } from '@services/user.service';
 import { PageLinks } from '@core/enums/page-links.enum';
+import { MessageService } from '@services/message.service';
 
 @Component({
   selector: 'ce-login',
@@ -30,7 +31,8 @@ export class LoginComponent {
   public constructor(
     private readonly authService: MsalService,
     private readonly router: Router,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly messageService: MessageService
   ) {}
 
   public login() {
@@ -38,8 +40,7 @@ export class LoginComponent {
       next: () => {
         this.router.navigate([PageLinks.ROOT]);
       },
-      //eslint-disable-next-line no-console
-      error: error => console.log(error),
+      error: error => this.messageService.showLoginError(error),
     });
   }
 
@@ -59,8 +60,7 @@ export class LoginComponent {
       next: () => {
         this.accessRequested = true;
       },
-      //eslint-disable-next-line no-console
-      error: error => console.log(error),
+      error: error => this.messageService.showAccessRequestError(error),
     });
 
     return true;

@@ -1,14 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CategoryListFixedComponent } from '@features/patient-details/category/list-fixed/list-fixed.component';
 import { CategoryListFlexibleEditComponent } from '@features/patient-details/category/list-flexible-edit/list-flexible-edit.component';
 import { CategoryListFlexibleComponent } from '@features/patient-details/category/list-flexible/list-flexible.component';
 import { Biomarker } from '@models/biomarker/biomarker.model';
 import { SharedModule } from '@shared/shared.module';
-import { catchError, EMPTY, finalize, Subject, takeUntil } from 'rxjs';
 import { FormModel } from '@features/patient-details/_models/form.model';
 import { FormGroup } from '@angular/forms';
+import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
+import { UserPreferences } from '@models/user/user-preferences.model';
 import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
-import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'ce-category',
@@ -18,21 +18,16 @@ import { UserService } from '@services/user.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class CategoryComponent implements OnChanges, OnDestroy {
+export class CategoryComponent implements OnChanges {
   @Input() public biomarkers!: Biomarker;
   @Input() public formGroup!: FormGroup<FormModel>;
 
-  public isEditingEnabled = false;
+  protected isEditingEnabled$ = this.store.isEditingEnabled$;
   private smallestOrderNo = 0;
-  private destroy$ = new Subject<void>();
 
-  public constructor(private readonly userService: UserService) {}
-
-  public ngOnDestroy(): void {
-    // unsubscribe Observable
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
+  public constructor(
+    private readonly store: PatientDetailsStore // private readonly userService: UserService
+  ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['biomarkers'] && this.biomarkers) {
@@ -44,47 +39,32 @@ export class CategoryComponent implements OnChanges, OnDestroy {
   }
 
   protected savePreferences(): void {
-    if (!this.isEditingEnabled) {
+    if (!this.isEditingEnabled$.subscribe()) {
       return;
     }
 
     const formData = this.formGroup.getRawValue();
 
-    const preferences = this.biomarkers.labResults.reduce(
-      (o, key: LabResultItem, currentIndex: number) => ({
+    this.biomarkers.labResults.forEach((i, currentIndex) => (i.orderIndex = this.smallestOrderNo + currentIndex));
+
+    const preferences: UserPreferences = this.biomarkers.labResults.reduce(
+      (o, item: LabResultItem) => ({
         ...o,
-        [key.id]: {
-          orderNumber: this.smallestOrderNo + currentIndex,
-          preferredUnit: formData?.biomarkerValues?.find(i => i.name === key.id)?.unitType,
+        [item.id]: {
+          orderNumber: item.orderIndex,
+          preferredUnit: formData?.biomarkerValues?.find(i => i.name === item.id)?.unitType,
         },
       }),
       {}
     );
 
-    // todo implement loading indicator
-    this.userService
-      .updateUserPreferences(preferences)
-      .pipe(
-        takeUntil(this.destroy$),
-        catchError(error => {
-          // Todo error handling view dialog, please create a shared dialog component
-          //eslint-disable-next-line no-console
-          console.error(`An error occurred on updating user preferences ${error}`);
-          return EMPTY;
-        }),
-        finalize(() => {
-          // close edit-mode
-          this.isEditingEnabled = false;
-        })
-      )
-      .subscribe();
-    this.isEditingEnabled = false;
-    this.formGroup.updateValueAndValidity();
+    //save preferences and update biomarkers in store
+    this.store.saveUserPreferences({ biomarker: this.biomarkers, preferences });
   }
 
   protected enableEditMode() {
     // enable editing
-    this.isEditingEnabled = true;
+    this.store.setIsEditingEnabled(true);
     this.formGroup.updateValueAndValidity();
   }
 }

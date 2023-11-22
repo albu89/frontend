@@ -13,6 +13,7 @@ import { PageLinks } from '@core/enums/page-links.enum';
 import { environment } from '@env/environment';
 import { CLINICAL_SETTINGS } from '@shared/constants';
 import { BiomarkerUnitType } from '@core/enums/biomarker-unit-type.enum';
+import { MessageService } from '@services/message.service';
 
 @Component({
   selector: 'ce-user-profile',
@@ -36,7 +37,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     private readonly http: HttpClient,
     private readonly userService: UserService,
     private readonly formBuilder: FormBuilder,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly messageService: MessageService
   ) {}
 
   public ngOnInit() {
@@ -58,18 +60,24 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     this.updatedUser.value.countryCode =
       this.countryCodes.find(x => x.name === this.updatedUserProfile.country)?.alpha2 ?? '';
     if (this.userExistedPreviously) {
-      this.userService.updateUser(this.updatedUser.value as Profile).subscribe(data => {
-        this.updatedUser = this.formBuilder.group(data);
-        if (this.router.url.includes(PageLinks.ONBOARD)) {
-          this.router.navigate([PageLinks.ROOT]);
-        }
+      this.userService.updateUser(this.updatedUser.value as Profile).subscribe({
+        next: data => {
+          this.updatedUser = this.formBuilder.group(data);
+          if (this.router.url.includes(PageLinks.ONBOARD)) {
+            this.router.navigate([PageLinks.ROOT]);
+          }
+        },
+        error: error => this.messageService.showUpdateUserHttpError(error),
       });
     } else {
-      this.userService.createUser(this.updatedUser.value as Profile).subscribe(data => {
-        this.updatedUser = this.formBuilder.group(data);
-        if (this.router.url.includes(PageLinks.ONBOARD)) {
-          this.router.navigate([PageLinks.ROOT]);
-        }
+      this.userService.createUser(this.updatedUser.value as Profile).subscribe({
+        next: data => {
+          this.updatedUser = this.formBuilder.group(data);
+          if (this.router.url.includes(PageLinks.ONBOARD)) {
+            this.router.navigate([PageLinks.ROOT]);
+          }
+        },
+        error: error => this.messageService.showCreateUserHttpError(error),
       });
     }
   }
@@ -81,6 +89,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
       this.updatedUserProfile.language = 'english';
       this.updatedUserProfile.unitLabValues = 'si';
     }
+    this.messageService.showLoadUserHttpError(error);
   }
   private handleExistingUser(value: Profile | null): void {
     if (!value) {
@@ -93,10 +102,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
 
   // Todo move to service, no http calls outside of services
   private getProfile() {
-    this.http.get(environment.graphEndpoint).subscribe(profile => {
-      this.adProfile = profile as ProfileType;
-      this.updatedUserProfile.username = this.adProfile.userPrincipalName ?? '';
-      this.updatedUserProfile.emailAddress = this.adProfile.mail ?? this.adProfile.userPrincipalName ?? '';
+    this.http.get(environment.graphEndpoint).subscribe({
+      next: profile => {
+        this.adProfile = profile as ProfileType;
+        this.updatedUserProfile.username = this.adProfile.userPrincipalName ?? '';
+        this.updatedUserProfile.emailAddress = this.adProfile.mail ?? this.adProfile.userPrincipalName ?? '';
+      },
+      error: error => this.messageService.showLoadGraphEndpointError(error),
     });
   }
 }

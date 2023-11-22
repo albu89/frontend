@@ -7,18 +7,23 @@ import {
   loadBiomarkerSchema,
   loadPatientDetails,
   savePatientDetails,
+  updateUserPreferences,
 } from '@features/patient-details/_store/patient-details.effects';
 import { SchemasService } from '@services/schemas.service';
 import { FormMode } from '@features/patient-details/_models/form-mode';
 import { BiomarkerService } from '@services/biomarker.service';
 import { MedicalHistoryBiomarkerFiltered } from '@features/patient-details/_models/medical-history-biomarker-filtered.model';
+import { UserService } from '@services/user.service';
+import { MessageService } from '@services/message.service';
 
 @Injectable()
 export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
   public constructor(
     public readonly biomarkerService: BiomarkerService,
     public readonly schemaService: SchemasService,
-    public readonly patientRecordService: PatientRecordService
+    public readonly patientRecordService: PatientRecordService,
+    public readonly messageService: MessageService,
+    public readonly userService: UserService
   ) {
     super({
       isLoading: false,
@@ -27,6 +32,7 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
       biomarkerTemplate: undefined,
       patientData: undefined,
       formMode: FormMode.add,
+      isEditingEnabled: false,
     });
   }
 
@@ -34,6 +40,7 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
   // *********** Selectors *********** //
   //
   // public readonly isLoading$ = this.select(state => state.isLoading);
+  public readonly isEditingEnabled$ = this.select(state => state.isEditingEnabled);
   public readonly currentScore$ = this.select(state => state.currentScore);
   public readonly patient$ = this.select(state => state.patient);
   //TODO: check if sorting works properly after backend is up-to-date
@@ -65,6 +72,11 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
     formMode: formMode,
   }));
 
+  public readonly setIsEditingEnabled = this.updater((state, isEditingEnabled: boolean) => ({
+    ...state,
+    isEditingEnabled: isEditingEnabled,
+  }));
+
   //
   // *********** Effect *********** //
   //
@@ -72,4 +84,5 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
   public readonly savePatientDetails = this.effect(savePatientDetails(this));
   public readonly editPatientDetails = this.effect(editPatientDetails(this));
   public readonly loadPatientDetails = this.effect(loadPatientDetails(this));
+  public readonly saveUserPreferences = this.effect(updateUserPreferences(this));
 }

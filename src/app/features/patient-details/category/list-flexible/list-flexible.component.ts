@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
 import { LabResultComponent } from '@features/patient-details/biomarker/lab-result/lab-result.component';
@@ -10,7 +10,6 @@ import { FormModel } from '@features/patient-details/_models/form.model';
   templateUrl: './list-flexible.component.html',
   styleUrls: ['./list-flexible.component.scss'],
   imports: [SharedModule, LabResultComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class CategoryListFlexibleComponent {

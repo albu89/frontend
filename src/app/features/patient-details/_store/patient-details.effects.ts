@@ -7,6 +7,8 @@ import { PatientDetailsStore } from '@features/patient-details/_store/patient-de
 import { FormMode } from '@features/patient-details/_models/form-mode';
 import { ScoringRequestWithPatientData } from '@models/scoring/scoring-request-with-patient.model';
 import { ScoringResponse } from '@models/scoring/scoring-response.model';
+import { UserPreferences } from '@models/user/user-preferences.model';
+import { Biomarker } from '@models/biomarker/biomarker.model';
 
 export const loadBiomarkerSchema = (store: PatientDetailsStore) => (source$: Observable<void>) =>
   source$.pipe(
@@ -17,9 +19,7 @@ export const loadBiomarkerSchema = (store: PatientDetailsStore) => (source$: Obs
           records => store.patchState({ biomarkerTemplate: records, isLoading: false }),
           (error: HttpErrorResponse) => {
             store.patchState({ biomarkerTemplate: undefined, isLoading: false });
-            // Todo show error message
-            //eslint-disable-next-line no-console
-            console.log(error);
+            store.messageService.showLoadBiomarkerTemplateHttpError(error);
           }
         )
       )
@@ -38,9 +38,7 @@ export const savePatientDetails =
             },
             (error: HttpErrorResponse) => {
               store.patchState({ isLoading: false });
-              // Todo show error message
-              //eslint-disable-next-line no-console
-              console.log(error);
+              store.messageService.showSaveScoreHttpError(error);
             }
           )
         )
@@ -59,9 +57,7 @@ export const editPatientDetails =
             },
             (error: HttpErrorResponse) => {
               store.patchState({ isLoading: false });
-              // Todo show error message
-              //eslint-disable-next-line no-console
-              console.log(error);
+              store.messageService.showEditScoreHttpError(error);
             }
           )
         )
@@ -100,11 +96,28 @@ export const loadPatientDetails = (store: PatientDetailsStore) => (source$: Obse
             },
             (error: HttpErrorResponse) => {
               store.patchState({ isLoading: false });
-              // Todo show error message
-              //eslint-disable-next-line no-console
-              console.log(error);
+              store.messageService.showLoadSpecificScoreHttpError(error);
             }
           )
         )
     )
   );
+
+export const updateUserPreferences =
+  (store: PatientDetailsStore) => (source$: Observable<{ biomarker: Biomarker; preferences: UserPreferences }>) =>
+    source$.pipe(
+      tap(() => store.patchState({ isLoading: true })),
+      switchMap(request =>
+        store.userService.updateUserPreferences(request.preferences).pipe(
+          tapResponse(
+            () => {
+              store.patchState({ biomarkerTemplate: request.biomarker, isEditingEnabled: false, isLoading: false });
+            },
+            (error: HttpErrorResponse) => {
+              store.patchState({ isEditingEnabled: false, isLoading: false });
+              store.messageService.showUpdateUserPreferencesHttpError(error);
+            }
+          )
+        )
+      )
+    );

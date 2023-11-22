@@ -10,10 +10,14 @@ import { PatientRecord } from '@models/patient/patient-record.model';
 import { ComponentStore } from '@ngrx/component-store';
 import { PatientRecordService } from '@services/patient-record.service';
 import { Observable } from 'rxjs';
+import { MessageService } from '@services/message.service';
 
 @Injectable()
 export class PatientRecordsStore extends ComponentStore<PatientRecordsState> {
-  public constructor(public readonly patientRecordService: PatientRecordService) {
+  public constructor(
+    public readonly patientRecordService: PatientRecordService,
+    public readonly messageService: MessageService
+  ) {
     super({
       isLoading: false,
       patientRecords: undefined,

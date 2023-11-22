@@ -1,49 +1,51 @@
-<div [formGroup]="formGroup" *ngIf="formGroup">
-  <div class="mb-2 flex flex-row items-end">
-    <p class="block font-medium leading-tight">
-      {{ biomarker.displayName }}
-    </p>
-    <ce-tooltip [infoText]="biomarker.infoText" [tooltipId]="'biomarker-tooltip-' + biomarker.id"></ce-tooltip>
-  </div>
-
-  <div *ngIf="biomarker.type === 'float'" class="relative mt-2 rounded-md shadow-sm">
-    <input
-      type="number"
-      [min]="currentUnit?.minimum!"
-      [max]="currentUnit?.maximum!"
-      class="block w-full rounded-md border p-2 placeholder:text-label-2"
-      [placeholder]="0"
-      formControlName="value"
-      [ngClass]="isFieldInvalid('value') ? 'invalid' : 'valid'" />
-    <div class="absolute inset-y-0 right-0 flex items-center">
-      <ng-container *ngIf="!unitTypeEditable; else editUnits">
-        <div
-          class="flex h-full items-center justify-center rounded-md py-1 pl-2 pr-2 text-label-2 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
-          <p class="text-center">{{ currentUnit?.shorthand }}</p>
-        </div>
-      </ng-container>
-      <ng-template #editUnits>
-        <!-- editmode: show editable units and options in -->
-        <select
-          name="unitSelector"
-          class="mr-1 border-0 px-2 py-1 focus:ring-0"
-          formControlName="unitType"
-          (change)="setCurrentUnit()">
-          <option class="pr-2" *ngFor="let unit of biomarker.units" [value]="unit.unitType">
-            {{ unit.shorthand }}
-          </option>
-        </select>
-        <div
-          *ngIf="biomarker.units.length === 1"
-          class="flex h-full items-center justify-center rounded-md py-1 pl-2 pr-2">
-          <p class="text-center">{{ currentUnit?.shorthand }}</p>
-        </div>
-      </ng-template>
+<ng-container *ngIf="formGroup">
+  <div [formGroup]="formGroup">
+    <div class="mb-2 flex flex-row items-end">
+      <p class="block font-medium leading-tight">
+        {{ biomarker.displayName }}
+      </p>
+      <ce-tooltip [infoText]="biomarker.infoText" [tooltipId]="'biomarker-tooltip-' + biomarker.id"></ce-tooltip>
     </div>
+
+    <div *ngIf="biomarker.type === 'float'" class="relative mt-2 rounded-md shadow-sm">
+      <input
+        type="number"
+        [min]="currentUnit?.minimum!"
+        [max]="currentUnit?.maximum!"
+        class="block w-full rounded-md border p-2 placeholder:text-label-2"
+        [placeholder]="0"
+        formControlName="value"
+        [ngClass]="isFieldInvalid('value') ? 'invalid' : 'valid'" />
+      <div class="absolute inset-y-0 right-0 flex items-center">
+        <ng-container *ngIf="!unitTypeEditable; else editUnits">
+          <div
+            class="flex h-full items-center justify-center rounded-md py-1 pl-2 pr-2 text-label-2 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
+            <p class="text-center">{{ currentUnit?.shorthand }}</p>
+          </div>
+        </ng-container>
+        <ng-template #editUnits>
+          <!-- editmode: show editable units and options in -->
+          <select
+            name="unitSelector"
+            class="mr-1 border-0 px-2 py-1 focus:ring-0"
+            formControlName="unitType"
+            (change)="setCurrentUnit()">
+            <option class="pr-2" *ngFor="let unit of biomarker.units" [value]="unit.unitType">
+              {{ unit.shorthand }}
+            </option>
+          </select>
+          <div
+            *ngIf="biomarker.units.length === 1"
+            class="flex h-full items-center justify-center rounded-md py-1 pl-2 pr-2">
+            <p class="text-center">{{ currentUnit?.shorthand }}</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <p class="error-message mt-2 text-sm text-red-600 dark:text-red-500">
+      <span class="font-medium">
+        {{ 'biomarker.validationRangeMessage' | translate: { min: currentUnit?.minimum, max: currentUnit?.maximum } }}
+      </span>
+    </p>
   </div>
-  <p class="error-message mt-2 text-sm text-red-600 dark:text-red-500">
-    <span class="font-medium">
-      {{ 'biomarker.validationRangeMessage' | translate: { min: currentUnit?.minimum, max: currentUnit?.maximum } }}
-    </span>
-  </p>
-</div>
+</ng-container>

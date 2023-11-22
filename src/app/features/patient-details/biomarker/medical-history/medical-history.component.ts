@@ -13,7 +13,6 @@ import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
   imports: [CommonModule, SharedModule, TooltipComponent],
   templateUrl: './medical-history.component.html',
   styleUrls: ['./medical-history.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MedicalHistoryComponent {
   @Input() public biomarker!: MedicalHistoryItem;

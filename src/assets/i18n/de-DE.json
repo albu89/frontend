@@ -25,7 +25,7 @@
     "name": "Patient Name",
     "lastName": "Patient Nachname",
     "birthdate": "Geburtsdatum",
-    "errors": {
+    "validation": {
       "name": "Name des Patienten muss ausgefüllt sein.",
       "lastName": "Nachname des Patienten muss ausgefüllt sein.",
       "birthdate": "Geburtsdatum des Patienten muss ausgefüllt sein."
@@ -33,8 +33,10 @@
   },
   "category": {
     "noContent": "Keine Biomarker gefunden.",
-    "edit": "Bearbeiten",
-    "save": "Speichern"
+    "unitPreferences": {
+      "edit": "Bearbeiten",
+      "save": "Speichern"
+    }
   },
   "accordion": {
     "less": "weniger",
@@ -130,6 +132,31 @@
     "patient": {
       "name": "Name des Patienten eingeben...",
       "lastName": "Nachname des Patienten eingeben..."
+    }
+  },
+  "errorMessage": {
+    "title": "Fehler",
+    "loadGraphEndpointFailed": "Laden des Graph Endpoint ist nicht möglich. TBD",
+    "scores": {
+      "editRequest": "Score kann nicht bearbeitet werden. TBD",
+      "saveScore": "Score kann nicht berechnet werden. TBD",
+      "loadSpecificScore": "Score kann nicht geladen werden. TBD",
+      "loadPatientRecords": "Patienteneinträge können nicht geladen werden. TBD",
+      "loadSpecificPatientScores": "Patienteinträge für diesen Patienten können nicht geladen werden. TBD",
+      "loadScoreSchema": "Score Schema kann nicht geladen werden. TBD"
+    },
+    "preferences": {
+      "savingFailed": "Beim Speichern der Einstellungen ist ein Fehler aufgetreten TBD"
+    },
+    "biomarker": {
+      "loadingFailed": "Biomarkerschema konnte nicht geladen werden. TBD"
+    },
+    "user": {
+      "loginFailed": "Login fehlgeschlagen",
+      "loadUserFailed": "Benutzer konnte nicht geladen werden. TBD",
+      "requestAccessFailed": "Zugangsantrag fehlgeschlagen. TBD",
+      "updateUserFailed": "Benutzerdaten konnten nicht aktualisiert werden. TBD",
+      "createUserFailed": "Benutzer konnte nicht angelegt werden. TBD"
     }
   }
 }

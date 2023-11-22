@@ -10,4 +10,5 @@ export interface PatientDetailsState {
   biomarkerTemplate?: Biomarker;
   patientData?: ScoringResponse;
   formMode: FormMode;
+  isEditingEnabled: boolean;
 }

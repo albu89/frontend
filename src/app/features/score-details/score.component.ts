@@ -21,6 +21,7 @@ import { BiomarkersInfoValue } from '@models/biomarker/biomarkers-info-values.mo
 import { BiomarkerUnitType } from '@core/enums/biomarker-unit-type.enum';
 import { MedicalHistoryCategoryIds } from '@core/enums/biomarker-medicalhistory-categories.enum';
 import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
+import { MessageService } from '@services/message.service';
 
 @Component({
   selector: 'ce-score',
@@ -36,7 +37,6 @@ import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
     RouterLink,
     TooltipComponent,
   ],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class ScoreComponent implements OnInit {
@@ -60,7 +60,10 @@ export class ScoreComponent implements OnInit {
   //TODO: create Store
   //TODO: check functionality after Translation fixed - seems like this works without the commented out code
 
-  public constructor(private readonly schemaService: SchemasService) {}
+  public constructor(
+    private readonly schemaService: SchemasService,
+    private readonly messageService: MessageService
+  ) {}
   public ngOnInit() {
     this.schemaService.getResponseSchema().subscribe({
       next: response => {
@@ -79,10 +82,7 @@ export class ScoreComponent implements OnInit {
           x => x.prevalence === this.score.prevalence
         );
       },
-      error: error => {
-        //eslint-disable-next-line no-console
-        console.log(error);
-      },
+      error: error => this.messageService.showLoadResponseSchemaHttpError(error),
     });
   }
 
