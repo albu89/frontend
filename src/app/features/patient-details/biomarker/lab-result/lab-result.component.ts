@@ -5,7 +5,7 @@ import { SharedModule } from '@shared/shared.module';
 import { FormGroup } from '@angular/forms';
 import { BiomarkerFormModel } from '@features/patient-details/_models/form.model';
 import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
-import { isFormFieldInvalid } from '@shared/utils/form-utils';
+import { hasFormError, isFormFieldInvalid } from '@shared/utils/form-utils';
 import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
 
 @Component({
@@ -26,7 +26,9 @@ export class LabResultComponent implements OnChanges {
       this.setCurrentUnit();
     }
   }
-
+  public hasError(name: string, required: string) {
+    return hasFormError(name, required, this.formGroup);
+  }
   public setCurrentUnit() {
     this.currentUnit = this.biomarker.units.find(i => i.unitType === this.formGroup?.getRawValue()?.unitType);
   }

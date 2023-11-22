@@ -20,4 +20,9 @@ export class BiomarkerService {
     const url = environment.backendUrl + '/api/scores/' + id;
     return this.http.put<ScoringResponse>(url, request);
   }
+
+  public saveAsDraft(request: ScoringRequestWithPatientData): Observable<ScoringResponse> {
+    const url = environment.backendUrl + '/api/scores';
+    return this.http.post<ScoringResponse>(url, request);
+  }
 }

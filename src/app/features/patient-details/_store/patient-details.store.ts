@@ -6,6 +6,7 @@ import {
   editPatientDetails,
   loadBiomarkerSchema,
   loadPatientDetails,
+  saveDraftScore,
   savePatientDetails,
   updateUserPreferences,
 } from '@features/patient-details/_store/patient-details.effects';
@@ -82,6 +83,7 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
   //
   public readonly loadBiomarkerSchema = this.effect(loadBiomarkerSchema(this));
   public readonly savePatientDetails = this.effect(savePatientDetails(this));
+  public readonly saveDraftScore = this.effect(saveDraftScore(this));
   public readonly editPatientDetails = this.effect(editPatientDetails(this));
   public readonly loadPatientDetails = this.effect(loadPatientDetails(this));
   public readonly saveUserPreferences = this.effect(updateUserPreferences(this));

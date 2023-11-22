@@ -19,7 +19,8 @@
     "calculate": "Risiko Score Berechnen",
     "calculating": "Berechne...",
     "print": "Drucken",
-    "incomplete": "TBD"
+    "incomplete": "TBD",
+    "saveDraft": "Als Vorlage speichern TBD"
   },
   "patient": {
     "name": "Patient Name",
@@ -44,6 +45,7 @@
   },
   "biomarker": {
     "validationRangeMessage": "Der Wert muss zwischen {{min}} und {{max}} liegen.",
+    "validationEmpty": "Feld muss ausgefüllt sein.",
     "optionSelect": "Wählen Sie eine Option"
   },
   "profile": {

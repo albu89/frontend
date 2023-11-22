@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { PatientDataFormComponent } from '@features/patient-details/edit-form/form.component';
 import { ScoreComponent } from '@features/score-details/score.component';
 import { SharedModule } from '@shared/shared.module';
-import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
 import { Router } from '@angular/router';
 import { ScoreRequest } from '@models/requests/score-request.model';
 import { Location } from '@angular/common';
-import { FormMode } from '@features/patient-details/_models/form-mode';
 import { PageLinks } from '@core/enums/page-links.enum';
+import { FormMode } from '@features/patient-details/_models/form-mode';
+import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
 
 @Component({
   selector: 'ce-patient-details',

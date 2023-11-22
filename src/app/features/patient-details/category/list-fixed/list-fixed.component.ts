@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 import { MedicalHistoryItem } from '@models/biomarker/medical-history/medicalHistory.model';
 import { EXTRA_WIDTH_CATEGORIES } from '@features/patient-details/constants';
@@ -13,7 +13,6 @@ import { PatientDetailsStore } from '@features/patient-details/_store/patient-de
   templateUrl: './list-fixed.component.html',
   styleUrls: ['./list-fixed.component.scss'],
   imports: [SharedModule, MedicalHistoryComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class CategoryListFixedComponent {

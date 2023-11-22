@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CategoryListFixedComponent } from '@features/patient-details/category/list-fixed/list-fixed.component';
 import { CategoryListFlexibleEditComponent } from '@features/patient-details/category/list-flexible-edit/list-flexible-edit.component';
 import { CategoryListFlexibleComponent } from '@features/patient-details/category/list-flexible/list-flexible.component';
@@ -15,7 +15,6 @@ import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
   imports: [SharedModule, CategoryListFixedComponent, CategoryListFlexibleComponent, CategoryListFlexibleEditComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class CategoryComponent implements OnChanges {

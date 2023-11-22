@@ -52,6 +52,9 @@
   button.action {
     @apply rounded-md border px-6 py-2 font-bold enabled:bg-secondary enabled:text-white disabled:bg-label-2 disabled:text-white;
   }
+  button.secondary {
+    @apply rounded-md border px-6 py-2 text-secondary enabled:border-secondary disabled:bg-label-2 disabled:text-white;
+  }
   button.edit {
     @apply ml-1 font-medium leading-7 text-secondary underline hover:cursor-pointer;
   }

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges } from '@angular/core';
 import { CategoryComponent } from '@features/patient-details/category/category.component';
 import { Biomarker } from '@models/biomarker/biomarker.model';
 import { SharedModule } from '@shared/shared.module';
@@ -23,7 +23,6 @@ import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
   imports: [SharedModule, CategoryComponent, TooltipComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class PatientDataFormComponent implements OnChanges, AfterViewInit {
@@ -57,35 +56,37 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  public saveForm() {
+  public saveDraft(): void {
+    this.formGroup.controls.firstname.markAsTouched();
+    this.formGroup.controls.lastname.markAsTouched();
+    this.formGroup.controls.birthdate.markAsTouched();
+    this.formGroup.updateValueAndValidity();
+
+    this.formGroup.controls.biomarkerValues?.controls.forEach(fg => {
+      const control = fg.get('value');
+      control?.setValidators(null);
+      control?.updateValueAndValidity();
+      return control;
+    });
+    //TODO: provide user feedback
     if (this.formGroup.invalid) return;
 
-    const formData = this.formGroup.getRawValue();
+    const request = this.assembleRequest();
 
-    const biomarkerObj: { [key: string]: ScoringRequestValue } = {};
+    this.store.saveDraftScore(request);
+  }
 
-    formData.biomarkerValues?.forEach(formGroup => {
-      //get display Value from Biomarker Schema
-      const displayValueMed = this.biomarkers?.medicalHistory.find(medMarker => medMarker.id === formGroup.name);
-      const selectedDisplayValue = displayValueMed?.unit?.options?.find(
-        o => o.value?.toString().toLowerCase() === formGroup.value
-      )?.displayName;
-      biomarkerObj[formGroup.name] = {
-        value: this.mapValue(formGroup.value),
-        unitType: formGroup.unitType,
-        displayValue: selectedDisplayValue ?? formGroup.value?.toString() ?? '',
-      };
+  public saveForm() {
+    this.formGroup.controls.biomarkerValues?.controls.forEach(fg => {
+      const control = fg.get('value');
+      control?.setValidators([Validators.required]);
+      control?.updateValueAndValidity();
+      return control;
     });
 
-    const biomarkers = biomarkerObj as unknown as ScoringRequest;
+    if (this.formGroup.invalid) return;
 
-    const request: ScoringRequestWithPatientData = {
-      Firstname: formData.firstname,
-      Lastname: formData.lastname,
-      DateOfBirth: new Date(formData.birthdate!),
-      id: this.patient.requestId ?? '',
-      ...biomarkers,
-    };
+    const request = this.assembleRequest();
 
     if (this.formMode === FormMode.add) {
       this.store.savePatientDetails(request);
@@ -129,6 +130,35 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
         }
       });
     });
+  }
+  private assembleRequest(): ScoringRequestWithPatientData {
+    const formData = this.formGroup.getRawValue();
+
+    const biomarkerObj: { [key: string]: ScoringRequestValue } = {};
+
+    formData.biomarkerValues?.forEach(formGroup => {
+      //get display Value from Biomarker Schema
+      const displayValueMed = this.biomarkers?.medicalHistory.find(medMarker => medMarker.id === formGroup.name);
+      const selectedDisplayValue = displayValueMed?.unit?.options?.find(
+        o => o.value?.toString().toLowerCase() === formGroup.value
+      )?.displayName;
+
+      biomarkerObj[formGroup.name] = {
+        value: this.mapValue(formGroup.value) ?? null,
+        unitType: formGroup.unitType,
+        displayValue: selectedDisplayValue ?? formGroup.value?.toString() ?? '',
+      };
+    });
+
+    const biomarkers = biomarkerObj as unknown as ScoringRequest;
+
+    return {
+      firstName: formData.firstname,
+      lastName: formData.lastname,
+      dateOfBirth: new Date(formData.birthdate!),
+      id: this.patient.requestId ?? '',
+      ...biomarkers,
+    };
   }
 
   private createBiomarkerForms(): void {

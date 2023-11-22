@@ -19,7 +19,8 @@
     "calculate": "Calculate",
     "calculating": "Calculating...",
     "print": "Print",
-    "incomplete": "INCOMPLETE"
+    "incomplete": "INCOMPLETE",
+    "saveDraft": "Save as draft"
   },
   "patient": {
     "name": "Patient name",
@@ -44,6 +45,7 @@
   },
   "biomarker": {
     "validationRangeMessage": "The value must be between {{min}} and {{max}}.",
+    "validationEmpty": "Field is required.",
     "optionSelect": "Select an option"
   },
   "profile": {

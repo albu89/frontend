@@ -9,4 +9,18 @@ input {
   &:disabled + label {
     @apply cursor-default bg-gray-300;
   }
+  &.ng-invalid {
+    @apply border-red-500 border-red-500 bg-red-50 text-sm text-red-900 placeholder-red-700 ring-red-500;
+    + label {
+      @apply border-red-500 bg-red-50;
+    }
+  }
+}
+
+.ng-valid > p.error-message {
+  display: none;
+}
+
+.ng-invalid > p.error-message {
+  display: block;
 }

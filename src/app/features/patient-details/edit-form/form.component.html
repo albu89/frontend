@@ -67,8 +67,9 @@
     </div>
   </div>
   <ce-category [biomarkers]="biomarkers" [formGroup]="formGroup" class="flex flex-col" />
-  <div class="mt-6 flex flex-row-reverse">
-    <button class="action mb-10" type="submit" (click)="saveForm()" [disabled]="formGroup.invalid">
+  <div class="mt-6 flex flex-row justify-end">
+    <button class="secondary mb-10 mr-5" (click)="saveDraft()">{{ 'scores.saveDraft' | translate }}</button>
+    <button class="action mb-10" (click)="saveForm()" [disabled]="formGroup.invalid">
       {{ 'scores.calculate' | translate }}
     </button>
   </div>

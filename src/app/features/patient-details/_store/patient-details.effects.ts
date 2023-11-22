@@ -31,7 +31,7 @@ export const savePatientDetails =
     source$.pipe(
       tap(() => store.patchState({ isLoading: true })),
       switchMap(request =>
-        store.biomarkerService.sendRequest(request).pipe(
+        store.biomarkerService.saveAsDraft(request).pipe(
           tapResponse(
             (response: ScoringResponse) => {
               store.patchState({ currentScore: response, isLoading: false });
@@ -44,6 +44,27 @@ export const savePatientDetails =
         )
       )
     );
+
+export const saveDraftScore = (store: PatientDetailsStore) => (source$: Observable<ScoringRequestWithPatientData>) =>
+  source$.pipe(
+    tap(() => store.patchState({ isLoading: true })),
+    switchMap(request =>
+      store.biomarkerService.sendRequest(request).pipe(
+        tapResponse(
+          () => {
+            store.patchState({ isLoading: false });
+            //TODO: user response for success
+          },
+          (error: HttpErrorResponse) => {
+            store.patchState({ isLoading: false });
+            // Todo show error message
+            //eslint-disable-next-line no-console
+            console.log(error);
+          }
+        )
+      )
+    )
+  );
 
 export const editPatientDetails =
   (store: PatientDetailsStore) => (source$: Observable<ScoringRequestWithPatientData>) =>
