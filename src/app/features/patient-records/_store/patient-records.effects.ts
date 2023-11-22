@@ -4,10 +4,10 @@ import { ScoreRequest } from '@models/requests/score-request.model';
 import { PatientRecordsStore } from '@features/patient-records/_store/patient-records.store';
 import { tapResponse } from '@ngrx/component-store';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 
 export const loadPatientRecords = (store: PatientRecordsStore) => (source$: Observable<void>) =>
-  source$.pipe(
+  combineLatest([source$, store.languageService.getLanguageObservable()]).pipe(
     tap(() => store.patchState({ isLoading: true })),
     switchMap(() =>
       store.patientRecordService.getRecords().pipe(
@@ -53,9 +53,9 @@ export const loadSpecificPatientRecords =
     );
 
 export const loadSpecificScore = (store: PatientRecordsStore) => (source$: Observable<ScoreRequest>) =>
-  source$.pipe(
+  combineLatest([source$, store.languageService.getLanguageObservable()]).pipe(
     tap(() => store.patchState({ isLoading: true })),
-    switchMap(request =>
+    switchMap(([request]) =>
       store.patientRecordService
         .getSpecificRecordById(
           request.patientName,

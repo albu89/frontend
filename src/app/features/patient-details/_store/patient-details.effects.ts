@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ScoreRequest } from '@models/requests/score-request.model';
 import { tapResponse } from '@ngrx/component-store';
 import { switchMap, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
 import { FormMode } from '@features/patient-details/_models/form-mode';
 import { ScoringRequestWithPatientData } from '@models/scoring/scoring-request-with-patient.model';
@@ -11,7 +11,7 @@ import { UserPreferences } from '@models/user/user-preferences.model';
 import { Biomarker } from '@models/biomarker/biomarker.model';
 
 export const loadBiomarkerSchema = (store: PatientDetailsStore) => (source$: Observable<void>) =>
-  source$.pipe(
+  combineLatest([source$, store.languageService.getLanguageObservable()]).pipe(
     tap(() => store.patchState({ isLoading: true })),
     switchMap(() =>
       store.schemaService.getBiomarkers().pipe(
@@ -86,9 +86,9 @@ export const editPatientDetails =
     );
 
 export const loadPatientDetails = (store: PatientDetailsStore) => (source$: Observable<ScoreRequest>) =>
-  source$.pipe(
+  combineLatest([source$, store.languageService.getLanguageObservable()]).pipe(
     tap(() => store.patchState({ isLoading: true })),
-    switchMap(request =>
+    switchMap(([request]) =>
       store.patientRecordService
         .getSpecificRecordById(
           request.patientName,

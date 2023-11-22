@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BiomarkerInfoComponent } from '@features/score-details/biomarker-info/biomarker-info.component';
 import { FootnoteComponent } from '@features/score-details/footnote/footnote.component';
 import { RecommendationTableComponent } from '@features/score-details/recommendation-table/recommendation-table.component';
@@ -21,6 +21,8 @@ import { BiomarkersInfoValue } from '@models/biomarker/biomarkers-info-values.mo
 import { BiomarkerUnitType } from '@core/enums/biomarker-unit-type.enum';
 import { MedicalHistoryCategoryIds } from '@core/enums/biomarker-medicalhistory-categories.enum';
 import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
+import { Subject, takeUntil, switchMap } from 'rxjs';
+import { LanguageService } from '@services/language.service';
 import { MessageService } from '@services/message.service';
 
 @Component({
@@ -39,7 +41,7 @@ import { MessageService } from '@services/message.service';
   ],
   standalone: true,
 })
-export class ScoreComponent implements OnInit {
+export class ScoreComponent implements OnInit, OnDestroy {
   @Input() public score: ScoringResponse = ScoringResponseMock;
   @Input() public firstname?: string;
   @Input() public lastname?: string;
@@ -56,34 +58,22 @@ export class ScoreComponent implements OnInit {
   public relevantRecommendationCategories: RecommendationCategory[] = [];
 
   protected readonly PageLinks = PageLinks;
+  private destroy$ = new Subject<void>();
 
   //TODO: create Store
-  //TODO: check functionality after Translation fixed - seems like this works without the commented out code
 
   public constructor(
     private readonly schemaService: SchemasService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly languageService: LanguageService
   ) {}
   public ngOnInit() {
-    this.schemaService.getResponseSchema().subscribe({
-      next: response => {
-        this.schema = response;
-        this.abbreviationKeys = Object.keys(this.schema.abbreviations);
-        this.anamnesisMarkers = this.schema.biomarkers.medicalHistory.filter(x => {
-          return x.categoryId === MedicalHistoryCategoryIds.anamnesis;
-        });
-        this.medicationMarkers = this.schema.biomarkers.medicalHistory.filter(
-          x =>
-            x.categoryId === MedicalHistoryCategoryIds.medication ||
-            x.categoryId === MedicalHistoryCategoryIds.clinicalfindings
-        );
-        this.valueMarkers = this.schema.biomarkers.labResults;
-        this.relevantRecommendationCategories = this.schema.recommendationCategories.filter(
-          x => x.prevalence === this.score.prevalence
-        );
-      },
-      error: error => this.messageService.showLoadResponseSchemaHttpError(error),
-    });
+    this.getSchema();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public getBiomarkersInfoById(id: string): BiomarkersInfoValue | undefined {
@@ -105,5 +95,33 @@ export class ScoreComponent implements OnInit {
 
   public toggleTable() {
     this.tableHidden = !this.tableHidden;
+  }
+
+  private getSchema(): void {
+    this.languageService
+      .getLanguageObservable()
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(() => this.schemaService.getResponseSchema())
+      )
+      .subscribe({
+        next: response => {
+          this.schema = response;
+          this.abbreviationKeys = Object.keys(this.schema.abbreviations);
+          this.anamnesisMarkers = this.schema.biomarkers.medicalHistory.filter(
+            x => x.categoryId === MedicalHistoryCategoryIds.anamnesis
+          );
+          this.medicationMarkers = this.schema.biomarkers.medicalHistory.filter(
+            x =>
+              x.categoryId === MedicalHistoryCategoryIds.medication ||
+              x.categoryId === MedicalHistoryCategoryIds.clinicalfindings
+          );
+          this.valueMarkers = this.schema.biomarkers.labResults;
+          this.relevantRecommendationCategories = this.schema.recommendationCategories.filter(
+            x => x.prevalence === this.score.prevalence
+          );
+        },
+        error: error => this.messageService.showLoadResponseSchemaHttpError(error),
+      });
   }
 }

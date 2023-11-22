@@ -16,6 +16,7 @@ import { BiomarkerService } from '@services/biomarker.service';
 import { MedicalHistoryBiomarkerFiltered } from '@features/patient-details/_models/medical-history-biomarker-filtered.model';
 import { UserService } from '@services/user.service';
 import { MessageService } from '@services/message.service';
+import { LanguageService } from '@services/language.service';
 
 @Injectable()
 export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
@@ -24,7 +25,8 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
     public readonly schemaService: SchemasService,
     public readonly patientRecordService: PatientRecordService,
     public readonly messageService: MessageService,
-    public readonly userService: UserService
+    public readonly userService: UserService,
+    public readonly languageService: LanguageService
   ) {
     super({
       isLoading: false,
