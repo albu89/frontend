@@ -3,7 +3,7 @@ import { SharedModule } from '@shared/shared.module';
 import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
 import { LabResultComponent } from '@features/patient-details/biomarker/lab-result/lab-result.component';
 import { FormGroup } from '@angular/forms';
-import { FormModel } from '@features/patient-details/_models/form.model';
+import { BiomarkerFormModel, FormModel } from '@features/patient-details/_models/form.model';
 
 @Component({
   selector: 'ce-category-list-flexible',
@@ -21,7 +21,7 @@ export class CategoryListFlexibleComponent {
     return this.formGroup.controls.biomarkerValues?.controls ?? undefined;
   }
 
-  public findLabBiomarkerControlById(id: string): FormGroup | undefined {
+  public findLabBiomarkerControlById(id: string): FormGroup<BiomarkerFormModel> | undefined {
     return this.labBiomarkerControls?.find(i => i.getRawValue().name === id);
   }
   protected enableEditMode(): void {

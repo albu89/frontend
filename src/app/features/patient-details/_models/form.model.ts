@@ -5,6 +5,7 @@ export interface FormModel {
   firstname: FormControl<string>;
   lastname: FormControl<string>;
   birthdate: FormControl<string | null>;
+  preferredUnitType: FormControl<BiomarkerUnitType | null>;
   biomarkerValues?: FormArray<FormGroup<BiomarkerFormModel>> | undefined;
 }
 

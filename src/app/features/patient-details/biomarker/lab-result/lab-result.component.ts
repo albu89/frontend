@@ -2,11 +2,12 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LabResultUnit } from '@models/biomarker/lab-results/lab-result-units.model';
 import { SharedModule } from '@shared/shared.module';
-import { FormGroup } from '@angular/forms';
-import { BiomarkerFormModel } from '@features/patient-details/_models/form.model';
+import { FormGroup, Validators } from '@angular/forms';
+import { BiomarkerFormModel, FormModel } from '@features/patient-details/_models/form.model';
 import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
 import { hasFormError, isFormFieldInvalid } from '@shared/utils/form-utils';
 import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
+import { BiomarkerUnitType } from '@core/enums/biomarker-unit-type.enum';
 
 @Component({
   selector: 'ce-biomarker-lab-result',
@@ -19,7 +20,9 @@ export class LabResultComponent implements OnChanges {
   @Input() public biomarker!: LabResultItem;
   @Input() public formGroup!: FormGroup<BiomarkerFormModel>;
   @Input() public unitTypeEditable = false;
-  public currentUnit?: LabResultUnit;
+  @Input() public parentFormGroup!: FormGroup<FormModel>;
+
+  protected currentUnit?: LabResultUnit;
 
   public ngOnChanges(changes: SimpleChanges) {
     if ((changes['biomarker'] || changes['formGroup']) && this.biomarker) {
@@ -30,7 +33,18 @@ export class LabResultComponent implements OnChanges {
     return hasFormError(name, required, this.formGroup);
   }
   public setCurrentUnit() {
-    this.currentUnit = this.biomarker.units.find(i => i.unitType === this.formGroup?.getRawValue()?.unitType);
+    this.currentUnit = this.biomarker.units.find(i => i.unitType === this.formGroup.getRawValue().unitType);
+    const max = this.currentUnit?.maximum ?? null;
+    const min = this.currentUnit?.minimum ?? null;
+    if (min) this.formGroup.get('value')?.setValidators([Validators.min(min)]);
+    if (max) this.formGroup.get('value')?.setValidators([Validators.max(max)]);
+    this.formGroup.updateValueAndValidity();
+  }
+
+  public setCurrentUnitAndResetValue() {
+    this.formGroup.patchValue({ value: null });
+    this.setCurrentUnit();
+    this.parentFormGroup?.controls.preferredUnitType.patchValue(BiomarkerUnitType.Other);
   }
 
   public isFieldInvalid(name: string) {

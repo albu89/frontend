@@ -84,10 +84,11 @@
   },
   "labUnit": {
     "caption": "Einheit Testwerte",
+    "unitTypeSelect": "Wählen Sie Ihre bevorzugte Einheit TBD",
     "options": {
-      "si": "SI",
-      "conventional": "Konventionell",
-      "other": "Andere"
+      "SI": "SI",
+      "Conventional": "Konventionell",
+      "Other": "Angepasst TBD"
     }
   },
   "clinicalSetting": {

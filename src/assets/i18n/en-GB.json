@@ -84,10 +84,11 @@
   },
   "labUnit": {
     "caption": "Units labs values",
+    "unitTypeSelect": "Select your preferred unit",
     "options": {
-      "si": "SI",
-      "conventional": "Conventional",
-      "other": "Other"
+      "SI": "SI",
+      "Conventional": "Conventional",
+      "Other": "Customized"
     }
   },
   "clinicalSetting": {

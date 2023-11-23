@@ -30,7 +30,7 @@
             name="unitSelector"
             class="mr-1 border-0 px-2 py-1 focus:ring-0"
             formControlName="unitType"
-            (change)="setCurrentUnit()">
+            (change)="setCurrentUnitAndResetValue()">
             <option class="pr-2" *ngFor="let unit of biomarker.units" [value]="unit.unitType">
               {{ unit.shorthand }}
             </option>

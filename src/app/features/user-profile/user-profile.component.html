@@ -222,25 +222,6 @@
             >{{ 'profile.language' | translate }}
           </label>
         </div>
-        <div name="unitLabValues" class="relative">
-          <select
-            class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-            [class.empty]="updatedUserProfile.unitLabValues === ''"
-            name="unitLabValues"
-            id="unitLabValues"
-            [value]="updatedUserProfile.unitLabValues"
-            formControlName="unitLabValues"
-            [(ngModel)]="updatedUserProfile.unitLabValues">
-            <ng-template ngFor let-type [ngForOf]="biomarkerUnitType">
-              <option [value]="type.toLowerCase()">{{ 'labUnit.options.' + type.toLowerCase() | translate }}</option>
-            </ng-template>
-          </select>
-          <label
-            for="unitLabValues"
-            class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-            >{{ 'labUnit.caption' | translate }}
-          </label>
-        </div>
         <div name="preferredLab" class="relative">
           <input
             class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"

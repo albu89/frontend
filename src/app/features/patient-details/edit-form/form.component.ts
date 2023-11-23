@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CategoryComponent } from '@features/patient-details/category/category.component';
 import { Biomarker } from '@models/biomarker/biomarker.model';
 import { SharedModule } from '@shared/shared.module';
@@ -35,6 +35,7 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
     firstname: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
     lastname: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
     birthdate: this.formBuilder.control(null, [Validators.required]),
+    preferredUnitType: this.formBuilder.control(null),
     biomarkerValues: undefined,
   });
 
@@ -48,8 +49,8 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
     initFlowbite();
   }
 
-  public ngOnChanges() {
-    if (this.patient && this.biomarkers) {
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes['data'] || (this.patient && this.biomarkers)) {
       this.initForm();
       this.trackChanges();
       this.changeDetectorRef.detectChanges();
@@ -162,7 +163,8 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
   }
 
   private createBiomarkerForms(): void {
-    const biomarkerForms: FormGroup<BiomarkerFormModel>[] = [];
+    const biomarkerMedForms: FormGroup<BiomarkerFormModel>[] = [];
+    const biomarkerLabForms: FormGroup<BiomarkerFormModel>[] = [];
     //fixed biomarkers
     this.biomarkers?.medicalHistory.forEach(biomarker => {
       const scoringValues = this.data?.biomarkers.values.find(data => data.id === biomarker.id);
@@ -174,7 +176,7 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
         scoringValues?.value.toString().toLowerCase() ?? ''
       );
 
-      biomarkerForms.push(formGroup);
+      biomarkerMedForms.push(formGroup);
     });
 
     //flexible biomarkers
@@ -184,12 +186,12 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
       const biomarkerUnit = biomarker.units.find(u => u.unitType === currentUnit);
       if (!biomarkerUnit) return;
       const formGroup = this.createBiomarkerFormGroup(biomarkerUnit);
-
       this.patchBiomarkerValues(formGroup, biomarker.id, currentUnit, values?.value);
-      biomarkerForms.push(formGroup);
+      biomarkerLabForms.push(formGroup);
     });
-
-    this.formGroup.setControl('biomarkerValues', this.formBuilder.array(biomarkerForms));
+    //check for different unit types
+    this.setPreferredUnitTypeControlValue(biomarkerLabForms, this.formGroup);
+    this.formGroup.setControl('biomarkerValues', this.formBuilder.array([...biomarkerLabForms, ...biomarkerMedForms]));
   }
 
   private createBiomarkerFormGroup(unit: LabResultUnit | MedicalHistoryItemUnit): FormGroup<BiomarkerFormModel> {
@@ -204,6 +206,20 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
     if (unit.maximum) biomarkerFormGroup.get('value')?.setValidators([Validators.max(unit.maximum)]);
 
     return biomarkerFormGroup;
+  }
+
+  private setPreferredUnitTypeControlValue(
+    arr: FormGroup<BiomarkerFormModel>[],
+    formGroup: FormGroup<FormModel>
+  ): void {
+    const uniqueUnitTypes = [...new Set(arr.map(obj => obj.getRawValue().unitType))];
+
+    let overallPreferredType = BiomarkerUnitType.Other;
+    if (uniqueUnitTypes.length === 1) {
+      overallPreferredType = uniqueUnitTypes[0];
+    }
+
+    formGroup.controls.preferredUnitType.patchValue(overallPreferredType);
   }
 
   private patchBiomarkerValues(

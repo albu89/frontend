@@ -1,5 +1,16 @@
 <!-- Flexible biomarkers -->
 <ng-container [formGroup]="formGroup">
+  <select
+    formControlName="preferredUnitType"
+    name="biomarkerUnitSelectBox"
+    id="biomarkerUnitSelectBox"
+    class="mb-6 block w-max rounded-md border p-2 placeholder:text-label-2"
+    (change)="changeBiomarkerUnits()">
+    <option disabled selected value="">{{ 'labUnit.unitTypeSelect' | translate }}</option>
+    <option *ngFor="let unit of biomarkerUnits" [value]="unit" [hidden]="unit === BiomarkerUnitType.Other">
+      {{ 'labUnit.options.' + unit | translate }}
+    </option>
+  </select>
   <div
     cdkDropListGroup
     class="align-items-end grid gap-4 overflow-hidden md:grid-cols-4 lg:grid-cols-5"
@@ -16,7 +27,8 @@
         <ce-biomarker-lab-result
           [biomarker]="biomarker"
           [unitTypeEditable]="true"
-          [formGroup]="findLabBiomarkerControlById(biomarker.id)!" />
+          [formGroup]="findLabBiomarkerControlById(biomarker.id)!"
+          [parentFormGroup]="formGroup" />
       </div>
     </div>
 
