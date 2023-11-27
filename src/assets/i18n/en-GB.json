@@ -137,6 +137,16 @@
       "lastName": "Type in patient last name..."
     }
   },
+  "userFeedback": {
+    "inactive": {
+      "header": "USER INACTIVE TBD",
+      "info": "Your user account is inactive! TBD"
+    },
+    "notFound": {
+      "header": "404 - Not Found TBD",
+      "info": "The page you are looking for does not exist. TBD"
+    }
+  },
   "infoMessage": {
     "formInfoHeader": "Info",
     "patientDataRequired": "Patient data is required to save the draft."

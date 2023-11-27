@@ -72,15 +72,16 @@
             id="user-dropdown">
             <ul class="py-2" aria-labelledby="user-menu-button">
               <li>
-                <a
+                <button
                   [routerLink]="[PageLinks.PROFILE]"
+                  [disabled]="limitedUI"
                   ariaCurrentWhenActive="page"
                   routerLinkActive="text-secondary"
                   [routerLinkActiveOptions]="{ exact: true }"
                   (click)="userDropdown.hide()"
-                  class="block px-4 py-2 text-gray-700 hover:bg-gray-100 md:hover:text-secondary">
+                  class="block px-4 py-2 text-gray-700 hover:bg-gray-100 disabled:text-gray-300 disabled:hover:text-gray-300 md:hover:text-secondary">
                   {{ 'section.profile' | translate }}
-                </a>
+                </button>
               </li>
             </ul>
             <div class="py-2">
@@ -113,32 +114,36 @@
         <ul
           class="mt-4 flex flex-col rounded-lg border border-gray-100 p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0">
           <li>
-            <a
+            <button
+              [disabled]="limitedUI"
               [routerLink]="PageLinks.ROOT"
               ariaCurrentWhenActive="page"
               routerLinkActive="text-secondary"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="group block rounded py-2 pl-3 pr-4 text-gray-900 transition duration-300 md:p-0 md:hover:text-secondary">
+              class="group block rounded py-2 pl-3 pr-4 text-gray-900 transition duration-300 disabled:text-gray-400 disabled:transition-none disabled:hover:text-gray-400 md:p-0 md:hover:text-secondary">
               {{ 'section.existingScores' | translate }}
               <span
+                *ngIf="!limitedUI"
                 class="block h-0.5 max-w-0 bg-secondary transition-all duration-500 group-hover:max-w-full"
                 routerLinkActive="max-w-full w-1/6"
                 [routerLinkActiveOptions]="{ exact: true }"></span>
-            </a>
+            </button>
           </li>
           <li>
-            <a
+            <button
+              [disabled]="limitedUI"
               [routerLink]="PageLinks.NEW_SCORE"
               ariaCurrentWhenActive="page"
               routerLinkActive="text-secondary"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="group block rounded py-2 pl-3 pr-4 text-gray-900 transition duration-300 md:p-0 md:hover:text-secondary">
+              class="group block rounded py-2 pl-3 pr-4 text-gray-900 transition duration-300 disabled:text-gray-400 disabled:transition-none disabled:hover:text-gray-400 md:p-0 md:hover:text-secondary">
               {{ 'section.createNewScore' | translate }}
               <span
+                *ngIf="!limitedUI"
                 class="block h-0.5 max-w-0 bg-secondary transition-all duration-500 group-hover:max-w-full"
                 routerLinkActive="max-w-full w-1/6"
                 [routerLinkActiveOptions]="{ exact: true }"></span>
-            </a>
+            </button>
           </li>
         </ul>
       </div>

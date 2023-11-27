@@ -137,6 +137,16 @@
       "lastName": "Nachname des Patienten eingeben..."
     }
   },
+  "userFeedback": {
+    "inactive": {
+      "header": "USER INAKTIV TBD",
+      "info": "Ihr Benutzeraccount ist inaktiv! TBD"
+    },
+    "notFound": {
+      "header": "404 - Nicht gefunden TBD",
+      "info": "Die gesuchte Seite konnte nicht gefunden werden. TBD"
+    }
+  },
   "infoMessage": {
     "formInfoHeader": "Info",
     "patientDataRequired": "Patientendaten sind erforderlich um eine Vorlage zu speichern."

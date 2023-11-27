@@ -20,10 +20,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   public LOCALE_DISPLAY = new Map<string, string>().set('en-GB', '🇬🇧 English').set('de-DE', '🇩🇪 Deutsch');
 
   public userDropdown!: Dropdown;
-
   public isIframe = false;
   public isLoginPage = false;
-
+  public limitedUI: Boolean = false;
   public selectedLocaleDisplay = this.LOCALE_DISPLAY.get('en-GB');
 
   protected readonly PageLinks = PageLinks;
@@ -31,7 +30,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public constructor(
     private readonly authService: MsalService,
     private readonly router: Router,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService // private readonly userService: UserService
   ) {
     this.router.events
       .pipe(
@@ -40,6 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       )
       .subscribe(event => {
         this.isLoginPage = event.url === '/login';
+        this.limitedUI = event.url === '/inactive';
       });
   }
 
@@ -52,7 +52,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit() {
     initFlowbite();
-    this.userDropdown = new Dropdown(this.userDdTarget.nativeElement, this.userDdtrigger.nativeElement);
+    this.userDropdown = new Dropdown(this.userDdTarget?.nativeElement, this.userDdtrigger?.nativeElement);
   }
 
   public login() {

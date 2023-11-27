@@ -6,4 +6,5 @@ export enum PageLinks {
   ONBOARD = 'onboard',
   NEW_SCORE = 'score/new',
   EDIT_SCORE = 'score/edit',
+  USER_INACTIVE = 'inactive',
 }

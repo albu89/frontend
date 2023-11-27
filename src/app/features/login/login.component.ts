@@ -40,7 +40,10 @@ export class LoginComponent {
       next: () => {
         this.router.navigate([PageLinks.ROOT]);
       },
-      error: error => this.messageService.showLoginError(error),
+      error: error => {
+        this.messageService.showLoginError(error);
+        this.router.navigate([PageLinks.ROOT]);
+      },
     });
   }
 

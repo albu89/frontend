@@ -21,15 +21,19 @@ export class CanActivateGuard {
       switchMap(() => {
         if (this.msalService.instance.getAllAccounts().length > 0) {
           return this.userService.getUser().pipe(
-            map(res => {
-              if (res) {
+            map(user => {
+              if (user && user.isActive) {
+                return true;
+              } else if (user && !user.isActive) {
+                this.router.navigate([PageLinks.USER_INACTIVE]);
                 return true;
               }
               this.router.navigate([PageLinks.ONBOARD]);
               return false;
             }),
-            catchError(() => {
-              this.router.navigate([PageLinks.ONBOARD]);
+            catchError(err => {
+              if (err.status === 403) this.router.navigate([PageLinks.USER_INACTIVE]);
+              else this.router.navigate([PageLinks.ONBOARD]);
               return of(false);
             })
           );

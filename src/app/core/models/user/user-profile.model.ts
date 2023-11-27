@@ -20,4 +20,5 @@ export class Profile {
   public unitLabValues = '';
   public clinicalSetting: ClinicalSetting | undefined = undefined;
   public medicalSpecialist = '';
+  public isActive = false;
 }

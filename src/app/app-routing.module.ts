@@ -12,6 +12,10 @@ const routes: Routes = [
     canActivate: [MsalGuard, CanActivateGuard],
   },
   {
+    path: PageLinks.USER_INACTIVE,
+    loadComponent: () => import('@features/user-inactive/user-inactive.component').then(m => m.UserInactiveComponent),
+  },
+  {
     path: PageLinks.SCORE,
     loadComponent: () => import('@features/score-details/score.component').then(m => m.ScoreComponent),
     canActivate: [MsalGuard, CanActivateGuard],
@@ -34,12 +38,17 @@ const routes: Routes = [
   {
     path: PageLinks.ONBOARD,
     loadComponent: () => import('@features/user-profile/user-profile.component').then(m => m.UserProfileComponent),
+    canActivate: [MsalGuard, CanActivateGuard],
   },
   {
     path: PageLinks.EDIT_SCORE,
     loadComponent: () =>
       import('@features/patient-details/patient-details.component').then(m => m.PatientDetailsComponent),
     canActivate: [MsalGuard, CanActivateGuard],
+  },
+  {
+    path: '**',
+    loadComponent: () => import('@features/page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent),
   },
 ];
 
