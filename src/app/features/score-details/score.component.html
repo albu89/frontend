@@ -56,58 +56,10 @@
       </p>
     </div>
   </div>
-  <div
-    name="values"
-    class="my-4 flex flex-col gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow">
-    <div
-      name="patientInfo"
-      class="mb-4 grid grid-cols-4 gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
-      <ce-biomarker-info
-        [Header]="'patient.name' | translate"
-        Value="{{ firstname }} {{ lastname }}"
-        class="col-span-2"></ce-biomarker-info>
-      <ce-biomarker-info
-        [Header]="'patient.birthdate' | translate"
-        [Value]="birthdate"
-        [InfoText]="'tooltips.patient.birthdate' | translate"
-        [isDate]="true"></ce-biomarker-info>
-      <ce-biomarker-info
-        [Header]="'scores.creationDate' | translate"
-        [Value]="score.biomarkers.createdOn"
-        [InfoText]="'tooltips.scores.creationDate' | translate"
-        [isDate]="true"></ce-biomarker-info>
-    </div>
-    <div
-      name="baseInfo"
-      class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
-      <ce-biomarker-info
-        *ngFor="let biomarker of anamnesisMarkers"
-        [Header]="biomarker.displayName"
-        [InfoText]="biomarker.infoText"
-        [Value]="this.getBiomarkersInfoById(biomarker.id)?.value"
-        [Unit]="this.getMedBiomarkerUnit(biomarker.id)?.shorthand"></ce-biomarker-info>
-    </div>
-    <div
-      name="baseInfo"
-      class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
-      <ce-biomarker-info
-        *ngFor="let biomarker of medicationMarkers"
-        [Header]="biomarker.displayName"
-        [InfoText]="biomarker.infoText"
-        [Value]="this.getBiomarkersInfoById(biomarker.id)?.value"
-        [Unit]="this.getMedBiomarkerUnit(biomarker.id)?.shorthand">
-      </ce-biomarker-info>
-    </div>
-    <div
-      name="baseInfo"
-      class="mb-4 grid grid-cols-4 justify-start gap-4 rounded-lg border border-solid border-tone-1 bg-white px-8 py-6 shadow-inner">
-      <ce-biomarker-info
-        *ngFor="let biomarker of valueMarkers"
-        [Header]="biomarker.displayName"
-        [InfoText]="biomarker.infoText"
-        [Value]="this.getBiomarkersInfoById(biomarker.id)?.value"
-        [Unit]="this.getLabBiomarkerUnit(biomarker.id)?.shorthand">
-      </ce-biomarker-info>
-    </div>
-  </div>
+  <ce-patient-data-form
+    *ngIf="schema"
+    [biomarkers]="schema.biomarkers!"
+    [data]="score"
+    [patient]="patient"
+    [formMode]="FormMode.readonly" />
 </div>

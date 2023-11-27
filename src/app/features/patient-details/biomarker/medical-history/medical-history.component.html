@@ -14,15 +14,18 @@
             type="radio"
             [id]="biomarker.id + '_' + option.displayName"
             class="peer hidden"
+            [ngClass]="(formMode$ | async) === FormMode.readonly ? 'readonly' : 'editable'"
             [value]="option.value?.toString()?.toLowerCase()"
             formControlName="value" />
         </ng-container>
 
         <label
           [for]="biomarker.id + '_' + option.displayName"
-          class="block cursor-pointer select-none rounded-md border border-tone-2 bg-tone-1 p-2 text-text peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white"
-          >{{ option.displayName }}</label
-        ><!-- TODO: Properly handle translation -->
+          [ngClass]="(formMode$ | async) === FormMode.readonly ? 'readonly' : 'editable'"
+          class="option-label"
+          >{{ option.displayName }}
+        </label>
+        <!-- Disable effected Marker marker -->
         <ng-template #disabled>
           <input
             type="radio"
@@ -44,10 +47,11 @@
       formControlName="value"
       class="block w-full rounded-md border p-2 placeholder:text-label-2"
       [placeholder]="0"
-      [ngClass]="isFieldInvalid('value') ? 'invalid' : 'valid'" />
+      [ngClass]="
+        (formMode$ | async) === FormMode.readonly ? 'readonly' : isFieldInvalid('value') ? 'invalid' : 'valid'
+      " />
     <div class="absolute inset-y-0 right-0 flex items-center">
-      <div
-        class="flex h-full items-center justify-center rounded-md py-1 pl-2 pr-2 text-label-2 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
+      <div [ngClass]="(formMode$ | async) === FormMode.readonly ? 'readonly' : 'editable'" class="unit">
         <p class="text-center">{{ biomarker.unit.shorthand }}</p>
       </div>
     </div>

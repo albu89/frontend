@@ -6,6 +6,8 @@ import { FormGroup } from '@angular/forms';
 import { BiomarkerFormModel } from '@features/patient-details/_models/form.model';
 import { hasFormError, isFormFieldInvalid } from '@shared/utils/form-utils';
 import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
+import { FormMode } from '@features/patient-details/_models/form-mode';
+import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
 
 @Component({
   selector: 'ce-biomarker-medical-history',
@@ -18,6 +20,10 @@ export class MedicalHistoryComponent {
   @Input() public biomarker!: MedicalHistoryItem;
   @Input() public formGroup!: FormGroup<BiomarkerFormModel>;
 
+  protected formMode$ = this.store.formMode$;
+  protected readonly FormMode = FormMode;
+
+  public constructor(private readonly store: PatientDetailsStore) {}
   public hasError(name: string, required: string) {
     return hasFormError(name, required, this.formGroup);
   }

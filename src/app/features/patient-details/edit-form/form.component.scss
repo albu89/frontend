@@ -6,4 +6,7 @@ input {
   &.invalid {
     @apply border-red-500 border-red-500 bg-red-50 text-sm text-red-900 placeholder-red-700 ring-red-500;
   }
+  &.readonly {
+    @apply bg-gray-100;
+  }
 }

@@ -9,6 +9,7 @@ import { FormGroup } from '@angular/forms';
 import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
 import { UserPreferences } from '@models/user/user-preferences.model';
 import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
+import { FormMode } from '@features/patient-details/_models/form-mode';
 
 @Component({
   selector: 'ce-category',
@@ -22,6 +23,10 @@ export class CategoryComponent implements OnChanges {
   @Input() public formGroup!: FormGroup<FormModel>;
 
   protected isEditingEnabled$ = this.store.isEditingEnabled$;
+
+  protected readonly FormMode = FormMode;
+  protected formMode$ = this.store.formMode$;
+
   private smallestOrderNo = 0;
 
   public constructor(

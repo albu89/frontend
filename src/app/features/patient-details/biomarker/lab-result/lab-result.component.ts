@@ -8,6 +8,8 @@ import { LabResultItem } from '@models/biomarker/lab-results/lab-result.model';
 import { hasFormError, isFormFieldInvalid } from '@shared/utils/form-utils';
 import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
 import { BiomarkerUnitType } from '@core/enums/biomarker-unit-type.enum';
+import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
+import { FormMode } from '@features/patient-details/_models/form-mode';
 
 @Component({
   selector: 'ce-biomarker-lab-result',
@@ -23,7 +25,10 @@ export class LabResultComponent implements OnChanges {
   @Input() public parentFormGroup!: FormGroup<FormModel>;
 
   protected currentUnit?: LabResultUnit;
+  protected formMode$ = this.store.formMode$;
+  protected readonly FormMode = FormMode;
 
+  public constructor(private readonly store: PatientDetailsStore) {}
   public ngOnChanges(changes: SimpleChanges) {
     if ((changes['biomarker'] || changes['formGroup']) && this.biomarker) {
       this.setCurrentUnit();

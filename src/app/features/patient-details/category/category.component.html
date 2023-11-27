@@ -3,7 +3,8 @@
   <!-- Fixed biomarkers -->
   <ce-category-list-fixed
     *ngIf="biomarkers.medicalHistory"
-    class="mb-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6"
+    [ngClass]="(formMode$ | async) === FormMode.readonly ? 'readonly' : 'editable'"
+    class="box"
     [biomarkers]="biomarkers.medicalHistory"
     [categories]="biomarkers.categories.medicalHistory"
     [formGroup]="formGroup">
@@ -13,7 +14,8 @@
   <!-- non-edit-mode -->
   <ce-category-list-flexible
     *ngIf="(isEditingEnabled$ | async) === false && biomarkers.labResults"
-    class="mb-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6"
+    [ngClass]="(formMode$ | async) === FormMode.readonly ? 'readonly' : 'editable'"
+    class="box"
     [biomarkers]="biomarkers.labResults"
     [formGroup]="formGroup"
     (isEditingEnabled)="enableEditMode()">
@@ -22,7 +24,8 @@
   <!-- edit-mode -->
   <ce-category-list-flexible-edit
     *ngIf="(isEditingEnabled$ | async) && biomarkers.labResults"
-    class="mb-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6"
+    [ngClass]="(formMode$ | async) === FormMode.readonly ? 'readonly' : 'editable'"
+    class="box"
     [biomarkers]="biomarkers.labResults"
     [formGroup]="formGroup"
     (saveChanges)="savePreferences()">

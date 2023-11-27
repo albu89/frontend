@@ -24,9 +24,9 @@
     *ngIf="data.currentScore"
     [score]="data.currentScore"
     [biomarker]="data.biomarkerTemplate!"
-    [firstname]="data.patient?.firstname"
-    [lastname]="data.patient?.lastname"
-    [birthdate]="data.patient?.dateOfBirth">
+    [firstname]="data.patient?.firstname!"
+    [lastname]="data.patient?.lastname!"
+    [birthdate]="data.patient?.dateOfBirth!">
   </ce-score>
 </ng-container>
 <ng-template #loading>

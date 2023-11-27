@@ -15,7 +15,7 @@
         [formGroup]="findLabBiomarkerControlById(biomarker.id)!" />
     </span>
     <!-- Save and edit button -->
-    <div class="col-start-1 col-end-6 flex flex-row-reverse">
+    <div class="col-start-1 col-end-6 flex flex-row-reverse" *ngIf="(formMode$ | async) !== FormMode.readonly">
       <button (click)="enableEditMode()" class="edit self-end">
         {{ 'category.unitPreferences.edit' | translate }}
       </button>

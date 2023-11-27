@@ -1,0 +1,10 @@
+.box {
+  @apply mb-4 rounded-lg border border-solid  px-8 py-6;
+  &.editable {
+    @apply border-tone-2 bg-background;
+  }
+
+  &.readonly {
+    @apply border-tone-1 bg-white shadow;
+  }
+}

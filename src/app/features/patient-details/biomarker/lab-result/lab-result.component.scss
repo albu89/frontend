@@ -1,12 +1,19 @@
 input {
   @apply w-full rounded-md border border-tone-2 py-1.5 pl-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary disabled:bg-gray-200;
-  &.valid {
-  }
   &.invalid {
     @apply border-red-500 border-red-500 bg-red-50 text-sm text-red-900 placeholder-red-700 ring-red-500;
   }
+  &:disabled + label {
+    @apply cursor-default bg-gray-300;
+  }
   &.ng-invalid {
     @apply border-red-500 border-red-500 bg-red-50 text-sm text-red-900 placeholder-red-700 ring-red-500;
+  }
+  &.readonly + label {
+    @apply bg-gray-100;
+  }
+  &.readonly {
+    @apply bg-gray-100;
   }
 }
 
@@ -16,4 +23,11 @@ input {
 
 .ng-invalid > p.error-message {
   display: block;
+}
+
+.unit {
+  @apply flex h-full items-center justify-center rounded-md py-1 pl-2 pr-2 text-label-2 focus:ring-2 focus:ring-inset focus:ring-indigo-600;
+  &.readonly {
+    @apply text-black;
+  }
 }

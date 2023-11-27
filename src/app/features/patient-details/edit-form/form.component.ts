@@ -41,6 +41,9 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
     biomarkerValues: undefined,
   });
 
+  protected readonly FormMode = FormMode;
+  protected isLoading$ = this.store.isLoading$;
+
   public constructor(
     private readonly formBuilder: FormBuilder,
     private readonly store: PatientDetailsStore,
@@ -257,14 +260,27 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
       //TODO: is there a better solution?
       birthdate: this.patient.dateOfBirth?.toLocaleDateString('en-CA'),
     });
+
     // disable fields on edit-mode
     if (this.formMode === FormMode.edit) {
-      this.formGroup.get('firstname')?.disable();
-      this.formGroup.get('lastname')?.disable();
-      this.formGroup.get('birthdate')?.disable();
+      this.disablePatientFormControls();
     }
-
     // create biomarker forms
     this.createBiomarkerForms();
+
+    if (this.formMode === FormMode.readonly) {
+      this.disablePatientFormControls();
+      this.disableBiomarkerFormArrayControls();
+    }
+  }
+
+  private disableBiomarkerFormArrayControls() {
+    this.formGroup.controls.biomarkerValues?.controls.forEach(i => i.controls.value.disable());
+  }
+
+  private disablePatientFormControls() {
+    this.formGroup.get('firstname')?.disable();
+    this.formGroup.get('lastname')?.disable();
+    this.formGroup.get('birthdate')?.disable();
   }
 }
