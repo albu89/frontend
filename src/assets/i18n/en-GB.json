@@ -137,6 +137,16 @@
       "lastName": "Type in patient last name..."
     }
   },
+  "infoMessage": {
+    "formInfoHeader": "Info",
+    "patientDataRequired": "Patient data is required to save the draft."
+  },
+  "successMessage": {
+    "formSuccessHeader": "Success",
+    "saveDraftSuccess": "Draft saved successfully.",
+    "createUserSuccess": "User created successfully.",
+    "updateUserSuccess": "User updated successfully."
+  },
   "errorMessage": {
     "title": "Error",
     "loadGraphEndpointFailed": "Loading Graph Endpoint failed. TBD",
@@ -146,7 +156,8 @@
       "loadSpecificScore": "Score can not be loaded. TBD",
       "loadPatientRecords": "Patient Records can not be loaded. TBD",
       "loadSpecificPatientScores": "Specific Patient Records can not be loaded. TBD",
-      "loadScoreSchema": "Score Schema can not be loaded. TBD"
+      "loadScoreSchema": "Score Schema can not be loaded. TBD",
+      "saveAsDraft": "Score can not be saved as draft. TBD"
     },
     "preferences": {
       "savingFailed": "An error occurred on updating user preferences TBD"

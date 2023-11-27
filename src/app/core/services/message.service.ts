@@ -37,6 +37,9 @@ export class MessageService {
   public showLoadResponseSchemaHttpError(error: HttpErrorResponse): Observable<never> {
     return this.showError(error, 'errorMessage.scores.loadScoreSchema');
   }
+  public showSaveDraftScoreHttpError(error: HttpErrorResponse): Observable<never> {
+    return this.showError(error, 'errorMessage.scores.saveAsDraft');
+  }
   public showUpdateUserPreferencesHttpError(error: HttpErrorResponse): Observable<never> {
     return this.showError(error, 'errorMessage.preferences.savingFailed');
   }
@@ -58,12 +61,45 @@ export class MessageService {
   public showCreateUserHttpError(error: HttpErrorResponse): Observable<never> {
     return this.showError(error, 'errorMessage.user.createUserFailed');
   }
-
+  public showDraftSavingControlValuesRequiredInfo() {
+    this.showInfo('infoMessage.patientDataRequired');
+  }
+  public showDraftSavingSuccess() {
+    this.showSuccess('successMessage.saveDraftSuccess');
+  }
+  public showUpdateUserSuccess() {
+    this.showSuccess('successMessage.updateUserSuccess');
+  }
+  public showCreateUserSuccess() {
+    this.showSuccess('successMessage.createUserSuccess');
+  }
   private showError(error: any, text: string) {
     this.logger.logHttpError(error);
     this.notificationService.showError(
       this.translateService.instant(text),
       this.translateService.instant('errorMessage.title'),
+      {
+        disableTimeOut: true,
+      }
+    );
+    return EMPTY;
+  }
+
+  private showInfo(message: string) {
+    this.notificationService.showInfo(
+      this.translateService.instant(message),
+      this.translateService.instant('infoMessage.formInfoHeader'),
+      {
+        disableTimeOut: true,
+      }
+    );
+    return EMPTY;
+  }
+
+  private showSuccess(message: string) {
+    this.notificationService.showSuccess(
+      this.translateService.instant(message),
+      this.translateService.instant('infoMessage.formSuccessHeader'),
       {
         disableTimeOut: true,
       }

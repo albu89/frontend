@@ -13,13 +13,14 @@ import { PageLinks } from '@core/enums/page-links.enum';
 import { environment } from '@env/environment';
 import { CLINICAL_SETTINGS } from '@shared/constants';
 import { MessageService } from '@services/message.service';
+import { LoadingIndicatorComponent } from '@shared/components/loading-indicator/loading-indicator.component';
 
 @Component({
   selector: 'ce-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SharedModule],
+  imports: [SharedModule, LoadingIndicatorComponent],
   standalone: true,
 })
 export class UserProfileComponent implements OnInit, AfterViewInit {
@@ -28,6 +29,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   public countryCodes: Country[] = countryData;
   public updatedUser = this.formBuilder.group<Profile>(this.updatedUserProfile);
   public userExistedPreviously = false;
+  public isLoading = false;
 
   private adProfile!: ProfileType | undefined;
 
@@ -54,6 +56,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   public onSubmit() {
     // TODO: Handle form validation, including clinicalSetting consent checkbox.
     // TODO: clinicalSetting consent check as a checkbox (as currently) or a popup modal (see here: https://flowbite.com/docs/components/modal/#pop-up-modal)?
+    this.isLoading = true;
     this.updatedUser.value.emailAddress = this.adProfile?.mail ?? this.adProfile?.userPrincipalName ?? '';
     this.updatedUser.value.countryCode =
       this.countryCodes.find(x => x.name === this.updatedUserProfile.country)?.alpha2 ?? '';
@@ -64,8 +67,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
           if (this.router.url.includes(PageLinks.ONBOARD)) {
             this.router.navigate([PageLinks.ROOT]);
           }
+          this.messageService.showUpdateUserSuccess();
+          this.isLoading = false;
         },
-        error: error => this.messageService.showUpdateUserHttpError(error),
+        error: error => {
+          this.messageService.showUpdateUserHttpError(error);
+          this.isLoading = false;
+        },
       });
     } else {
       this.userService.createUser(this.updatedUser.value as Profile).subscribe({
@@ -74,8 +82,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
           if (this.router.url.includes(PageLinks.ONBOARD)) {
             this.router.navigate([PageLinks.ROOT]);
           }
+          this.messageService.showCreateUserSuccess();
+          this.isLoading = false;
         },
-        error: error => this.messageService.showCreateUserHttpError(error),
+        error: error => {
+          this.messageService.showCreateUserHttpError(error);
+          this.isLoading = false;
+        },
       });
     }
   }

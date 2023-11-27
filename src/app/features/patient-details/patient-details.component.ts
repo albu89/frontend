@@ -8,18 +8,18 @@ import { Location } from '@angular/common';
 import { PageLinks } from '@core/enums/page-links.enum';
 import { FormMode } from '@features/patient-details/_models/form-mode';
 import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
+import { LoadingIndicatorComponent } from '@shared/components/loading-indicator/loading-indicator.component';
 
 @Component({
   selector: 'ce-patient-details',
   templateUrl: './patient-details.component.html',
   styleUrls: ['./patient-details.component.scss'],
-  imports: [SharedModule, PatientDataFormComponent, ScoreComponent],
+  imports: [SharedModule, PatientDataFormComponent, ScoreComponent, LoadingIndicatorComponent],
   standalone: true,
   providers: [PatientDetailsStore],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PatientDetailsComponent implements OnInit {
-  // protected isLoading$ = this.store.isLoading$;
+  protected isLoading$ = this.store.isLoading$;
   protected currentScore$ = this.store.currentScore$;
   protected patient$ = this.store.patient$;
   protected biomarkerTemplate$ = this.store.biomarkerTemplate$;

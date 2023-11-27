@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CategoryComponent } from '@features/patient-details/category/category.component';
 import { Biomarker } from '@models/biomarker/biomarker.model';
 import { SharedModule } from '@shared/shared.module';
@@ -17,12 +17,14 @@ import { ScoringRequestValue } from '@models/scoring/scoring-request-value.model
 import { LabResultUnit } from '@models/biomarker/lab-results/lab-result-units.model';
 import { MedicalHistoryItemUnit } from '@models/biomarker/medical-history/medical-history-item-unit.model';
 import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
+import { LoadingIndicatorComponent } from '@shared/components/loading-indicator/loading-indicator.component';
+import { MessageService } from '@services/message.service';
 
 @Component({
   selector: 'ce-patient-data-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  imports: [SharedModule, CategoryComponent, TooltipComponent],
+  imports: [SharedModule, CategoryComponent, TooltipComponent, LoadingIndicatorComponent],
   standalone: true,
 })
 export class PatientDataFormComponent implements OnChanges, AfterViewInit {
@@ -42,7 +44,7 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
   public constructor(
     private readonly formBuilder: FormBuilder,
     private readonly store: PatientDetailsStore,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly messageService: MessageService
   ) {}
 
   public ngAfterViewInit() {
@@ -53,15 +55,12 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
     if (changes['data'] || (this.patient && this.biomarkers)) {
       this.initForm();
       this.trackChanges();
-      this.changeDetectorRef.detectChanges();
     }
   }
 
   public saveDraft(): void {
-    this.formGroup.controls.firstname.markAsTouched();
-    this.formGroup.controls.lastname.markAsTouched();
-    this.formGroup.controls.birthdate.markAsTouched();
-    this.formGroup.updateValueAndValidity();
+    this.markPatientControlsAsTouched();
+    if (this.patientControlsHaveErrors()) this.messageService.showDraftSavingControlValuesRequiredInfo();
 
     this.formGroup.controls.biomarkerValues?.controls.forEach(fg => {
       const control = fg.get('value');
@@ -102,6 +101,21 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
 
   public hasError(name: string, required: string) {
     return hasFormError(name, required, this.formGroup);
+  }
+
+  private patientControlsHaveErrors() {
+    return (
+      this.hasError('firstname', 'required') ||
+      this.hasError('lastname', 'required') ||
+      this.hasError('birthdate', 'required')
+    );
+  }
+
+  private markPatientControlsAsTouched() {
+    this.formGroup.controls.firstname.markAsTouched();
+    this.formGroup.controls.lastname.markAsTouched();
+    this.formGroup.controls.birthdate.markAsTouched();
+    this.formGroup.updateValueAndValidity();
   }
 
   //map values back to booleans and numbers

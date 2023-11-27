@@ -137,6 +137,16 @@
       "lastName": "Nachname des Patienten eingeben..."
     }
   },
+  "infoMessage": {
+    "formInfoHeader": "Info",
+    "patientDataRequired": "Patientendaten sind erforderlich um eine Vorlage zu speichern."
+  },
+  "successMessage": {
+    "formSuccessHeader": "Aktion erfolgreich",
+    "saveDraftSuccess": "Draft konnte erfolgreich gespeichert werden.",
+    "createUserSuccess": "Benutzer konnte erfolgreich angelegt werden.",
+    "updateUserSuccess": "Benutzerdaten konnten erfolgreich aktualisiert werden."
+  },
   "errorMessage": {
     "title": "Fehler",
     "loadGraphEndpointFailed": "Laden des Graph Endpoint ist nicht möglich. TBD",
@@ -146,7 +156,8 @@
       "loadSpecificScore": "Score kann nicht geladen werden. TBD",
       "loadPatientRecords": "Patienteneinträge können nicht geladen werden. TBD",
       "loadSpecificPatientScores": "Patienteinträge für diesen Patienten können nicht geladen werden. TBD",
-      "loadScoreSchema": "Score Schema kann nicht geladen werden. TBD"
+      "loadScoreSchema": "Score Schema kann nicht geladen werden. TBD",
+      "saveAsDraft": "Score konnte nicht als Vorlage gespeichert werden. TBD"
     },
     "preferences": {
       "savingFailed": "Beim Speichern der Einstellungen ist ein Fehler aufgetreten TBD"

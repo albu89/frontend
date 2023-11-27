@@ -4,18 +4,21 @@
     biomarkerTemplate: biomarkerTemplate$,
     formMode: formMode$,
     patient: patient$,
-    patientData: patientData$
+    patientData: patientData$,
+    isLoading: isLoading$
   } as data">
   <div *ngIf="!data.currentScore" class="base-view">
     <h1>
       {{ data.formMode === FormMode.add ? ('section.createNewScore' | translate) : ('section.editScore' | translate) }}
     </h1>
-    <ce-patient-data-form
-      *ngIf="data.biomarkerTemplate"
-      [patient]="data.patient!"
-      [formMode]="data.formMode"
-      [data]="data.patientData"
-      [biomarkers]="data.biomarkerTemplate"></ce-patient-data-form>
+    <ng-container *ngIf="!data.isLoading; else loading">
+      <ce-patient-data-form
+        *ngIf="data.biomarkerTemplate"
+        [patient]="data.patient!"
+        [formMode]="data.formMode"
+        [data]="data.patientData"
+        [biomarkers]="data.biomarkerTemplate"></ce-patient-data-form>
+    </ng-container>
   </div>
   <ce-score
     *ngIf="data.currentScore"
@@ -26,3 +29,9 @@
     [birthdate]="data.patient?.dateOfBirth">
   </ce-score>
 </ng-container>
+<ng-template #loading>
+  <div
+    class="mb-4 flex h-full justify-center gap-4 rounded-lg border border-solid border-tone-2 bg-background px-8 py-6 focus:border-2">
+    <ce-loading-indicator class="p-12" />
+  </div>
+</ng-template>

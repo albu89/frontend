@@ -42,7 +42,7 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
   //
   // *********** Selectors *********** //
   //
-  // public readonly isLoading$ = this.select(state => state.isLoading);
+  public readonly isLoading$ = this.select(state => state.isLoading);
   public readonly isEditingEnabled$ = this.select(state => state.isEditingEnabled);
   public readonly currentScore$ = this.select(state => state.currentScore);
   public readonly patient$ = this.select(state => state.patient);

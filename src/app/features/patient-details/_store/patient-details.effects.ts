@@ -31,7 +31,7 @@ export const savePatientDetails =
     source$.pipe(
       tap(() => store.patchState({ isLoading: true })),
       switchMap(request =>
-        store.biomarkerService.saveAsDraft(request).pipe(
+        store.biomarkerService.sendRequest(request).pipe(
           tapResponse(
             (response: ScoringResponse) => {
               store.patchState({ currentScore: response, isLoading: false });
@@ -49,17 +49,15 @@ export const saveDraftScore = (store: PatientDetailsStore) => (source$: Observab
   source$.pipe(
     tap(() => store.patchState({ isLoading: true })),
     switchMap(request =>
-      store.biomarkerService.sendRequest(request).pipe(
+      store.biomarkerService.saveAsDraft(request).pipe(
         tapResponse(
           () => {
             store.patchState({ isLoading: false });
-            //TODO: user response for success
+            store.messageService.showDraftSavingSuccess();
           },
           (error: HttpErrorResponse) => {
             store.patchState({ isLoading: false });
-            // Todo show error message
-            //eslint-disable-next-line no-console
-            console.log(error);
+            store.messageService.showSaveDraftScoreHttpError(error);
           }
         )
       )
