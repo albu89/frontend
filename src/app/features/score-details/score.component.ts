@@ -9,7 +9,7 @@ import { RecommendationCategory } from '@models/scoring/scoring-recommendation-c
 import { ScoringResponseSchema } from '@models/scoring/scoring-response-schema.model';
 import { SharedModule } from '@shared/shared.module';
 import { PageLinks } from '@core/enums/page-links.enum';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ScoringResponse } from '@models/scoring/scoring-response.model';
 import { ScoringResponseMock } from '../../tests/mocks/scoring-response.mock';
 import { SchemasService } from '@services/schemas.service';
@@ -21,6 +21,10 @@ import { PatientDataFormComponent } from '@features/patient-details/edit-form/fo
 import { Patient } from '@models/patient/patient.model';
 import { FormMode } from '@features/patient-details/_models/form-mode';
 import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
+import { BiomarkerUnitType } from '@core/enums/biomarker-unit-type.enum';
+import { BiomarkersInfoValue } from '@core/models/biomarker/biomarkers-info-values.model';
+import { LabResultUnit } from '@core/models/biomarker/lab-results/lab-result-units.model';
+import { MedicalHistoryItemUnit } from '@core/models/biomarker/medical-history/medical-history-item-unit.model';
 
 @Component({
   selector: 'ce-score',
@@ -63,6 +67,7 @@ export class ScoreComponent implements OnInit, OnDestroy {
     private readonly schemaService: SchemasService,
     private readonly messageService: MessageService,
     private readonly languageService: LanguageService,
+    private readonly router: Router,
     private readonly store: PatientDetailsStore
   ) {}
 
@@ -78,6 +83,34 @@ export class ScoreComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public getBiomarkersInfoById(id: string): BiomarkersInfoValue | undefined {
+    return this.score.biomarkers.values.find(marker => marker.id === id);
+  }
+
+  public getMedBiomarkerUnit(id: string): MedicalHistoryItemUnit | undefined {
+    const marker = this.schema?.biomarkers.medicalHistory.find(b => b.id === id);
+    const unit = marker?.unit;
+    return unit ?? undefined;
+  }
+  public getLabBiomarkerUnit(id: string): LabResultUnit | undefined {
+    let resUnit = this.getBiomarkersInfoById(id)?.unit;
+    resUnit = resUnit ?? BiomarkerUnitType.SI;
+    const marker = this.schema?.biomarkers.labResults.find(b => b.id === id);
+    const unit = marker?.units?.find(bUnit => bUnit.unitType === resUnit);
+    return unit ?? marker?.units[0] ?? undefined;
+  }
+
+  public editScore() {
+    this.router.navigateByUrl(PageLinks.EDIT_SCORE, {
+      state: {
+        patientName: this.firstname,
+        patientLastName: this.lastname,
+        patientBirthdate: this.birthdate!.toLocaleDateString('en-CA'),
+        requestId: this.score.requestId,
+      },
+    });
   }
 
   public toggleTable() {

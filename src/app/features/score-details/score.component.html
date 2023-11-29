@@ -2,7 +2,7 @@
   <div name="header-div" class="flex flex-row justify-between">
     <h1>Score #{{ score.requestId }}</h1>
     <div>
-      <button type="button" class="action">{{ 'scores.print' | translate }}</button>
+      <button type="button" class="action" (click)="editScore()">{{ 'scores.editScore' | translate }}</button>
     </div>
   </div>
   <div

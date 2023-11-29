@@ -6,4 +6,5 @@ export interface PatientRecord {
   risk?: string;
   riskClass: number;
   canEdit: boolean;
+  isDraft: boolean;
 }

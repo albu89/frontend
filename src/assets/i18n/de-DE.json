@@ -20,7 +20,8 @@
     "calculating": "Berechne...",
     "print": "Drucken",
     "incomplete": "TBD",
-    "saveDraft": "Als Vorlage speichern TBD"
+    "saveDraft": "Als Vorlage speichern TBD",
+    "editScore": "Score bearbeiten"
   },
   "patient": {
     "name": "Patient Name",

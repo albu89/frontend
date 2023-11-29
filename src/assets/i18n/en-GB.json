@@ -20,7 +20,8 @@
     "calculating": "Calculating...",
     "print": "Print",
     "incomplete": "INCOMPLETE",
-    "saveDraft": "Save as draft"
+    "saveDraft": "Save as draft",
+    "editScore": "Edit Score"
   },
   "patient": {
     "name": "Patient name",

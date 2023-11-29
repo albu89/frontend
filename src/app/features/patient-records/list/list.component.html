@@ -27,10 +27,10 @@
           </div>
         </td>
         <td *ngIf="showDetailsButton" class="px-6 py-6">
-          <button class="edit self-end" (click)="openSpecificScore.emit(record.requestId)">
+          <button *ngIf="!record.isDraft" class="edit self-end" (click)="openSpecificScore.emit(record.requestId)">
             {{ 'scores.details' | translate }}
           </button>
-          <button *ngIf="record.canEdit" class="pl-5 text-secondary" (click)="editSpecificScore.emit(record.requestId)">
+          <button *ngIf="record.isDraft" class="edit self-end pl-5" (click)="editSpecificScore.emit(record.requestId)">
             {{ 'scores.edit' | translate }}
           </button>
         </td>
