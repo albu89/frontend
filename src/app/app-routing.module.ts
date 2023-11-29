@@ -16,11 +16,6 @@ const routes: Routes = [
     loadComponent: () => import('@features/user-inactive/user-inactive.component').then(m => m.UserInactiveComponent),
   },
   {
-    path: PageLinks.SCORE,
-    loadComponent: () => import('@features/score-details/score.component').then(m => m.ScoreComponent),
-    canActivate: [MsalGuard, CanActivateGuard],
-  },
-  {
     path: PageLinks.PROFILE,
     loadComponent: () => import('@features/user-profile/user-profile.component').then(m => m.UserProfileComponent),
     canActivate: [MsalGuard, CanActivateGuard],

@@ -11,7 +11,6 @@ import { SharedModule } from '@shared/shared.module';
 import { PageLinks } from '@core/enums/page-links.enum';
 import { Router, RouterLink } from '@angular/router';
 import { ScoringResponse } from '@models/scoring/scoring-response.model';
-import { ScoringResponseMock } from '../../tests/mocks/scoring-response.mock';
 import { SchemasService } from '@services/schemas.service';
 import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
 import { Subject, takeUntil, switchMap } from 'rxjs';
@@ -45,7 +44,7 @@ import { MedicalHistoryItemUnit } from '@core/models/biomarker/medical-history/m
   standalone: true,
 })
 export class ScoreComponent implements OnInit, OnDestroy {
-  @Input() public score: ScoringResponse = ScoringResponseMock;
+  @Input() public score!: ScoringResponse;
   @Input() public firstname = '';
   @Input() public lastname = '';
   @Input() public birthdate: Date | null = null;
