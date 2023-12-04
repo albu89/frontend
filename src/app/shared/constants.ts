@@ -5,11 +5,11 @@ export const DEFAULT_LANGUAGE = 'en-GB';
 
 export const CLINICAL_SETTINGS: { [key in ClinicalSetting]: ClinicalSettingSpec } = {
   [ClinicalSetting.PrimaryCare]: {
-    name: 'PrimaryCare',
+    name: ClinicalSetting.PrimaryCare,
     descr: 'clinicalSetting.primaryCare',
   },
   [ClinicalSetting.SecondaryCare]: {
-    name: 'SecondaryCare',
+    name: ClinicalSetting.SecondaryCare,
     descr: 'clinicalSetting.secondaryCare',
   },
 } as const;

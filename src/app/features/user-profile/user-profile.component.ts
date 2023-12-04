@@ -1,72 +1,138 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ProfileType } from '@models/user/profile-type.model';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 import { Profile } from '@models/user/user-profile.model';
 import countryData from '@core/data/countries.json';
-import { UserService } from '@services/user.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Country } from '@models/country/country.model';
-import { Router } from '@angular/router';
 import { initFlowbite } from 'flowbite';
-import { PageLinks } from '@core/enums/page-links.enum';
-import { environment } from '@env/environment';
 import { CLINICAL_SETTINGS } from '@shared/constants';
+import { BillingForm, FormModel } from '@features/user-profile/_models/form.model';
+import { ProfileSchema } from '@models/user/profile-schema.model';
+import { Subject, switchMap, takeUntil } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from '@services/message.service';
+import { hasFormError, isFormFieldInvalid } from '@shared/utils/form-utils';
 import { LoadingIndicatorComponent } from '@shared/components/loading-indicator/loading-indicator.component';
+import { UserService } from '@services/user.service';
+import { ProfileRequest } from '@models/user/user-profile-request.model';
+import { PageLinks } from '@core/enums/page-links.enum';
+import { Router } from '@angular/router';
+import { ClinicalSetting } from '@core/enums/clinical-setting.enum';
+import { LanguageService } from '@services/language.service';
 
 @Component({
   selector: 'ce-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, LoadingIndicatorComponent],
   standalone: true,
 })
-export class UserProfileComponent implements OnInit, AfterViewInit {
+export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   public clinicalSettingsSpecs = Object.entries(CLINICAL_SETTINGS).map(([, value]) => value);
-  public updatedUserProfile = new Profile();
   public countryCodes: Country[] = countryData;
-  public updatedUser = this.formBuilder.group<Profile>(this.updatedUserProfile);
+  public schema!: ProfileSchema;
   public userExistedPreviously = false;
   public isLoading = false;
 
-  private adProfile!: ProfileType | undefined;
+  public formGroup = this.formBuilder.group<FormModel>({
+    eMailAddress: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
+    salutation: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
+    title: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
+    firstName: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
+    surname: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
+    professionalSpecialisation: this.formBuilder.nonNullable.control('', [
+      Validators.required,
+      Validators.maxLength(256),
+    ]),
+    department: this.formBuilder.control(null, [Validators.maxLength(256)]),
+    address: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
+    zipCode: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
+    city: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
+    country: this.formBuilder.nonNullable.control('Switzerland', [Validators.required, Validators.maxLength(256)]),
+    telephoneNumber: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
+    language: this.formBuilder.nonNullable.control('english', [Validators.required, Validators.maxLength(256)]),
+    preferredLab: this.formBuilder.nonNullable.control('', [Validators.required, Validators.maxLength(256)]),
+    clinicalSetting: this.formBuilder.nonNullable.control(ClinicalSetting.PrimaryCare, [
+      Validators.required,
+      Validators.maxLength(256),
+    ]),
+    clinicalSettingConfirm: this.formBuilder.nonNullable.control(false),
+    countryCode: this.formBuilder.nonNullable.control(''),
+    isActive: this.formBuilder.nonNullable.control(false),
+    unitLabValues: this.formBuilder.nonNullable.control(''),
+    organization: this.formBuilder.control(''),
+    isSeparateBilling: this.formBuilder.nonNullable.control(false),
+    billing: this.formBuilder.group<BillingForm>({
+      billingName: this.formBuilder.control(null),
+      billingAddress: this.formBuilder.control(null),
+      billingZip: this.formBuilder.control(null),
+      billingCity: this.formBuilder.control(null),
+      billingCountry: this.formBuilder.control(null),
+      billingCountryCode: this.formBuilder.control(null),
+      billingPhone: this.formBuilder.control(null),
+    }),
+  });
+
+  private destroy$ = new Subject<void>();
 
   public constructor(
-    private readonly http: HttpClient,
+    private readonly languageService: LanguageService,
     private readonly userService: UserService,
+    private readonly messageService: MessageService,
     private readonly formBuilder: FormBuilder,
-    private readonly router: Router,
-    private readonly messageService: MessageService
+    private readonly router: Router
   ) {}
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   public ngOnInit() {
     this.getProfile();
-    this.userService.getUser().subscribe({
-      next: value => this.handleExistingUser(value),
-      error: error => this.handleError(error),
-    });
+    this.languageService
+      .getLanguageObservable()
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(() => this.userService.getProfileSchema())
+      )
+      .subscribe({
+        next: response => {
+          this.schema = response;
+          this.handleExistingUser(this.schema);
+        },
+        error: error => this.handleError(error),
+      });
   }
 
   public ngAfterViewInit() {
-    initFlowbite();
+    //set timeout so the data is loaded before initFlowbite
+    setTimeout(() => {
+      initFlowbite();
+    }, 1500);
   }
 
   public onSubmit() {
-    // TODO: Handle form validation, including clinicalSetting consent checkbox.
-    // TODO: clinicalSetting consent check as a checkbox (as currently) or a popup modal (see here: https://flowbite.com/docs/components/modal/#pop-up-modal)?
+    this.updateBillingFormGroup();
+
+    if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
+      this.formGroup.controls.billing.markAllAsTouched();
+      return this.messageService.showUserSavingControlValuesRequiredInfo();
+    }
+
+    if (
+      this.formGroup.get('clinicalSettingConfirm')?.hasValidator(Validators.required) &&
+      !this.formGroup.controls.clinicalSettingConfirm.getRawValue()
+    ) {
+      return this.messageService.showUserConfirmationRequired();
+    }
     this.isLoading = true;
-    this.updatedUser.value.emailAddress = this.adProfile?.mail ?? this.adProfile?.userPrincipalName ?? '';
-    this.updatedUser.value.countryCode =
-      this.countryCodes.find(x => x.name === this.updatedUserProfile.country)?.alpha2 ?? '';
+    const profile: ProfileRequest = this.formGroup.getRawValue();
     if (this.userExistedPreviously) {
-      this.userService.updateUser(this.updatedUser.value as Profile).subscribe({
-        next: data => {
-          this.updatedUser = this.formBuilder.group(data);
-          if (this.router.url.includes(PageLinks.ONBOARD)) {
-            this.router.navigate([PageLinks.ROOT]);
-          }
+      this.userService.updateUser(profile).subscribe({
+        next: () => {
+          if (this.router.url.includes(PageLinks.ONBOARD)) this.router.navigateByUrl(PageLinks.ROOT);
           this.messageService.showUpdateUserSuccess();
           this.isLoading = false;
         },
@@ -76,12 +142,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
         },
       });
     } else {
-      this.userService.createUser(this.updatedUser.value as Profile).subscribe({
-        next: data => {
-          this.updatedUser = this.formBuilder.group(data);
-          if (this.router.url.includes(PageLinks.ONBOARD)) {
-            this.router.navigate([PageLinks.ROOT]);
-          }
+      this.userService.createUser(profile).subscribe({
+        next: () => {
+          if (this.router.url.includes(PageLinks.ONBOARD)) this.router.navigateByUrl(PageLinks.ROOT);
           this.messageService.showCreateUserSuccess();
           this.isLoading = false;
         },
@@ -93,33 +156,58 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     }
   }
 
+  public isFieldInvalid(name: string) {
+    return isFormFieldInvalid(name, this.formGroup) && this.hasError(name, 'required');
+  }
+
+  public hasError(name: string, required: string) {
+    return hasFormError(name, required, this.formGroup);
+  }
+
+  private updateBillingFormGroup() {
+    if (this.formGroup.controls.isSeparateBilling.getRawValue()) {
+      this.formGroup.controls.billing.controls.billingName.setValidators([Validators.required]);
+      this.formGroup.controls.billing.controls.billingAddress.setValidators([Validators.required]);
+      this.formGroup.controls.billing.controls.billingZip.setValidators([Validators.required]);
+      this.formGroup.controls.billing.controls.billingCity.setValidators([Validators.required]);
+      this.formGroup.controls.billing.controls.billingCountry.setValidators([Validators.required]);
+      this.formGroup.controls.billing.controls.billingPhone.setValidators([Validators.required]);
+      this.formGroup.controls.billing.controls.billingName.updateValueAndValidity();
+      this.formGroup.controls.billing.controls.billingAddress.updateValueAndValidity();
+      this.formGroup.controls.billing.controls.billingZip.updateValueAndValidity();
+      this.formGroup.controls.billing.controls.billingCity.updateValueAndValidity();
+      this.formGroup.controls.billing.controls.billingCountry.updateValueAndValidity();
+      this.formGroup.controls.billing.controls.billingPhone.updateValueAndValidity();
+    }
+  }
+
   private handleError(error: HttpErrorResponse): void {
     if (error.status === 404) {
       this.userExistedPreviously = false;
-      this.updatedUserProfile.country = 'Switzerland';
-      this.updatedUserProfile.language = 'english';
-      this.updatedUserProfile.unitLabValues = 'si';
-    }
-    this.messageService.showLoadUserHttpError(error);
+      this.formGroup.controls.clinicalSettingConfirm.setValidators([Validators.required, Validators.requiredTrue]);
+      this.formGroup.controls.clinicalSettingConfirm.updateValueAndValidity();
+      this.getProfile();
+    } else this.messageService.showLoadUserHttpError(error);
   }
   private handleExistingUser(value: Profile | null): void {
-    if (!value) {
-      return;
+    if (!value) return;
+    this.formGroup.patchValue(value);
+
+    this.formGroup.controls.clinicalSettingConfirm.setValidators(null);
+
+    if (!value.userId) {
+      this.userExistedPreviously = false;
+      this.formGroup.controls.clinicalSettingConfirm.setValidators([Validators.required, Validators.requiredTrue]);
+      this.getProfile();
+    } else {
+      this.formGroup.controls.clinicalSetting.disable();
+      this.userExistedPreviously = true;
     }
-    this.userExistedPreviously = true;
-    this.updatedUserProfile = value;
-    this.updatedUser.controls.clinicalSetting.disable();
   }
 
-  // Todo move to service, no http calls outside of services
   private getProfile() {
-    this.http.get(environment.graphEndpoint).subscribe({
-      next: profile => {
-        this.adProfile = profile as ProfileType;
-        this.updatedUserProfile.username = this.adProfile.userPrincipalName ?? '';
-        this.updatedUserProfile.emailAddress = this.adProfile.mail ?? this.adProfile.userPrincipalName ?? '';
-      },
-      error: error => this.messageService.showLoadGraphEndpointError(error),
+    this.userService.getAdProfile().subscribe(res => {
+      this.formGroup.controls.eMailAddress.patchValue(res.mail);
     });
   }
 }

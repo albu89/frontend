@@ -1,256 +1,362 @@
 <ng-container *ngIf="!isLoading; else loading">
-  <form class="base-view" [formGroup]="updatedUser" (ngSubmit)="onSubmit()">
+  <form class="base-view" [formGroup]="formGroup" (ngSubmit)="onSubmit()" *ngIf="schema">
     <h1>Profile</h1>
     <div class="block place-content-center rounded-xl border border-tone-2 bg-background px-[10%] py-[2.5%]">
+      <!-- IDENTITY SETTINGS -->
       <div class="flex flex-col place-content-center">
         <h3>{{ 'profileSettings.identitySettings' | translate }}</h3>
         <hr class="pb-6 text-primary" />
         <div class="mb-6 grid gap-6 md:grid-cols-2">
-          <div name="mail" class="relative">
+          <div class="relative">
             <input
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
               readonly
-              id="emailAdress"
+              id="emailAddress"
               type="email"
-              formControlName="emailAddress"
-              [(ngModel)]="updatedUserProfile.emailAddress" />
+              formControlName="eMailAddress"
+              [ngClass]="isFieldInvalid('eMailAddress') ? 'invalid' : 'valid'" />
             <label
-              for="emailAdress"
-              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-              >{{ 'profile.eMail' | translate }}
+              for="emailAddress"
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.eMailAddressHeader }}
             </label>
           </div>
         </div>
       </div>
+      <!-- GENERAL SETTINGS -->
       <div class="flex flex-col place-content-center">
-        <h3>{{ 'profileSettings.generalSettings.caption' | translate }}</h3>
+        <h3>{{ 'profileSettings.generalSettings' | translate }}</h3>
         <hr class="pb-6 text-primary" />
         <div class="mb-6 grid gap-6 md:grid-cols-2">
-          <div name="salutation" class="relative">
+          <div class="relative">
             <select
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-              [class.empty]="updatedUserProfile.salutation === ''"
+              [class.empty]="!formGroup.controls.salutation.getRawValue()"
               name="salutation"
               id="salutation"
               formControlName="salutation"
-              [(ngModel)]="updatedUserProfile.salutation">
+              [ngClass]="isFieldInvalid('salutation') ? 'invalid' : 'valid'">
               <option value="mr">{{ 'profile.salutation.options.mr' | translate }}</option>
               <option value="ms">{{ 'profile.salutation.options.ms' | translate }}</option>
               <option value="mrs">{{ 'profile.salutation.options.mrs' | translate }}</option>
             </select>
             <label
               for="salutation"
-              class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-              >{{ 'profile.salutation.caption' | translate }}
+              class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75">
+              {{ schema.salutationHeader }}
             </label>
           </div>
-          <div name="title" class="relative">
+          <div class="relative">
             <input
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
               id="Title"
               type="text"
               placeholder=" "
               formControlName="title"
-              [(ngModel)]="updatedUserProfile.title" />
+              [ngClass]="isFieldInvalid('title') ? 'invalid' : 'valid'" />
             <label
               for="title"
-              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-              >{{ 'profile.title' | translate }}
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.titleHeader }}
             </label>
           </div>
-          <div name="firstName" class="relative">
+          <div class="relative">
             <input
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
               id="firstname"
               type="text"
               placeholder=" "
               formControlName="firstName"
-              [(ngModel)]="updatedUserProfile.firstName" />
+              [ngClass]="isFieldInvalid('firstName') ? 'invalid' : 'valid'" />
             <label
               for="firstname"
-              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-              >{{ 'profile.firstName' | translate }}</label
-            >
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.firstNameHeader }}
+            </label>
           </div>
-          <div name="lastName" class="relative">
+          <div class="relative">
             <input
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
               id="surname"
               type="text"
               placeholder=" "
               formControlName="surname"
-              [(ngModel)]="updatedUserProfile.surname" />
+              [ngClass]="isFieldInvalid('surname') ? 'invalid' : 'valid'" />
             <label
               for="surname"
-              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-              >{{ 'profile.lastName' | translate }}</label
-            >
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.surnameHeader }}
+            </label>
           </div>
-          <div name="professionalSpecialisation" class="relative">
+          <div class="relative">
             <input
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-              id="professionalspecialisation"
+              id="professionalSpecialisation"
               type="text"
               placeholder=" "
               formControlName="professionalSpecialisation"
-              [(ngModel)]="updatedUserProfile.professionalSpecialisation" />
+              [ngClass]="isFieldInvalid('professionalSpecialisation') ? 'invalid' : 'valid'" />
             <label
-              for="professionalspecialisation"
-              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-              >{{ 'profileSettings.generalSettings.profSpec' | translate }}</label
-            >
+              for="professionalSpecialisation"
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.professionalSpecialisationHeader }}
+            </label>
           </div>
-          <div name="department" class="relative">
+          <div class="relative">
             <input
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
               id="department"
               type="text"
               placeholder=" "
               formControlName="department"
-              [(ngModel)]="updatedUserProfile.department" />
+              [ngClass]="isFieldInvalid('department') ? 'invalid' : 'valid'" />
             <label
               for="department"
-              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-              >{{ 'profileSettings.generalSettings.department' | translate }}</label
-            >
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.departmentHeader }}
+            </label>
           </div>
         </div>
       </div>
+      <!-- CONTACT DETAILS-->
       <div class="flex flex-col place-content-center">
-        <h3>{{ 'profile.contact.caption' | translate }}</h3>
+        <h3>{{ 'profile.contact' | translate }}</h3>
         <hr class="pb-6 text-primary" />
         <div class="mb-6 grid gap-6 md:grid-cols-2">
-          <div name="address" class="relative">
+          <div class="relative">
             <input
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
               id="address"
               type="text"
               placeholder=" "
               formControlName="address"
-              [(ngModel)]="updatedUserProfile.address" />
+              [ngClass]="isFieldInvalid('address') ? 'invalid' : 'valid'" />
             <label
               for="address"
-              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-              >{{ 'profile.contact.address' | translate }}</label
-            >
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.addressHeader }}
+            </label>
           </div>
-          <div name="zip" class="relative">
+          <div class="relative">
             <input
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
               id="zip"
               type="text"
               placeholder=" "
               formControlName="zipCode"
-              [(ngModel)]="updatedUserProfile.zipCode" />
+              [ngClass]="isFieldInvalid('zipCode') ? 'invalid' : 'valid'" />
             <label
               for="zip"
-              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-              >{{ 'profile.contact.zip' | translate }}</label
-            >
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.zipCodeHeader }}
+            </label>
           </div>
-          <div name="city" class="relative">
+          <div class="relative">
             <input
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
               id="city"
               type="text"
               placeholder=" "
               formControlName="city"
-              [(ngModel)]="updatedUserProfile.city" />
+              [ngClass]="isFieldInvalid('city') ? 'invalid' : 'valid'" />
             <label
               for="city"
-              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-              >{{ 'profile.contact.city' | translate }}</label
-            >
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.cityHeader }}
+            </label>
           </div>
-          <div name="country" class="relative">
+          <div class="relative">
             <select
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-              [class.empty]="updatedUserProfile.country === ''"
-              #country
-              name="country"
-              id="country"
+              [class.empty]="!formGroup.controls.country.getRawValue()"
+              id="country_input"
               formControlName="country"
-              [(ngModel)]="updatedUserProfile.country">
+              [ngClass]="isFieldInvalid('country') ? 'invalid' : 'valid'">
               <option *ngFor="let code of countryCodes" [value]="code.name">
-                <!-- TODO: I am not sure this is properly translated -->
                 {{ code.name }}
               </option>
             </select>
             <label
-              for="country"
-              class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-              >{{ 'profile.contact.countryCode' | translate }}</label
-            >
+              for="country_input"
+              class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75">
+              {{ schema.countryCodeHeader }}
+            </label>
           </div>
-          <div name="telephoneNumber" class="relative">
+          <div class="relative">
             <input
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
               id="telephoneNumber"
               type="text"
               placeholder=" "
-              [value]="updatedUserProfile.telephoneNumber"
               formControlName="telephoneNumber"
-              [(ngModel)]="updatedUserProfile.telephoneNumber" />
+              [ngClass]="isFieldInvalid('telephoneNumber') ? 'invalid' : 'valid'" />
             <label
               for="telephoneNumber"
-              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-              >{{ 'profile.contact.phoneNumber' | translate }}</label
-            >
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.telephoneNumberHeader }}
+            </label>
+          </div>
+          <div class="relative flex items-center">
+            <input
+              class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500"
+              id="separateBilling"
+              type="checkbox"
+              formControlName="isSeparateBilling" />
+            <label for="separateBilling" class="ml-2 font-medium text-gray-900">
+              {{ schema.isSeparateBillingHeader }}
+            </label>
           </div>
         </div>
       </div>
+      <!-- BILLING-->
+      <div
+        class="flex flex-col place-content-center"
+        *ngIf="formGroup.controls.isSeparateBilling.getRawValue()"
+        [formGroup]="formGroup.controls.billing">
+        <!-- TODO: -->
+        <h3>{{ 'profile.billing' | translate }}</h3>
+        <hr class="pb-6 text-primary" />
+        <div class="mb-6 grid gap-6 md:grid-cols-2">
+          <div class="relative">
+            <input
+              class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+              id="billingName"
+              type="text"
+              placeholder=" "
+              formControlName="billingName"
+              [ngClass]="isFieldInvalid('billing.billingName') ? 'invalid' : 'valid'" />
+            <label
+              for="billingName"
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.billing.billingNameHeader }}
+            </label>
+          </div>
+          <div class="relative">
+            <input
+              class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+              id="billingAddress"
+              type="text"
+              placeholder=" "
+              formControlName="billingAddress"
+              [ngClass]="isFieldInvalid('billing.billingAddress') ? 'invalid' : 'valid'" />
+            <label
+              for="billingAddress"
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.billing.billingAddressHeader }}
+            </label>
+          </div>
+          <div class="relative">
+            <input
+              class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+              id="billingZip"
+              type="text"
+              placeholder=" "
+              formControlName="billingZip"
+              [ngClass]="isFieldInvalid('billing.billingZip') ? 'invalid' : 'valid'" />
+            <label
+              for="billingZip"
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.billing.billingZipHeader }}
+            </label>
+          </div>
+          <div class="relative">
+            <input
+              class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+              id="billingCity"
+              type="text"
+              placeholder=" "
+              formControlName="billingCity"
+              [ngClass]="isFieldInvalid('billing.billingCity') ? 'invalid' : 'valid'" />
+            <label
+              for="billingCity"
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.billing.billingCityHeader }}
+            </label>
+          </div>
+          <div class="relative">
+            <input
+              class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+              id="billingCountry"
+              type="text"
+              placeholder=" "
+              formControlName="billingCountry"
+              [ngClass]="isFieldInvalid('billing.billingCountry') ? 'invalid' : 'valid'" />
+            <label
+              for="billingCountry"
+              class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75">
+              {{ schema.billing.billingCountryHeader }}
+            </label>
+          </div>
+          <div class="relative">
+            <input
+              class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
+              id="billingPhone"
+              type="text"
+              placeholder=" "
+              formControlName="billingPhone"
+              [ngClass]="isFieldInvalid('billing.billingPhone') ? 'invalid' : 'valid'" />
+            <label
+              for="billingPhone"
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.billing.billingPhoneHeader }}
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- SETTINGS -->
       <div class="flex flex-col place-content-center">
         <h3>{{ 'profile.settings' | translate }}</h3>
         <hr class="pb-6 text-primary" />
         <div class="mb-6 grid gap-6 md:grid-cols-2">
-          <div name="language" class="relative">
+          <div class="relative">
             <select
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-              [class.empty]="updatedUserProfile.language === ''"
+              [class.empty]="!formGroup.controls.language.getRawValue()"
               name="language"
               id="language"
               placeholder=" "
-              [value]="updatedUserProfile.language"
               formControlName="language"
-              [(ngModel)]="updatedUserProfile.language">
+              [ngClass]="isFieldInvalid('language') ? 'invalid' : 'valid'">
               <option value="english">English</option>
               <option value="deutsch">Deutsch</option>
               <option value="français">Français</option>
             </select>
             <label
               for="language"
-              class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75"
-              >{{ 'profile.language' | translate }}
+              class="absolute left-2.5 top-4 z-10 origin-[0] transform text-gray-500 duration-300 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-[:not(.empty)]:-translate-y-4 peer-[:not(.empty)]:scale-75">
+              {{ schema.languageHeader }}
             </label>
           </div>
-          <div name="preferredLab" class="relative">
+          <div class="relative">
             <input
               class="peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
               id="preferredlab"
               type="text"
               placeholder=" "
               formControlName="preferredLab"
-              [(ngModel)]="updatedUserProfile.preferredLab" />
+              [ngClass]="isFieldInvalid('preferredLab') ? 'invalid' : 'valid'" />
             <label
               for="preferredlab"
-              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600"
-              >{{ 'profile.prefLab' | translate }}
+              class="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600">
+              {{ schema.preferredLabHeader }}
             </label>
           </div>
         </div>
       </div>
+      <!-- CLINICAL SETTINGS -->
       <div class="flex flex-col place-content-center justify-center">
         <h3>{{ 'clinicalSetting.caption' | translate }}</h3>
         <hr class="pb-6 text-primary" />
+
         <div class="w-full self-center" data-accordion="collapse">
           <h4>
             <button
               type="button"
-              class="flex w-full items-center justify-between py-5 text-left font-medium text-gray-500"
+              class="flex w-full items-center justify-between py-5 text-left font-medium text-gray-800 aria-expanded:bg-gray-50"
               data-accordion-target="#clinical-setting-choose"
               [attr.aria-expanded]="!userExistedPreviously"
               aria-controls="clinical-setting-choose">
-              <span>{{ 'clinicalSetting.howChoose' | translate }}</span>
+              <span>{{ schema.intendedUseClinicalSettingHeader }}</span>
               <svg
                 data-accordion-icon
                 class="h-3 w-3 shrink-0 rotate-180"
@@ -271,15 +377,15 @@
             id="clinical-setting-choose"
             class="hidden"
             aria-labelledby="clinical-setting-choose"
-            [innerHTML]="'clinicalSetting.selectionGuide' | translate"></div>
+            [innerHTML]="schema.intendedUseClinicalSetting"></div>
           <h4 *ngIf="userExistedPreviously">
             <button
               type="button"
-              class="flex w-full items-center justify-between py-5 text-left font-medium text-gray-500"
+              class="flex w-full items-center justify-between py-5 text-left font-medium text-gray-800 aria-expanded:bg-gray-50"
               data-accordion-target="#clinical-setting-change"
               aria-expanded="false"
               aria-controls="clinical-setting-change">
-              <span>{{ 'clinicalSetting.howRequestChange' | translate }}</span>
+              <span>{{ schema.changeClinicalSettingHeader }}</span>
               <svg
                 data-accordion-icon
                 class="h-3 w-3 shrink-0 rotate-180"
@@ -296,14 +402,18 @@
               </svg>
             </button>
           </h4>
-          <div id="clinical-setting-change" class="hidden" aria-labelledby="clinical-setting-change">
-            <p>{{ 'clinicalSetting.requestChangeGuide' | translate }}</p>
-          </div>
+          <div
+            id="clinical-setting-change"
+            class="hidden"
+            aria-labelledby="clinical-setting-change"
+            [innerHTML]="schema.changeClinicalSetting"></div>
         </div>
         <div class="flex h-full w-3/4 flex-row items-center justify-center self-center py-2.5">
           <ng-template ngFor let-clinicalSetting [ngForOf]="clinicalSettingsSpecs">
             <div
-              *ngIf="!userExistedPreviously || updatedUserProfile.clinicalSetting === clinicalSetting.name"
+              *ngIf="
+                !userExistedPreviously || formGroup.controls.clinicalSetting.getRawValue() === clinicalSetting.name
+              "
               class="flex basis-1/2 items-center justify-center py-1.5">
               <div class="flex flex-col justify-center self-stretch rounded px-2 py-2.5 text-center">
                 <input
@@ -313,10 +423,10 @@
                   name="clinicalSetting"
                   [value]="clinicalSetting.name"
                   formControlName="clinicalSetting"
-                  [(ngModel)]="updatedUserProfile.clinicalSetting" />
+                  [ngClass]="isFieldInvalid('clinicalSetting') ? 'invalid' : 'valid'" />
                 <label
                   [for]="clinicalSetting.name"
-                  class="flex h-36 cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-tone-1 p-6 font-semibold text-text peer-checked:border peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-disabled:cursor-default"
+                  class="flex h-28 cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-tone-1 p-6 font-semibold text-text peer-checked:border peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-disabled:cursor-default peer-disabled:border-black peer-disabled:bg-gray-200 peer-disabled:text-black"
                   >{{ clinicalSetting.descr | translate }}
                 </label>
               </div>
@@ -327,15 +437,20 @@
           <input
             id="clinicalSettingConfirmBox"
             type="checkbox"
+            formControlName="clinicalSettingConfirm"
             value=""
-            class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500" />
+            class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500"
+            [ngClass]="isFieldInvalid('clinicalSettingConfirm') ? 'invalid' : 'valid'" />
           <label for="clinicalSettingConfirmBox" class="ml-2 font-medium text-gray-900"
             >{{ 'clinicalSetting.confirm' | translate }}
           </label>
         </div>
-      </div>
-      <div class="flex flex-row-reverse py-6">
-        <button class="action" type="submit">{{ 'profile.update' | translate }}</button>
+        <!-- SUBMIT -->
+        <div class="flex flex-row-reverse py-6">
+          <button class="action" type="submit" [disabled]="isLoading">
+            {{ userExistedPreviously ? ('profile.update' | translate) : ('profile.create' | translate) }}
+          </button>
+        </div>
       </div>
     </div>
   </form>

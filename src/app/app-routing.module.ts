@@ -33,7 +33,7 @@ const routes: Routes = [
   {
     path: PageLinks.ONBOARD,
     loadComponent: () => import('@features/user-profile/user-profile.component').then(m => m.UserProfileComponent),
-    canActivate: [MsalGuard, CanActivateGuard],
+    canActivate: [MsalGuard],
   },
   {
     path: PageLinks.EDIT_SCORE,

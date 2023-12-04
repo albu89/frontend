@@ -1,10 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Profile } from '@models/user/user-profile.model';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable, distinctUntilChanged, shareReplay, tap } from 'rxjs';
 import { LanguageService } from './language.service';
 import { UserPreferences } from '@models/user/user-preferences.model';
+import { MessageService } from '@services/message.service';
+import { ProfileSchema } from '@models/user/profile-schema.model';
+import { ProfileType } from '@models/user/profile-type.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +19,8 @@ export class UserService {
 
   public constructor(
     private readonly http: HttpClient,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly messageService: MessageService
   ) {}
 
   public getUser(): Observable<Profile | null> {
@@ -30,6 +34,22 @@ export class UserService {
       );
     }
     return this.currentUser;
+  }
+
+  public getAdProfile(): Observable<ProfileType> {
+    return this.http.get<ProfileType>(environment.graphEndpoint).pipe(
+      tap({
+        next: profile => profile,
+        error: error => this.messageService.showLoadGraphEndpointError(error),
+      })
+    );
+  }
+
+  public getProfileSchema(): Observable<ProfileSchema> {
+    const url = environment.backendUrl + '/api/schemas/userinputform';
+    return this.http.get<ProfileSchema>(url, {
+      params: new HttpParams().set('locale', this.languageService.getLanguageSubject().getValue()),
+    });
   }
 
   public updateUser(profile: Profile): Observable<Profile> {

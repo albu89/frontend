@@ -50,38 +50,22 @@
     "optionSelect": "Wählen Sie eine Option"
   },
   "profile": {
-    "eMail": "E-Mail",
     "salutation": {
-      "caption": "Anrede",
       "options": {
         "mr": "Herr",
         "ms": "TBD",
         "mrs": "Frau"
       }
     },
-    "title": "Titel",
-    "firstName": "Vorname",
-    "lastName": "Nachname",
-    "contact": {
-      "caption": "Kontaktinformationen",
-      "address": "Adresse",
-      "zip": "PLZ",
-      "city": "Stadt",
-      "countryCode": "Ländercode",
-      "phoneNumber": "Telefonnummer"
-    },
+    "contact": "Kontaktinformationen",
+    "billing": "Rechnung TBD",
     "settings": "Einstellungen",
-    "prefLab": "Bevorzugtes Labor für Cardio Explorer Testanalyse",
-    "language": "Sprache",
-    "update": "Aktualisieren"
+    "update": "Aktualisieren",
+    "create": "Benutzer erstellen"
   },
   "profileSettings": {
     "identitySettings": "Identitätseinstellungen",
-    "generalSettings": {
-      "caption": "Allgemeine Einstellungen",
-      "profSpec": "Berufliche Spezialisierung",
-      "department": "Abteilung"
-    }
+    "generalSettings": "Allgemeine Einstellungen"
   },
   "labUnit": {
     "caption": "Einheit Testwerte",
@@ -94,10 +78,6 @@
   },
   "clinicalSetting": {
     "caption": "TBD",
-    "howChoose": "TBD",
-    "selectionGuide": "TBD",
-    "howRequestChange": "TBD",
-    "requestChangeGuide": "TBD",
     "primaryCare": "TBD",
     "secondaryCare": "TBD",
     "confirm": "TBD"
@@ -150,7 +130,9 @@
   },
   "infoMessage": {
     "formInfoHeader": "Info",
-    "patientDataRequired": "Patientendaten sind erforderlich um eine Vorlage zu speichern."
+    "patientDataRequired": "Patientendaten sind erforderlich um eine Vorlage zu speichern.",
+    "userDataRequired": "Bitte füllen Sie alle erforderlichen Felder aus um das Profil zu speichern.",
+    "userConfirmRequired": "Bitte bestätigen Sie die, dass die Auswahl nicht rückgängig gemacht werden kann."
   },
   "successMessage": {
     "formSuccessHeader": "Aktion erfolgreich",

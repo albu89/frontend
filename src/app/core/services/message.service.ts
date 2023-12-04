@@ -67,6 +67,12 @@ export class MessageService {
   public showDraftSavingSuccess() {
     this.showSuccess('successMessage.saveDraftSuccess');
   }
+  public showUserSavingControlValuesRequiredInfo() {
+    this.showInfo('infoMessage.userDataRequired');
+  }
+  public showUserConfirmationRequired() {
+    this.showInfo('infoMessage.userConfirmRequired');
+  }
   public showUpdateUserSuccess() {
     this.showSuccess('successMessage.updateUserSuccess');
   }
@@ -99,7 +105,7 @@ export class MessageService {
   private showSuccess(message: string) {
     this.notificationService.showSuccess(
       this.translateService.instant(message),
-      this.translateService.instant('infoMessage.formSuccessHeader'),
+      this.translateService.instant('successMessage.formSuccessHeader'),
       {
         disableTimeOut: true,
       }
