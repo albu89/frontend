@@ -200,7 +200,7 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
         formGroup,
         biomarker.id,
         scoringValues?.unit ?? BiomarkerUnitType.SI,
-        scoringValues?.value.toString().toLowerCase() ?? ''
+        scoringValues?.value?.toString().toLowerCase() ?? ''
       );
 
       biomarkerMedForms.push(formGroup);

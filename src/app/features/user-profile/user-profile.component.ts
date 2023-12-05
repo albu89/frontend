@@ -195,7 +195,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.formGroup.controls.clinicalSettingConfirm.setValidators(null);
 
-    if (!value.userId) {
+    if (!this.userService.getUser().subscribe(i => i?.userId)) {
       this.userExistedPreviously = false;
       this.formGroup.controls.clinicalSettingConfirm.setValidators([Validators.required, Validators.requiredTrue]);
       this.getProfile();
