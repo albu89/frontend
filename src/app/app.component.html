@@ -6,10 +6,12 @@
       </a>
       <div class="ml-auto flex items-center md:order-2">
         <button
+          #languageDdTrigger
           type="button"
           data-dropdown-toggle="language-dropdown-menu"
           data-dropdown-offset-distance="2"
-          class="inline-flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 font-medium text-gray-900 hover:bg-gray-100">
+          class="inline-flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 font-medium text-gray-900 hover:bg-gray-100"
+          (click)="setLangTrigger()">
           {{ selectedLocaleDisplay }}
           <svg
             class="ml-2.5 h-2.5 w-2.5"
@@ -27,7 +29,8 @@
         </button>
         <div
           class="z-50 hidden list-none divide-y divide-gray-100 rounded-lg shadow ring-gray-800"
-          id="language-dropdown-menu">
+          id="language-dropdown-menu"
+          #languageDdTarget>
           <ul class="bg-white py-2 font-medium" role="none">
             <li>
               <a
@@ -55,7 +58,8 @@
             id="user-menu-button"
             aria-expanded="false"
             data-dropdown-toggle="user-dropdown"
-            data-dropdown-placement="bottom-end">
+            data-dropdown-placement="bottom-end"
+            (click)="setTrigger()">
             <span class="sr-only">Open user menu</span>
             <svg
               class="h-6 w-6"

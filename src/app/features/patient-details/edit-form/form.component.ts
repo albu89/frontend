@@ -96,6 +96,16 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
     } else {
       this.store.editPatientDetails(request);
     }
+    if (this.patient.firstname) this.store.setPatient(this.patient);
+    else {
+      const formData = this.formGroup.getRawValue();
+      this.store.setPatient({
+        firstname: formData.firstname,
+        lastname: formData.lastname,
+        dateOfBirth: new Date(formData.birthdate!),
+        requestId: '',
+      });
+    }
   }
 
   public isFieldInvalid(name: string) {

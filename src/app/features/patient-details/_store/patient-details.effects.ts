@@ -125,15 +125,14 @@ export const loadPatientDetails = (store: PatientDetailsStore) => (source$: Obse
 export const updateUserPreferences =
   (store: PatientDetailsStore) => (source$: Observable<{ biomarker: Biomarker; preferences: UserPreferences }>) =>
     source$.pipe(
-      tap(() => store.patchState({ isLoading: true })),
       switchMap(request =>
         store.userService.updateUserPreferences(request.preferences).pipe(
           tapResponse(
             () => {
-              store.patchState({ biomarkerTemplate: request.biomarker, isEditingEnabled: false, isLoading: false });
+              store.patchState({ biomarkerTemplate: request.biomarker, isEditingEnabled: false });
             },
             (error: HttpErrorResponse) => {
-              store.patchState({ isEditingEnabled: false, isLoading: false });
+              store.patchState({ isEditingEnabled: false });
               store.messageService.showUpdateUserPreferencesHttpError(error);
             }
           )
