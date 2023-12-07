@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+} from '@angular/core';
 import { CategoryComponent } from '@features/patient-details/category/category.component';
 import { Biomarker } from '@models/biomarker/biomarker.model';
 import { SharedModule } from '@shared/shared.module';
@@ -19,6 +27,7 @@ import { MedicalHistoryItemUnit } from '@models/biomarker/medical-history/medica
 import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
 import { LoadingIndicatorComponent } from '@shared/components/loading-indicator/loading-indicator.component';
 import { MessageService } from '@services/message.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ce-patient-data-form',
@@ -26,8 +35,9 @@ import { MessageService } from '@services/message.service';
   styleUrls: ['./form.component.scss'],
   imports: [SharedModule, CategoryComponent, TooltipComponent, LoadingIndicatorComponent],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PatientDataFormComponent implements OnChanges, AfterViewInit {
+export class PatientDataFormComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() public biomarkers!: Biomarker;
   @Input() public patient!: Patient;
   @Input() public formMode!: FormMode;
@@ -44,6 +54,8 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
   protected readonly FormMode = FormMode;
   protected isLoading$ = this.store.isLoading$;
 
+  private subscription: Subscription | undefined;
+
   public constructor(
     private readonly formBuilder: FormBuilder,
     private readonly store: PatientDetailsStore,
@@ -54,8 +66,12 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
     initFlowbite();
   }
 
+  public ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
+
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes['data'] || (this.patient && this.biomarkers)) {
+    if (changes['data'] || changes['patient'] || changes['biomarkers']) {
       this.initForm();
       this.trackChanges();
     }
@@ -140,7 +156,7 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit {
   }
 
   private trackChanges() {
-    this.formGroup.controls.biomarkerValues?.valueChanges.subscribe(formGroups => {
+    this.subscription = this.formGroup.controls.biomarkerValues?.valueChanges.subscribe(formGroups => {
       formGroups.forEach(valueChangedFormGroup => {
         if (valueChangedFormGroup.value) {
           const matchingItemValue = this.biomarkers.medicalHistory.find(

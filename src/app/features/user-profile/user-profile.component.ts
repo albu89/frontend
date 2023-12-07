@@ -99,7 +99,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe({
         next: response => {
           this.schema = response;
-          this.handleExistingUser(this.schema);
+          this.userService
+            .getUser()
+            .subscribe({ next: () => this.handleExistingUser(this.schema), error: err => this.handleError(err) });
         },
         error: error => this.handleError(error),
       });
@@ -195,14 +197,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.formGroup.controls.clinicalSettingConfirm.setValidators(null);
 
-    if (!this.userService.getUser().subscribe(i => i?.userId)) {
-      this.userExistedPreviously = false;
-      this.formGroup.controls.clinicalSettingConfirm.setValidators([Validators.required, Validators.requiredTrue]);
-      this.getProfile();
-    } else {
-      this.formGroup.controls.clinicalSetting.disable();
-      this.userExistedPreviously = true;
-    }
+    this.formGroup.controls.clinicalSetting.disable();
+    this.userExistedPreviously = true;
   }
 
   private getProfile() {

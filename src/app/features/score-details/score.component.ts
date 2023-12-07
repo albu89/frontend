@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { BiomarkerInfoComponent } from '@features/score-details/biomarker-info/biomarker-info.component';
 import { FootnoteComponent } from '@features/score-details/footnote/footnote.component';
 import { RecommendationTableComponent } from '@features/score-details/recommendation-table/recommendation-table.component';
@@ -17,13 +17,9 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
 import { LanguageService } from '@services/language.service';
 import { MessageService } from '@services/message.service';
 import { PatientDataFormComponent } from '@features/patient-details/edit-form/form.component';
-import { Patient } from '@models/patient/patient.model';
 import { FormMode } from '@features/patient-details/_models/form-mode';
 import { PatientDetailsStore } from '@features/patient-details/_store/patient-details.store';
-import { BiomarkerUnitType } from '@core/enums/biomarker-unit-type.enum';
-import { BiomarkersInfoValue } from '@core/models/biomarker/biomarkers-info-values.model';
-import { LabResultUnit } from '@core/models/biomarker/lab-results/lab-result-units.model';
-import { MedicalHistoryItemUnit } from '@core/models/biomarker/medical-history/medical-history-item-unit.model';
+import { Patient } from '@models/patient/patient.model';
 
 @Component({
   selector: 'ce-score',
@@ -49,9 +45,10 @@ export class ScoreComponent implements OnInit, OnDestroy {
   @Input() public lastname = '';
   @Input() public birthdate: Date | null = null;
   @Input() public biomarker!: Biomarker;
-  public schema: ScoringResponseSchema | undefined = {} as ScoringResponseSchema;
+  public schema: ScoringResponseSchema | undefined;
   public abbreviationKeys: string[] = [];
 
+  public patient: Patient | undefined;
   public tableHidden = true;
 
   public relevantRecommendationCategories: RecommendationCategory[] = [];
@@ -67,38 +64,20 @@ export class ScoreComponent implements OnInit, OnDestroy {
     private readonly messageService: MessageService,
     private readonly languageService: LanguageService,
     private readonly router: Router,
-    private readonly store: PatientDetailsStore
+    private readonly store: PatientDetailsStore,
+    private readonly ref: ChangeDetectorRef
   ) {}
 
-  public get patient(): Patient {
-    return { firstname: this.firstname, lastname: this.lastname, dateOfBirth: this.birthdate, requestId: '' };
-  }
   public ngOnInit() {
     this.store.setFormMode(FormMode.readonly);
     this.store.loadBiomarkerSchema();
     this.getSchema();
+    this.patient = { firstname: this.firstname, lastname: this.lastname, dateOfBirth: this.birthdate, requestId: '' };
   }
 
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  public getBiomarkersInfoById(id: string): BiomarkersInfoValue | undefined {
-    return this.score.biomarkers.values.find(marker => marker.id === id);
-  }
-
-  public getMedBiomarkerUnit(id: string): MedicalHistoryItemUnit | undefined {
-    const marker = this.schema?.biomarkers.medicalHistory.find(b => b.id === id);
-    const unit = marker?.unit;
-    return unit ?? undefined;
-  }
-  public getLabBiomarkerUnit(id: string): LabResultUnit | undefined {
-    let resUnit = this.getBiomarkersInfoById(id)?.unit;
-    resUnit = resUnit ?? BiomarkerUnitType.SI;
-    const marker = this.schema?.biomarkers.labResults.find(b => b.id === id);
-    const unit = marker?.units?.find(bUnit => bUnit.unitType === resUnit);
-    return unit ?? marker?.units[0] ?? undefined;
   }
 
   public editScore() {
@@ -116,12 +95,12 @@ export class ScoreComponent implements OnInit, OnDestroy {
     this.tableHidden = !this.tableHidden;
   }
 
-  private getSchema(): void {
+  private getSchema() {
     this.languageService
       .getLanguageObservable()
       .pipe(
-        takeUntil(this.destroy$),
-        switchMap(() => this.schemaService.getResponseSchema())
+        switchMap(() => this.schemaService.getResponseSchema()),
+        takeUntil(this.destroy$)
       )
       .subscribe({
         next: response => {
@@ -130,6 +109,7 @@ export class ScoreComponent implements OnInit, OnDestroy {
           this.relevantRecommendationCategories = this.schema.recommendationCategories.filter(
             x => x.prevalence === this.score.prevalence
           );
+          this.ref.detectChanges();
         },
         error: error => this.messageService.showLoadResponseSchemaHttpError(error),
       });

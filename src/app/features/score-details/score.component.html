@@ -57,7 +57,7 @@
     </div>
   </div>
   <ce-patient-data-form
-    *ngIf="schema"
+    *ngIf="schema && patient"
     [biomarkers]="schema.biomarkers!"
     [data]="score"
     [patient]="patient"

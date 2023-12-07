@@ -1,8 +1,8 @@
 import { MsalService } from '@azure/msal-angular';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { LanguageService } from './core/services/language.service';
-import { Dropdown, initFlowbite } from 'flowbite';
+import { LanguageService } from '@services/language.service';
+import { initFlowbite } from 'flowbite';
 import { filter, map } from 'rxjs/operators';
 import { PageLinks } from '@core/enums/page-links.enum';
 
@@ -12,20 +12,8 @@ import { PageLinks } from '@core/enums/page-links.enum';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild('userDdTrigger')
-  public userDdTrigger: ElementRef | undefined;
-  @ViewChild('userDdTarget')
-  public userDdTarget: ElementRef | undefined;
-
-  @ViewChild('languageDdTrigger')
-  public languageDdTrigger: ElementRef | undefined;
-  @ViewChild('languageDdTarget')
-  public languageDdTarget: ElementRef | undefined;
-
   public LOCALE_DISPLAY = new Map<string, string>().set('en-GB', '🇬🇧 English').set('de-DE', '🇩🇪 Deutsch');
 
-  public userDropdown!: Dropdown;
-  public languageDropdown!: Dropdown;
   public isIframe = false;
   public isLoginPage = false;
   public limitedUI: Boolean = false;
@@ -58,7 +46,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit() {
     setTimeout(() => {
-      this.initializeFlowbite();
+      initFlowbite();
     }, 1500);
   }
 
@@ -75,19 +63,5 @@ export class AppComponent implements OnInit, AfterViewInit {
   public selectLanguage(locale: string) {
     // TODO: Any way to better handle locales than unrestricted strings? Enum? Also check the LOCALE_DISPLAY map above.
     this.languageService.setLanguage(locale, false);
-  }
-
-  public setTrigger() {
-    this.initializeFlowbite();
-    this.userDropdown.toggle();
-  }
-  public setLangTrigger() {
-    this.initializeFlowbite();
-    this.languageDropdown.toggle();
-  }
-  private initializeFlowbite() {
-    initFlowbite();
-    this.userDropdown = new Dropdown(this.userDdTarget?.nativeElement, this.userDdTrigger?.nativeElement);
-    this.languageDropdown = new Dropdown(this.languageDdTarget?.nativeElement, this.languageDdTrigger?.nativeElement);
   }
 }

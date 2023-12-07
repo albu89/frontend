@@ -1,17 +1,16 @@
 <div class="flex min-h-screen w-full flex-col">
-  <nav class="border-gray-200 bg-background" *ngIf="!isLoginPage">
+  <nav class="border-gray-200 bg-background" [hidden]="isLoginPage">
     <div class="mx-auto flex max-w-screen-2xl flex-wrap items-center p-4">
       <a [routerLink]="PageLinks.ROOT" class="mr-10 flex items-center">
         <img src="./assets/cardio-explorer-logo.svg" class="mr-3 h-16" alt="Cardio Explorer Logo" />
       </a>
       <div class="ml-auto flex items-center md:order-2">
         <button
-          #languageDdTrigger
-          type="button"
-          data-dropdown-toggle="language-dropdown-menu"
-          data-dropdown-offset-distance="2"
+          id="languageDropDownButton"
+          data-dropdown-toggle="languageDropDown"
+          data-dropdown-trigger="click"
           class="inline-flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 font-medium text-gray-900 hover:bg-gray-100"
-          (click)="setLangTrigger()">
+          type="button">
           {{ selectedLocaleDisplay }}
           <svg
             class="ml-2.5 h-2.5 w-2.5"
@@ -27,10 +26,11 @@
               d="m1 1 4 4 4-4" />
           </svg>
         </button>
+
+        <!-- Dropdown menu -->
         <div
-          class="z-50 hidden list-none divide-y divide-gray-100 rounded-lg shadow ring-gray-800"
-          id="language-dropdown-menu"
-          #languageDdTarget>
+          id="languageDropDown"
+          class="z-50 hidden list-none divide-y divide-gray-100 rounded-lg shadow ring-gray-800">
           <ul class="bg-white py-2 font-medium" role="none">
             <li>
               <a
@@ -50,51 +50,43 @@
             </li>
           </ul>
         </div>
-        <div class="flex items-center md:order-3">
-          <button
-            #userDdtrigger
-            type="button"
-            class="mr-3 flex rounded-md p-2 text-gray-800 hover:bg-gray-800 hover:text-white focus:ring-4 md:mr-0"
-            id="user-menu-button"
-            aria-expanded="false"
-            data-dropdown-toggle="user-dropdown"
-            data-dropdown-placement="bottom-end"
-            (click)="setTrigger()">
-            <span class="sr-only">Open user menu</span>
-            <svg
-              class="h-6 w-6"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 14 18">
-              <path d="M7 8a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-2 3h4a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z" />
-            </svg>
-          </button>
-          <div
-            #userDdTarget
-            class="z-50 hidden list-none divide-y divide-gray-100 rounded-md bg-white shadow"
-            id="user-dropdown">
-            <ul class="py-2" aria-labelledby="user-menu-button">
-              <li>
-                <button
-                  [routerLink]="[PageLinks.PROFILE]"
-                  [disabled]="limitedUI"
-                  ariaCurrentWhenActive="page"
-                  routerLinkActive="text-secondary"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="userDropdown.hide()"
-                  class="block px-4 py-2 text-gray-700 hover:bg-gray-100 disabled:text-gray-300 disabled:hover:text-gray-300 md:hover:text-secondary">
-                  {{ 'section.profile' | translate }}
-                </button>
-              </li>
-            </ul>
-            <div class="py-2">
-              <button class="block px-4 py-2 text-gray-700 hover:bg-gray-100" (click)="logout()">
-                {{ 'section.logout' | translate }}
-                <span
-                  class="block h-0.5 max-w-0 bg-secondary transition-all duration-500 group-hover:max-w-full"></span>
+        <button
+          id="userDropDownButton"
+          data-dropdown-toggle="userDropDown"
+          data-dropdown-trigger="click"
+          class="mr-3 flex rounded-md p-2 text-gray-800 hover:bg-gray-800 hover:text-white focus:ring-4 md:mr-0"
+          type="button">
+          <span class="sr-only">Open user menu</span>
+          <svg
+            class="h-6 w-6"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 14 18">
+            <path d="M7 8a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-2 3h4a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z" />
+          </svg>
+        </button>
+
+        <!-- Dropdown menu -->
+        <div id="userDropDown" class="z-50 hidden list-none divide-y divide-gray-100 rounded-md bg-white shadow">
+          <ul class="py-2" aria-labelledby="user-menu-button">
+            <li>
+              <button
+                [routerLink]="[PageLinks.PROFILE]"
+                [disabled]="limitedUI"
+                ariaCurrentWhenActive="page"
+                routerLinkActive="text-secondary"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 disabled:text-gray-300 disabled:hover:text-gray-300 md:hover:text-secondary">
+                {{ 'section.profile' | translate }}
               </button>
-            </div>
+            </li>
+          </ul>
+          <div class="py-2">
+            <button class="block px-4 py-2 text-gray-700 hover:bg-gray-100" (click)="logout()">
+              {{ 'section.logout' | translate }}
+              <span class="block h-0.5 max-w-0 bg-secondary transition-all duration-500 group-hover:max-w-full"></span>
+            </button>
           </div>
         </div>
         <button
@@ -157,5 +149,5 @@
     <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
     <router-outlet *ngIf="!isIframe"></router-outlet>
   </div>
-  <ce-footer class="mt-6 p-8" *ngIf="!isLoginPage"></ce-footer>
+  <ce-footer class="mt-6 p-8" [hidden]="isLoginPage"></ce-footer>
 </div>

@@ -38,12 +38,12 @@ export class LabResultComponent implements OnChanges {
     return hasFormError(name, required, this.formGroup);
   }
   public setCurrentUnit() {
-    this.currentUnit = this.biomarker.units.find(i => i.unitType === this.formGroup.getRawValue().unitType);
+    this.currentUnit = this.biomarker.units.find(i => i.unitType === this.formGroup?.getRawValue().unitType);
     const max = this.currentUnit?.maximum ?? null;
     const min = this.currentUnit?.minimum ?? null;
     if (min) this.formGroup.get('value')?.setValidators([Validators.min(min)]);
     if (max) this.formGroup.get('value')?.setValidators([Validators.max(max)]);
-    this.formGroup.updateValueAndValidity();
+    this.formGroup?.updateValueAndValidity();
   }
 
   public setCurrentUnitAndResetValue() {

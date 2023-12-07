@@ -38,7 +38,7 @@
     "@tailwindcss/container-queries": "^0.1.1",
     "@w11k/git-info": "^1.1.2",
     "eslint-config-airbnb-typescript": "^17.1.0",
-    "flowbite": "^1.8.1",
+    "flowbite": "^2.2.0",
     "ngx-toastr": "^17.0.2",
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0",

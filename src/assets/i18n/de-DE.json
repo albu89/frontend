@@ -50,6 +50,7 @@
     "optionSelect": "Wählen Sie eine Option"
   },
   "profile": {
+    "eMail": "E-Mail",
     "salutation": {
       "options": {
         "mr": "Herr",
@@ -57,6 +58,9 @@
         "mrs": "Frau"
       }
     },
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "phoneNumber": "Telefonnummer",
     "contact": "Kontaktinformationen",
     "billing": "Rechnung TBD",
     "settings": "Einstellungen",

@@ -50,6 +50,7 @@
     "optionSelect": "Select an option"
   },
   "profile": {
+    "eMail": "E-Mail",
     "salutation": {
       "options": {
         "mr": "Mr.",
@@ -57,6 +58,9 @@
         "mrs": "Mrs."
       }
     },
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phoneNumber": "Telephone Number",
     "contact": "Contact details",
     "billing": "Billing",
     "settings": "Settings",
