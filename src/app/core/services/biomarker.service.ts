@@ -21,8 +21,12 @@ export class BiomarkerService {
     return this.http.put<ScoringResponse>(url, request);
   }
 
-  public saveAsDraft(request: ScoringRequestWithPatientData): Observable<ScoringResponse> {
+  public saveAsDraft(request: ScoringRequestWithPatientData): Observable<string> {
     const url = environment.backendUrl + '/api/scores';
-    return this.http.post<ScoringResponse>(url, request);
+    return this.http.post<string>(url, request);
+  }
+  public updateDraft(request: ScoringRequestWithPatientData, id: string): Observable<ScoringResponse> {
+    const url = environment.backendUrl + '/api/scores/updatedraft/' + id;
+    return this.http.put<ScoringResponse>(url, request);
   }
 }

@@ -9,6 +9,7 @@ import { ScoringRequestWithPatientData } from '@models/scoring/scoring-request-w
 import { ScoringResponse } from '@models/scoring/scoring-response.model';
 import { UserPreferences } from '@models/user/user-preferences.model';
 import { Biomarker } from '@models/biomarker/biomarker.model';
+import { Patient } from '@models/patient/patient.model';
 
 export const loadBiomarkerSchema = (store: PatientDetailsStore) => (source$: Observable<void>) =>
   combineLatest([source$, store.languageService.getLanguageObservable()]).pipe(
@@ -47,16 +48,22 @@ export const savePatientDetails =
 
 export const saveDraftScore = (store: PatientDetailsStore) => (source$: Observable<ScoringRequestWithPatientData>) =>
   source$.pipe(
-    tap(() => store.patchState({ isLoading: true })),
+    tap(() => store.patchState({ isDraftLoading: true })),
     switchMap(request =>
       store.biomarkerService.saveAsDraft(request).pipe(
         tapResponse(
-          () => {
-            store.patchState({ isLoading: false });
+          res => {
+            const patient: Patient = {
+              lastname: request.lastName,
+              firstname: request.firstName,
+              dateOfBirth: new Date(request.dateOfBirth),
+              requestId: res,
+            };
+            store.patchState({ isDraftLoading: false, scoreDraftId: res, formMode: FormMode.edit, patient: patient });
             store.messageService.showDraftSavingSuccess();
           },
           (error: HttpErrorResponse) => {
-            store.patchState({ isLoading: false });
+            store.patchState({ isDraftLoading: false });
             store.messageService.showSaveDraftScoreHttpError(error);
           }
         )
@@ -64,23 +71,54 @@ export const saveDraftScore = (store: PatientDetailsStore) => (source$: Observab
     )
   );
 
+export const updateDraftScore = (store: PatientDetailsStore) => (source$: Observable<ScoringRequestWithPatientData>) =>
+  source$.pipe(
+    tap(() => store.patchState({ isDraftLoading: true })),
+    switchMap(request => {
+      let requestId = request.id;
+      const subscription = store.scoreDraftId$.subscribe(i => {
+        if (i) requestId = i;
+      });
+      return store.biomarkerService.updateDraft(request, requestId).pipe(
+        tapResponse(
+          result => {
+            store.patchState({ isDraftLoading: false, patientData: result });
+            store.messageService.showDraftUpdateSuccess();
+            subscription.unsubscribe();
+          },
+          (error: HttpErrorResponse) => {
+            store.patchState({ isDraftLoading: false });
+            store.messageService.showUpdateDraftScoreHttpError(error);
+            subscription.unsubscribe();
+          }
+        )
+      );
+    })
+  );
+
 export const editPatientDetails =
   (store: PatientDetailsStore) => (source$: Observable<ScoringRequestWithPatientData>) =>
     source$.pipe(
       tap(() => store.patchState({ isLoading: true })),
-      switchMap(request =>
-        store.biomarkerService.editRequest(request, request.id).pipe(
+      switchMap(request => {
+        let requestId = request.id;
+        const subscription = store.scoreDraftId$.subscribe(i => {
+          if (i) requestId = i;
+        });
+        return store.biomarkerService.editRequest(request, requestId).pipe(
           tapResponse(
             (response: ScoringResponse) => {
               store.patchState({ currentScore: response, isLoading: false });
+              subscription.unsubscribe();
             },
             (error: HttpErrorResponse) => {
               store.patchState({ isLoading: false });
               store.messageService.showEditScoreHttpError(error);
+              subscription.unsubscribe();
             }
           )
-        )
-      )
+        );
+      })
     );
 
 export const loadPatientDetails = (store: PatientDetailsStore) => (source$: Observable<ScoreRequest>) =>

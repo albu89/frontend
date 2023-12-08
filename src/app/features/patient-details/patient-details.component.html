@@ -9,7 +9,15 @@
   } as data">
   <div *ngIf="!data.currentScore" class="base-view">
     <h1>
-      {{ data.formMode === FormMode.add ? ('section.createNewScore' | translate) : ('section.editScore' | translate) }}
+      <p *ngIf="!data.isLoading">
+        {{
+          data.formMode === FormMode.add
+            ? ('section.createNewScore' | translate)
+            : data.patientData?.isDraft
+            ? ('section.editDraft' | translate)
+            : ('section.editScore' | translate)
+        }}
+      </p>
     </h1>
     <ng-container *ngIf="!data.isLoading; else loading">
       <ce-patient-data-form

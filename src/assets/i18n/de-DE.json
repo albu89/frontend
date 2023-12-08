@@ -3,6 +3,7 @@
     "existingScores": "Vorhandene Scores",
     "createNewScore": "Neuen Score Erstellen",
     "editScore": "Score bearbeiten",
+    "editDraft": "Vorlage bearbeiten",
     "profile": "Profil",
     "logout": "Logout",
     "login": "Login"
@@ -21,6 +22,7 @@
     "print": "Drucken",
     "incomplete": "TBD",
     "saveDraft": "Als Vorlage speichern TBD",
+    "updateDraft": "Vorlage aktualisieren TBD",
     "editScore": "Score bearbeiten"
   },
   "patient": {
@@ -140,7 +142,8 @@
   },
   "successMessage": {
     "formSuccessHeader": "Aktion erfolgreich",
-    "saveDraftSuccess": "Draft konnte erfolgreich gespeichert werden.",
+    "saveDraftSuccess": "Draft wurde erfolgreich gespeichert.",
+    "updateDraftSuccess": "Draft wurde erfolgreich aktualisiert.",
     "createUserSuccess": "Benutzer konnte erfolgreich angelegt werden.",
     "updateUserSuccess": "Benutzerdaten konnten erfolgreich aktualisiert werden."
   },
@@ -154,7 +157,8 @@
       "loadPatientRecords": "Patienteneinträge können nicht geladen werden. TBD",
       "loadSpecificPatientScores": "Patienteinträge für diesen Patienten können nicht geladen werden. TBD",
       "loadScoreSchema": "Score Schema kann nicht geladen werden. TBD",
-      "saveAsDraft": "Score konnte nicht als Vorlage gespeichert werden. TBD"
+      "saveAsDraft": "Score konnte nicht als Vorlage gespeichert werden. TBD",
+      "updateDraft": "Vorlage konnte nicht aktualisiert werden. TBD"
     },
     "preferences": {
       "savingFailed": "Beim Speichern der Einstellungen ist ein Fehler aufgetreten TBD"

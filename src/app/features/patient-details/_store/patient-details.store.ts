@@ -8,6 +8,7 @@ import {
   loadPatientDetails,
   saveDraftScore,
   savePatientDetails,
+  updateDraftScore,
   updateUserPreferences,
 } from '@features/patient-details/_store/patient-details.effects';
 import { SchemasService } from '@services/schemas.service';
@@ -31,6 +32,8 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
   ) {
     super({
       isLoading: false,
+      isDraftLoading: false,
+      scoreDraftId: undefined,
       currentScore: undefined,
       patient: { lastname: '', firstname: '', dateOfBirth: null, requestId: undefined },
       biomarkerTemplate: undefined,
@@ -44,6 +47,8 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
   // *********** Selectors *********** //
   //
   public readonly isLoading$ = this.select(state => state.isLoading);
+  public readonly isDraftLoading$ = this.select(state => state.isDraftLoading);
+  public readonly scoreDraftId$ = this.select(state => state.scoreDraftId);
   public readonly isEditingEnabled$ = this.select(state => state.isEditingEnabled);
   public readonly currentScore$ = this.select(state => state.currentScore);
   public readonly patient$ = this.select(state => state.patient);
@@ -85,12 +90,18 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
     isEditingEnabled: isEditingEnabled,
   }));
 
+  public readonly resetCurrentScore = this.updater(state => ({
+    ...state,
+    currentScore: undefined,
+  }));
+
   //
   // *********** Effect *********** //
   //
   public readonly loadBiomarkerSchema = this.effect(loadBiomarkerSchema(this));
   public readonly savePatientDetails = this.effect(savePatientDetails(this));
   public readonly saveDraftScore = this.effect(saveDraftScore(this));
+  public readonly updateDraftScore = this.effect(updateDraftScore(this));
   public readonly editPatientDetails = this.effect(editPatientDetails(this));
   public readonly loadPatientDetails = this.effect(loadPatientDetails(this));
   public readonly saveUserPreferences = this.effect(updateUserPreferences(this));

@@ -5,6 +5,7 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
   SimpleChanges,
 } from '@angular/core';
 import { CategoryComponent } from '@features/patient-details/category/category.component';
@@ -28,6 +29,8 @@ import { TooltipComponent } from '@shared/components/tooltip/tooltip.component';
 import { LoadingIndicatorComponent } from '@shared/components/loading-indicator/loading-indicator.component';
 import { MessageService } from '@services/message.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { PageLinks } from '@core/enums/page-links.enum';
 
 @Component({
   selector: 'ce-patient-data-form',
@@ -37,7 +40,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PatientDataFormComponent implements OnChanges, AfterViewInit, OnDestroy {
+export class PatientDataFormComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input() public biomarkers!: Biomarker;
   @Input() public patient!: Patient;
   @Input() public formMode!: FormMode;
@@ -59,8 +62,24 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit, OnDes
   public constructor(
     private readonly formBuilder: FormBuilder,
     private readonly store: PatientDetailsStore,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly router: Router
   ) {}
+
+  public ngOnInit() {
+    this.store.patient$.subscribe(i => {
+      return i && this.patient.requestId !== i?.requestId && this.router.url.includes('/new')
+        ? this.router.navigateByUrl(PageLinks.EDIT_SCORE, {
+            state: {
+              patientName: i.firstname,
+              patientLastName: i.lastname,
+              patientBirthdate: i.dateOfBirth?.toDateString(),
+              requestId: i.requestId,
+            },
+          })
+        : i;
+    });
+  }
 
   public ngAfterViewInit() {
     initFlowbite();
@@ -87,12 +106,13 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit, OnDes
       control?.updateValueAndValidity();
       return control;
     });
-    //TODO: provide user feedback
     if (this.formGroup.invalid) return;
 
     const request = this.assembleRequest();
 
-    this.store.saveDraftScore(request);
+    if (this.formMode === FormMode.add) {
+      this.store.saveDraftScore(request);
+    } else this.store.updateDraftScore(request);
   }
 
   public saveForm() {
@@ -210,7 +230,7 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit, OnDes
     const biomarkerLabForms: FormGroup<BiomarkerFormModel>[] = [];
     //fixed biomarkers
     this.biomarkers?.medicalHistory.forEach(biomarker => {
-      const scoringValues = this.data?.biomarkers.values.find(data => data.id === biomarker.id);
+      const scoringValues = this.data?.biomarkers?.values.find(data => data.id === biomarker.id);
       const formGroup = this.createBiomarkerFormGroup(biomarker.unit);
       this.patchBiomarkerValues(
         formGroup,
@@ -224,7 +244,7 @@ export class PatientDataFormComponent implements OnChanges, AfterViewInit, OnDes
 
     //flexible biomarkers
     this.biomarkers?.labResults.forEach(biomarker => {
-      const values = this.data?.biomarkers.values.find(data => data.id === biomarker.id);
+      const values = this.data?.biomarkers?.values.find(data => data.id === biomarker.id);
       const currentUnit = values?.unit ?? biomarker.preferredUnit ?? BiomarkerUnitType.SI;
       const biomarkerUnit = biomarker.units.find(u => u.unitType === currentUnit);
       if (!biomarkerUnit) return;

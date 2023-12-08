@@ -81,13 +81,15 @@ export class ScoreComponent implements OnInit, OnDestroy {
   }
 
   public editScore() {
-    this.router.navigateByUrl(PageLinks.EDIT_SCORE, {
-      state: {
-        patientName: this.firstname,
-        patientLastName: this.lastname,
-        patientBirthdate: this.birthdate!.toLocaleDateString('en-CA'),
-        requestId: this.score.requestId,
-      },
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigateByUrl(PageLinks.EDIT_SCORE, {
+        state: {
+          patientName: this.firstname,
+          patientLastName: this.lastname,
+          patientBirthdate: this.birthdate!.toLocaleDateString('en-CA'),
+          requestId: this.score.requestId,
+        },
+      });
     });
   }
 

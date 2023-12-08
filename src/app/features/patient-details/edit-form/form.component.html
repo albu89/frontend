@@ -69,11 +69,16 @@
       </p>
     </div>
   </div>
-  <ng-container *ngIf="(isLoading$ | async) === false; else loading"></ng-container>
-  <ce-category [biomarkers]="biomarkers" [formGroup]="formGroup" class="flex flex-col" />
+  <ng-container *ngIf="(isLoading$ | async) === false; else loading">
+    <ce-category [biomarkers]="biomarkers" [formGroup]="formGroup" class="flex flex-col" />
+  </ng-container>
   <div class="mt-6 flex flex-row justify-end" *ngIf="formMode !== FormMode.readonly">
-    <button class="secondary mb-10 mr-5" type="button" (click)="saveDraft()">
-      {{ 'scores.saveDraft' | translate }}
+    <button
+      class="secondary mb-10 mr-5 flex flex-row"
+      type="button"
+      (click)="saveDraft()"
+      *ngIf="!data || (data?.requestId && data?.isDraft)">
+      {{ formMode === FormMode.edit ? ('scores.updateDraft' | translate) : ('scores.saveDraft' | translate) }}
     </button>
     <button class="action mb-10" (click)="saveForm()" type="button" [disabled]="formGroup.invalid">
       {{ 'scores.calculate' | translate }}

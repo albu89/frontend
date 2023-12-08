@@ -3,6 +3,7 @@
     "existingScores": "Existing Scores",
     "createNewScore": "Create new Score",
     "editScore": "Edit Score",
+    "editDraft": "Edit Draft",
     "profile": "Profile",
     "logout": "Logout",
     "login": "Login"
@@ -21,6 +22,7 @@
     "print": "Print",
     "incomplete": "INCOMPLETE",
     "saveDraft": "Save as draft",
+    "updateDraft": "Update draft",
     "editScore": "Edit Score"
   },
   "patient": {
@@ -141,6 +143,7 @@
   "successMessage": {
     "formSuccessHeader": "Success",
     "saveDraftSuccess": "Draft saved successfully.",
+    "updateDraftSuccess": "Draft updated successfully.",
     "createUserSuccess": "User created successfully.",
     "updateUserSuccess": "User updated successfully."
   },
@@ -154,7 +157,8 @@
       "loadPatientRecords": "Patient Records can not be loaded. TBD",
       "loadSpecificPatientScores": "Specific Patient Records can not be loaded. TBD",
       "loadScoreSchema": "Score Schema can not be loaded. TBD",
-      "saveAsDraft": "Score can not be saved as draft. TBD"
+      "saveAsDraft": "Score can not be saved as draft. TBD",
+      "updateDraft": "Draft can not be updated. TBD"
     },
     "preferences": {
       "savingFailed": "An error occurred on updating user preferences TBD"

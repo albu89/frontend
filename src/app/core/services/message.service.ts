@@ -40,6 +40,9 @@ export class MessageService {
   public showSaveDraftScoreHttpError(error: HttpErrorResponse): Observable<never> {
     return this.showError(error, 'errorMessage.scores.saveAsDraft');
   }
+  public showUpdateDraftScoreHttpError(error: HttpErrorResponse): Observable<never> {
+    return this.showError(error, 'errorMessage.scores.updateDraft');
+  }
   public showUpdateUserPreferencesHttpError(error: HttpErrorResponse): Observable<never> {
     return this.showError(error, 'errorMessage.preferences.savingFailed');
   }
@@ -66,6 +69,9 @@ export class MessageService {
   }
   public showDraftSavingSuccess() {
     this.showSuccess('successMessage.saveDraftSuccess');
+  }
+  public showDraftUpdateSuccess() {
+    this.showSuccess('successMessage.updateDraftSuccess');
   }
   public showUserSavingControlValuesRequiredInfo() {
     this.showInfo('infoMessage.userDataRequired');

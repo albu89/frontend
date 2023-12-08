@@ -5,6 +5,8 @@ import { FormMode } from '@features/patient-details/_models/form-mode';
 
 export interface PatientDetailsState {
   isLoading: boolean;
+  isDraftLoading: boolean;
+  scoreDraftId?: string;
   currentScore?: ScoringResponse;
   patient?: Patient;
   biomarkerTemplate?: Biomarker;

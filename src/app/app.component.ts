@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public constructor(
     private readonly authService: MsalService,
     private readonly router: Router,
-    private readonly languageService: LanguageService // private readonly userService: UserService
+    private readonly languageService: LanguageService
   ) {
     this.router.events
       .pipe(
