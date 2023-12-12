@@ -90,21 +90,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public ngOnInit() {
     this.getProfile();
-    this.languageService
-      .getLanguageObservable()
-      .pipe(
-        takeUntil(this.destroy$),
-        switchMap(() => this.userService.getProfileSchema())
-      )
-      .subscribe({
-        next: response => {
-          this.schema = response;
-          this.userService
-            .getUser()
-            .subscribe({ next: () => this.handleExistingUser(this.schema), error: err => this.handleError(err) });
-        },
-        error: error => this.handleError(error),
-      });
+    this.getSchema();
   }
 
   public ngAfterViewInit() {
@@ -132,29 +118,38 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = true;
     const profile: ProfileRequest = this.formGroup.getRawValue();
     if (this.userExistedPreviously) {
-      this.userService.updateUser(profile).subscribe({
-        next: () => {
-          if (this.router.url.includes(PageLinks.ONBOARD)) this.router.navigateByUrl(PageLinks.ROOT);
-          this.messageService.showUpdateUserSuccess();
-          this.isLoading = false;
-        },
-        error: error => {
-          this.messageService.showUpdateUserHttpError(error);
-          this.isLoading = false;
-        },
-      });
+      this.userService
+        .updateUser(profile)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: res => {
+            if (this.router.url.includes(PageLinks.ONBOARD)) this.router.navigateByUrl(PageLinks.ROOT);
+            else this.handleExistingUser(res);
+            this.messageService.showUpdateUserSuccess();
+            this.isLoading = false;
+          },
+          error: error => {
+            this.messageService.showUpdateUserHttpError(error);
+            this.isLoading = false;
+          },
+        });
     } else {
-      this.userService.createUser(profile).subscribe({
-        next: () => {
-          if (this.router.url.includes(PageLinks.ONBOARD)) this.router.navigateByUrl(PageLinks.ROOT);
-          this.messageService.showCreateUserSuccess();
-          this.isLoading = false;
-        },
-        error: error => {
-          this.messageService.showCreateUserHttpError(error);
-          this.isLoading = false;
-        },
-      });
+      this.userService
+        .createUser(profile)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: res => {
+            if (this.router.url.includes(PageLinks.ONBOARD)) this.router.navigateByUrl(PageLinks.ROOT);
+            else this.handleExistingUser(res);
+
+            this.messageService.showCreateUserSuccess();
+            this.isLoading = false;
+          },
+          error: error => {
+            this.messageService.showCreateUserHttpError(error);
+            this.isLoading = false;
+          },
+        });
     }
   }
 
@@ -174,13 +169,20 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       this.formGroup.controls.billing.controls.billingCity.setValidators([Validators.required]);
       this.formGroup.controls.billing.controls.billingCountry.setValidators([Validators.required]);
       this.formGroup.controls.billing.controls.billingPhone.setValidators([Validators.required]);
-      this.formGroup.controls.billing.controls.billingName.updateValueAndValidity();
-      this.formGroup.controls.billing.controls.billingAddress.updateValueAndValidity();
-      this.formGroup.controls.billing.controls.billingZip.updateValueAndValidity();
-      this.formGroup.controls.billing.controls.billingCity.updateValueAndValidity();
-      this.formGroup.controls.billing.controls.billingCountry.updateValueAndValidity();
-      this.formGroup.controls.billing.controls.billingPhone.updateValueAndValidity();
+    } else {
+      this.formGroup.controls.billing.controls.billingName.setValidators(null);
+      this.formGroup.controls.billing.controls.billingAddress.setValidators(null);
+      this.formGroup.controls.billing.controls.billingZip.setValidators(null);
+      this.formGroup.controls.billing.controls.billingCity.setValidators(null);
+      this.formGroup.controls.billing.controls.billingCountry.setValidators(null);
+      this.formGroup.controls.billing.controls.billingPhone.setValidators(null);
     }
+    this.formGroup.controls.billing.controls.billingName.updateValueAndValidity();
+    this.formGroup.controls.billing.controls.billingAddress.updateValueAndValidity();
+    this.formGroup.controls.billing.controls.billingZip.updateValueAndValidity();
+    this.formGroup.controls.billing.controls.billingCity.updateValueAndValidity();
+    this.formGroup.controls.billing.controls.billingCountry.updateValueAndValidity();
+    this.formGroup.controls.billing.controls.billingPhone.updateValueAndValidity();
   }
 
   private handleError(error: HttpErrorResponse): void {
@@ -198,7 +200,26 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.formGroup.controls.clinicalSettingConfirm.setValidators(null);
 
     this.formGroup.controls.clinicalSetting.disable();
+    this.formGroup.updateValueAndValidity();
     this.userExistedPreviously = true;
+  }
+
+  private getSchema() {
+    this.languageService
+      .getLanguageObservable()
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(() => this.userService.getProfileSchema())
+      )
+      .subscribe({
+        next: response => {
+          this.schema = response;
+          this.userService
+            .getUser()
+            .subscribe({ next: () => this.handleExistingUser(this.schema), error: err => this.handleError(err) });
+        },
+        error: error => this.handleError(error),
+      });
   }
 
   private getProfile() {

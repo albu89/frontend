@@ -8,6 +8,7 @@ import { UserPreferences } from '@models/user/user-preferences.model';
 import { MessageService } from '@services/message.service';
 import { ProfileSchema } from '@models/user/profile-schema.model';
 import { ProfileType } from '@models/user/profile-type.model';
+import { ProfileRequest } from '@models/user/user-profile-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -52,9 +53,9 @@ export class UserService {
     });
   }
 
-  public updateUser(profile: Profile): Observable<Profile> {
+  public updateUser(profile: Profile): Observable<ProfileRequest> {
     const url = this.baseUrl;
-    return this.http.patch<Profile>(url, profile).pipe(tap(user => this.setAuth(user)));
+    return this.http.patch<ProfileRequest>(url, profile).pipe(tap(user => this.setAuth(user)));
   }
 
   public createUser(profile: Profile) {

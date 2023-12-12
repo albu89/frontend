@@ -35,7 +35,13 @@ export const savePatientDetails =
         store.biomarkerService.sendRequest(request).pipe(
           tapResponse(
             (response: ScoringResponse) => {
-              store.patchState({ currentScore: response, isLoading: false });
+              const patient: Patient = {
+                lastname: request.lastName,
+                firstname: request.firstName,
+                dateOfBirth: new Date(request.dateOfBirth),
+                requestId: response.requestId,
+              };
+              store.patchState({ currentScore: response, isLoading: false, patient: patient });
             },
             (error: HttpErrorResponse) => {
               store.patchState({ isLoading: false });
@@ -82,7 +88,13 @@ export const updateDraftScore = (store: PatientDetailsStore) => (source$: Observ
       return store.biomarkerService.updateDraft(request, requestId).pipe(
         tapResponse(
           result => {
-            store.patchState({ isDraftLoading: false, patientData: result });
+            const patient: Patient = {
+              lastname: request.lastName,
+              firstname: request.firstName,
+              dateOfBirth: new Date(request.dateOfBirth),
+              requestId: result.requestId,
+            };
+            store.patchState({ isDraftLoading: false, patientData: result, patient: patient });
             store.messageService.showDraftUpdateSuccess();
             subscription.unsubscribe();
           },
@@ -108,7 +120,13 @@ export const editPatientDetails =
         return store.biomarkerService.editRequest(request, requestId).pipe(
           tapResponse(
             (response: ScoringResponse) => {
-              store.patchState({ currentScore: response, isLoading: false });
+              const patient: Patient = {
+                lastname: request.lastName,
+                firstname: request.firstName,
+                dateOfBirth: new Date(request.dateOfBirth),
+                requestId: response.requestId,
+              };
+              store.patchState({ currentScore: response, isLoading: false, patient: patient });
               subscription.unsubscribe();
             },
             (error: HttpErrorResponse) => {

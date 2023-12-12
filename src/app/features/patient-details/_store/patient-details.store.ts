@@ -18,7 +18,6 @@ import { MedicalHistoryBiomarkerFiltered } from '@features/patient-details/_mode
 import { UserService } from '@services/user.service';
 import { MessageService } from '@services/message.service';
 import { LanguageService } from '@services/language.service';
-import { Patient } from '@models/patient/patient.model';
 
 @Injectable()
 export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
@@ -80,19 +79,10 @@ export class PatientDetailsStore extends ComponentStore<PatientDetailsState> {
     ...state,
     formMode: formMode,
   }));
-  public readonly setPatient = this.updater((state, patient: Patient) => ({
-    ...state,
-    patient: patient,
-  }));
 
   public readonly setIsEditingEnabled = this.updater((state, isEditingEnabled: boolean) => ({
     ...state,
     isEditingEnabled: isEditingEnabled,
-  }));
-
-  public readonly resetCurrentScore = this.updater(state => ({
-    ...state,
-    currentScore: undefined,
   }));
 
   //

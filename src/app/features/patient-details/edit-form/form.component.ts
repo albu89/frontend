@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   SimpleChanges,
 } from '@angular/core';
 import { CategoryComponent } from '@features/patient-details/category/category.component';
@@ -40,7 +39,7 @@ import { PageLinks } from '@core/enums/page-links.enum';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PatientDataFormComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class PatientDataFormComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() public biomarkers!: Biomarker;
   @Input() public patient!: Patient;
   @Input() public formMode!: FormMode;
@@ -58,6 +57,7 @@ export class PatientDataFormComponent implements OnInit, OnChanges, AfterViewIni
   protected isLoading$ = this.store.isLoading$;
 
   private subscription: Subscription | undefined;
+  private patientSubscription: Subscription | undefined;
 
   public constructor(
     private readonly formBuilder: FormBuilder,
@@ -66,27 +66,13 @@ export class PatientDataFormComponent implements OnInit, OnChanges, AfterViewIni
     private readonly router: Router
   ) {}
 
-  public ngOnInit() {
-    this.store.patient$.subscribe(i => {
-      return i && this.patient.requestId !== i?.requestId && this.router.url.includes('/new')
-        ? this.router.navigateByUrl(PageLinks.EDIT_SCORE, {
-            state: {
-              patientName: i.firstname,
-              patientLastName: i.lastname,
-              patientBirthdate: i.dateOfBirth?.toDateString(),
-              requestId: i.requestId,
-            },
-          })
-        : i;
-    });
-  }
-
   public ngAfterViewInit() {
     initFlowbite();
   }
 
   public ngOnDestroy() {
     this.subscription?.unsubscribe();
+    this.patientSubscription?.unsubscribe();
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -112,6 +98,18 @@ export class PatientDataFormComponent implements OnInit, OnChanges, AfterViewIni
 
     if (this.formMode === FormMode.add) {
       this.store.saveDraftScore(request);
+      this.patientSubscription = this.store.patient$.subscribe(i => {
+        return i && this.patient.requestId !== i?.requestId && this.router.url.includes(PageLinks.NEW_SCORE)
+          ? this.router.navigateByUrl(PageLinks.EDIT_SCORE, {
+              state: {
+                patientName: i.firstname,
+                patientLastName: i.lastname,
+                patientBirthdate: i.dateOfBirth?.toDateString(),
+                requestId: i.requestId,
+              },
+            })
+          : i;
+      });
     } else this.store.updateDraftScore(request);
   }
 
@@ -131,16 +129,6 @@ export class PatientDataFormComponent implements OnInit, OnChanges, AfterViewIni
       this.store.savePatientDetails(request);
     } else {
       this.store.editPatientDetails(request);
-    }
-    if (this.patient.firstname) this.store.setPatient(this.patient);
-    else {
-      const formData = this.formGroup.getRawValue();
-      this.store.setPatient({
-        firstname: formData.firstname,
-        lastname: formData.lastname,
-        dateOfBirth: new Date(formData.birthdate!),
-        requestId: '',
-      });
     }
   }
 
